@@ -1,0 +1,49 @@
+<Defaults>
+    <Text fontSize="140" color="White"/>
+    <Text class="label" alignment="MiddleRight"/>
+    <Text class="buttonLabel" fontSize="72" fontStyle="Bold" color="Black" />
+    <Button class="checkbox" width="100" height="100" rectAlignment="MiddleLeft"/>
+    <HorizontalLayout class="row" padding="10" spacing="100" height="200" />
+</Defaults>
+
+<Panel width="2300" height="2000" position="0 0 -400">
+    <VerticalLayout>
+        <Text fontStyle="Bold" color="White">7 Wonders Setup</Text>
+        <Text id="playerCountLabel"></Text>
+
+        <HorizontalLayout class="row">
+            <Panel><Text class="label">Leaders</Text></Panel>
+            <Panel><Button class="checkbox" onClick="toggleLeadersClick"><Text id="leadersCheckBoxLabel" class="buttonLabel"></Text></Button></Panel>
+        </HorizontalLayout>
+
+        <HorizontalLayout class="row">
+            <Panel><Text class="label">Cities</Text></Panel>
+            <Panel><Button class="checkbox" onClick="toggleCitiesClick"><Text id="citiesCheckBoxLabel" class="buttonLabel"></Text></Button></Panel>
+        </HorizontalLayout>
+
+        <HorizontalLayout class="row">
+            <Panel><Text class="label">Armada</Text></Panel>
+            <Panel><Button class="checkbox" onClick="toggleArmadaClick"><Text id="armadaCheckBoxLabel" class="buttonLabel"></Text></Button></Panel>
+        </HorizontalLayout>
+
+        <HorizontalLayout class="row">
+            <Panel><Text class="label">Edifice</Text></Panel>
+            <Panel><Button class="checkbox" onClick="toggleEdificeClick"><Text id="edificeCheckBoxLabel" class="buttonLabel"></Text></Button></Panel>
+        </HorizontalLayout>
+
+        <HorizontalLayout class="row">
+            <Panel><Text fontSize="180">------------------------</Text></Panel>
+        </HorizontalLayout>
+
+    </VerticalLayout>
+
+    <!-- TODO make it so nothing starts unless you are playing with 3 players-->
+    <Button 
+        width="800" 
+        height="200" 
+        rectAlignment="LowerCenter" 
+        offsetXY="0 -300" 
+        onclick="startGameClick">
+            <Text class="buttonLabel">Start Game</Text>
+    </Button>
+</Panel>
