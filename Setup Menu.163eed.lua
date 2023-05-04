@@ -40,37 +40,36 @@ function startGame()
     local deck_age3 = getObjectFromGUID(base_deck['age3'][1])
     local deck_guild = getObjectFromGUID(Global.getVar('GUILD_DECK_GUID'))
 
-
     -- add 4+ cards
-    if getPlayerCount() >= 4 then
+    if getObjectFromGUID(Global.getVar('UTILS')).call('getPlayerCount') >= 4 then
         deck_age1.putObject(getObjectFromGUID(base_deck['age1'][2]))
         deck_age2.putObject(getObjectFromGUID(base_deck['age2'][2]))
         deck_age3.putObject(getObjectFromGUID(base_deck['age3'][2]))
     end
 
     -- add 5+ cards
-    if getPlayerCount() >= 5 then
+    if getObjectFromGUID(Global.getVar('UTILS')).call('getPlayerCount') >= 5 then
         deck_age1.putObject(getObjectFromGUID(base_deck['age1'][3]))
         deck_age2.putObject(getObjectFromGUID(base_deck['age2'][3]))
         deck_age3.putObject(getObjectFromGUID(base_deck['age3'][3]))
     end
 
     -- add 6+ cards
-    if getPlayerCount() >= 6 then
+    if getObjectFromGUID(Global.getVar('UTILS')).call('getPlayerCount') >= 6 then
         deck_age1.putObject(getObjectFromGUID(base_deck['age1'][4]))
         deck_age2.putObject(getObjectFromGUID(base_deck['age2'][4]))
         deck_age3.putObject(getObjectFromGUID(base_deck['age3'][4]))
     end
 
     -- add 7+ cards
-    if getPlayerCount() == 7 then
+    if getObjectFromGUID(Global.getVar('UTILS')).call('getPlayerCount') == 7 then
         deck_age1.putObject(getObjectFromGUID(base_deck['age1'][5]))
         deck_age2.putObject(getObjectFromGUID(base_deck['age2'][5]))
         deck_age3.putObject(getObjectFromGUID(base_deck['age3'][5]))
     end
 
     -- prepare the guild deck
-    for i = 1, getPlayerCount() + 2 do
+    for i = 1, getObjectFromGUID(Global.getVar('UTILS')).call('getPlayerCount') + 2 do
         deck_guild.shuffle()
 
         deck_age3.putObject(deck_guild.takeObject())
