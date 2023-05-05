@@ -47,7 +47,7 @@ function onLoad()
     for j = 1, 12 do
         for i = 1, 7 do
             self.createInput({
-                input_function = 'testInput',
+                input_function = 'none',
                 function_owner = self,
                 label = '---',
                 alignment = 3,
