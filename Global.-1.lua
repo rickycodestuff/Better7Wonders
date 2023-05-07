@@ -3,52 +3,682 @@
 UTILS = 'db716c'
 
 -- ! OBJECTS PLACEMENT
+PLAYERS = {
+    white = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
 
--- white
-white_placement = {
-    card_zone = {
-        island_resources = {10.80, 3, -37.00},
-        brown_resources = {13.50, 3, -37.00},
-        grey_resources = {16.20, 3, -37.00},
-        commerce = {18.90, 3, -37.00},
-        blue = {21.60, 3, -37.00},
-        war_conflict = {24.30, 3, -37.00},
-        naval_conflict = {27.00, 3, -37.00},
-        compass = {29.70, 3, -37.00},
-        tablet = {32.40, 3, -37.00},
-        gear = {35.10, 3, -37.00},
-        green_island = {37.80, 3, -37.00},
-        purple = {40.50, 3, -37.00},
-        black = {43.20, 3, -37.00}
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
     },
 
-    leader_zone = {
-        leader_deck = {13.50, 2, -63.30},
-        first_leader = {13.50, 2, -63.30},
-        offset_z = -1
+    purple = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
     },
 
-    wonder_zone = {
-        wonder = {27.00, 2, -64.00},
-        buried_leader = {22.00, 1.46, -64.00},
-        first_step = {23.70, 1.45, -66.50},
-        second_step = {27.00, 1.45, -66.50},
-        third_step = {30.30, 1.45, -66.50},
-        fourth_step = {0, 0, 0}
+    red = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
     },
 
-    stockyard_zone = {
-        stockyard = {35.00, 2, -63.00},
-        first_group_island = {42.00, 2, -62.00},
-        second_group_island = {42.00, 2, -65.00},
-        offset_x = -1
+    yellow = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
     },
 
-    project_zone = {
-        first_project = {14.85, 2, -31.50},
-        second_project = {27, 2, -31.50},
-        third_project = {39.15, 2, -31.50}
+    green = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
+    },
+
+    orange = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
+    },
+
+    blue = {
+        origin = {},
+        objects = {
+            non_buyable_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            brown_res_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            grey_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            commerce_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            blue_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            war_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            naval_conflict_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            compass_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            tablet_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            gear_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            green_island_stack = {
+                guid_zone = '',
+                origin =nil,
+
+                cards = {}
+            },
+
+            purple_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+
+            black_stack = {
+                guid_zone = '',
+                origin = nil,
+
+                cards = {}
+            },
+        }
     }
+}
+
+OBJECTS_OFFSETS = {
+    ['wonder'] = 14
 }
 
 -- ! CARDS AND TOKENS GUID
@@ -61,3 +691,11 @@ BASE_DECK_GUID = {
 }
 
 GUILD_DECK_GUID = 'a5b1c7'
+
+WONDERS_BAGS = {
+    ['base'] = '56d45b',
+    ['leaders'] = '053343',
+    ['cities'] = 'a49969',
+    ['armada'] = 'e1435d',
+    ['edifice'] = 'd9d9c0'
+}
