@@ -308,12 +308,15 @@ function decksSetup(deck_age1, deck_age2, deck_age3, deck_guild)
     deck_age3.shuffle()
 end
 
-function wondersSetup(wonders_bags)
+function playerBoardSetup(wonders_bags, coins_bag)
 
-    -- the first part of this function will add (if the players picked the expansions) the expansions wonders
+    -- since we have to place wonders, coins, and shipyard for every player
+    -- we'll loop through every one of them and place them as we go 
 
+    -- ! WONDERS SETUP
     local base_wonders_bag = getObjectFromGUID(wonders_bags['base'])
 
+    -- if the players have chosen some expansions we'll add to our base game wonders
     if leaders_exp then
         
     end
@@ -332,36 +335,50 @@ function wondersSetup(wonders_bags)
 
     base_wonders_bag.shuffle()
 
-    -- and in this part will handle the placement of every wonder
-    -- for every player will be calculating the coordinates for their wonder based on their hand position
+    -- ! COINS SETUP
+    local silver_coins_bag = getObjectFromGUID(coins_bag[1])
+    local coins = 6
+
+    -- if the players have chosen the leaders expansions they'll have 6 coins
+    if leaders_exp then
+        
+    end
+
+    -- ! SHIPYARD SETUP
+    -- TODO
+
+    -- ! OBJECTSS PLACEMENT 
+    -- for every player will be calculating the coordinates for their wonder based, coins and shipyard on their hand position
     -- every hand is already placed following some "symmetrical rules"
     for _, color in pairs(getSeatedPlayers()) do
 
-        local hand = Player[color].getHandTransform(1)  -- this 1 is the index of the zones owned by that color
+        local origin = Player[color].getHandTransform(1)  -- this 1 is the index of the zones owned by that color
 
-        -- initialize of our position and rotation
+        -- since every objects have to face the player we'll use the same rotation for every objects
+        local relative_rot = Vector(0, 0, 0)
+
+        -- ! WONDER PLACEMENT
+        -- initialize our wonder position and rotation
         local wonder_pos = Vector(0, 0, 0)
-        local wonder_rot = Vector(0, 0, 0)
-
         local wonder_offset = Global.getVar('OBJECTS_OFFSETS')['wonder']
-
+        
         -- since we are using forward to see in wich "direction" the wonder will face
         -- only the x or the z coordinate will change, depending on the player's hand position
         -- the other cordinate will be the same as the player's
-        wonder_pos[1] = hand.position[1] + hand.forward[1] * wonder_offset
+        wonder_pos[1] = origin.position[1] + origin.forward[1] * wonder_offset
         wonder_pos[2] = 2   -- we also don't care about the Y, we'll just let it "fall" on the table
-        wonder_pos[3] = hand.position[3] + hand.forward[3] * wonder_offset
+        wonder_pos[3] = origin.position[3] + origin.forward[3] * wonder_offset
 
         -- the rotation in the other hand will be the same as the player's 
         -- but, if we dont "flip" the Y the wonder will be facing the center of the table
         -- we instaed want it to face us, the player
-        wonder_rot[1] = hand.rotation[1]
-        wonder_rot[2] = hand.rotation[2] + 180
-        wonder_rot[3] = hand.rotation[3]
+        relative_rot[1] = origin.rotation[1]
+        relative_rot[2] = origin.rotation[2] + 180
+        relative_rot[3] = origin.rotation[3]
 
         local current_wonder = base_wonders_bag.takeObject({
             position = wonder_pos,
-            rotation = wonder_rot,
+            rotation = relative_rot,
             smooth = false
         })
 
@@ -369,7 +386,42 @@ function wondersSetup(wonders_bags)
         wait(1)
         current_wonder.setLock(true)
 
+        --! COINS PLACEMENT
+        -- initialize our coins position and rotation
+        local coins_pos = Vector(0, 0, 0)
+        local coins_rot = Vector(0, 180, 0)
+
+        local coins_offset_forward = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_forward']
+        local coins_offset_right = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_right']
+        local coins_offset_between = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_between']
+
+        -- initialize pos of first coin to place
+        coins_pos[1] = origin.position[1] + origin.forward[1] * coins_offset_forward + origin.right[1] * coins_offset_right
+        coins_pos[2] = 2
+        coins_pos[3] = origin.position[3] + origin.forward[3] * coins_offset_forward + origin.right[3] * coins_offset_right
+
+        -- this loop just place every coins in a "fancy way" 
+        -- placing them in a sort single file
+        for i = 1, coins do
+            local coin_placed = silver_coins_bag.takeObject({
+                smooth = false,
+                rotation = relative_rot,
+                position = {
+                    coins_pos[1] + origin.right[1] * (i - 1) * coins_offset_between,
+                    coins_pos[2],
+                    coins_pos[3] + origin.right[3] * (i - 1) * coins_offset_between,
+                }
+            })
+        end
+
+        -- ! SHIPYARD PLACEMENT
+        -- initialize our shipyard position and rotation
+        local shipyard_pos = Vector(0, 0, 0)
+        local shipyard_rot = Vector(0, 0, 0)
+        
+        -- TODO
     end
+
 end
 
 function startGame()
@@ -396,12 +448,12 @@ function startGame()
     -- this function will handle all of the extra cards for every extra players
     decksSetup(deck_age1, deck_age2, deck_age3, deck_guild)
 
-    -- ! WONDERS SETUP
-    -- this is our main tables for every bags of wonders containing every wonders in the game
+    -- ! PLAYER BOARD SETUP
+    -- preparing the params for our setup board function
     local wonders_bags = Global.getVar('WONDERS_BAGS')
+    local coins_bag = Global.getVar('COINS_BAGS')
 
-    -- this function will handle the placement and the add of new wonders
-    wondersSetup(wonders_bags)
+    playerBoardSetup(wonders_bags, coins_bag)
 
     -- without this the LuaCoroutine will give us an error
     return 1

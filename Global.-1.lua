@@ -678,7 +678,12 @@ PLAYERS = {
 }
 
 OBJECTS_OFFSETS = {
-    ['wonder'] = 14
+    ['wonder'] = 14,
+    ['coins'] = {
+        offset_right = 5,
+        offset_forward = 17.5,
+        offset_between = -0.80
+    }
 }
 
 -- ! CARDS AND TOKENS GUID
@@ -698,4 +703,10 @@ WONDERS_BAGS = {
     ['cities'] = 'a49969',
     ['armada'] = 'e1435d',
     ['edifice'] = 'd9d9c0'
+}
+
+COINS_BAGS = {
+    '3f95a5',
+    '3cad45',
+    '9e60c9'
 }
