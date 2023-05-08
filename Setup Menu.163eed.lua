@@ -263,10 +263,19 @@ function testPlacements(deck1, deck2, deck3)
     end
 end
 
-function decksSetup(deck_age1, deck_age2, deck_age3, deck_guild)
+function decksSetup(base_deck)
 
     -- this function will prepare the decks depending on how many players there are in the match
+    -- since its impossible to play in less than 3 players we can already store our base decks
+    local deck_age1 = getObjectFromGUID(base_deck['age1'][1])
+    local deck_age2 = getObjectFromGUID(base_deck['age2'][1])
 
+    -- the base deck for age3 its made of the base age3 cards plus N guild cards
+    -- so we'll prepare both of them and then join them
+    local deck_age3 = getObjectFromGUID(base_deck['age3'][1])
+    local deck_guild = getObjectFromGUID(Global.getVar('GUILD_DECK_GUID'))
+    
+    -- this function will handle all of the extra cards for every extra players
     -- add 4+ cards
     if #getSeatedPlayers() >= 4 then
         deck_age1.putObject(getObjectFromGUID(base_deck['age1'][2]))
@@ -301,6 +310,8 @@ function decksSetup(deck_age1, deck_age2, deck_age3, deck_guild)
 
         deck_age3.putObject(deck_guild.takeObject())
     end
+
+    -- TODO expansions decks
 
     -- once we've built our decks we shuffle them
     deck_age1.shuffle()
@@ -337,12 +348,10 @@ function playerBoardSetup(wonders_bags, coins_bag)
 
     -- ! COINS SETUP
     local silver_coins_bag = getObjectFromGUID(coins_bag[1])
-    local coins = 6
+    local coins = 3
 
     -- if the players have chosen the leaders expansions they'll have 6 coins
-    if leaders_exp then
-        
-    end
+    if leaders_exp then coins = 6 end
 
     -- ! SHIPYARD SETUP
     -- TODO
@@ -391,14 +400,14 @@ function playerBoardSetup(wonders_bags, coins_bag)
         local coins_pos = Vector(0, 0, 0)
         local coins_rot = Vector(0, 180, 0)
 
-        local coins_offset_forward = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_forward']
-        local coins_offset_right = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_right']
-        local coins_offset_between = Global.getVar('OBJECTS_OFFSETS')['coins']['offset_between']
+        local coins_offset_x = Global.getVar('OBJECTS_OFFSETS')['coins']['x']
+        local coins_offset_z = Global.getVar('OBJECTS_OFFSETS')['coins']['z']
+        local coins_padding = Global.getVar('OBJECTS_OFFSETS')['coins']['padding']
 
         -- initialize pos of first coin to place
-        coins_pos[1] = origin.position[1] + origin.forward[1] * coins_offset_forward + origin.right[1] * coins_offset_right
+        coins_pos[1] = origin.position[1] + origin.forward[1] * coins_offset_z + origin.right[1] * coins_offset_x
         coins_pos[2] = 2
-        coins_pos[3] = origin.position[3] + origin.forward[3] * coins_offset_forward + origin.right[3] * coins_offset_right
+        coins_pos[3] = origin.position[3] + origin.forward[3] * coins_offset_z + origin.right[3] * coins_offset_x
 
         -- this loop just place every coins in a "fancy way" 
         -- placing them in a sort single file
@@ -407,19 +416,23 @@ function playerBoardSetup(wonders_bags, coins_bag)
                 smooth = false,
                 rotation = relative_rot,
                 position = {
-                    coins_pos[1] + origin.right[1] * (i - 1) * coins_offset_between,
+                    coins_pos[1] + origin.right[1] * (i - 1) * coins_padding,
                     coins_pos[2],
-                    coins_pos[3] + origin.right[3] * (i - 1) * coins_offset_between,
+                    coins_pos[3] + origin.right[3] * (i - 1) * coins_padding,
                 }
             })
         end
 
-        -- ! SHIPYARD PLACEMENT
-        -- initialize our shipyard position and rotation
-        local shipyard_pos = Vector(0, 0, 0)
-        local shipyard_rot = Vector(0, 0, 0)
+        if armada_exp then
+
+            -- ! SHIPYARD PLACEMENT
+            -- initialize our shipyard position and rotation
+            local shipyard_pos = Vector(0, 0, 0)
+            local shipyard_rot = Vector(0, 0, 0)
         
-        -- TODO
+            -- TODO
+
+        end
     end
 
 end
@@ -436,17 +449,7 @@ function startGame()
     -- so in the 'age1' array will have the guid for the 3+ players deck, for the 4+ players deck etc. etc.
     local base_deck = Global.getVar('BASE_DECK_GUID')
 
-    -- since its impossible to play in less than 3 players we can already store our base decks
-    local deck_age1 = getObjectFromGUID(base_deck['age1'][1])
-    local deck_age2 = getObjectFromGUID(base_deck['age2'][1])
-
-    -- the base deck for age3 its made of the base age3 cards plus N guild cards
-    -- so we'll prepare both of them and then join them
-    local deck_age3 = getObjectFromGUID(base_deck['age3'][1])
-    local deck_guild = getObjectFromGUID(Global.getVar('GUILD_DECK_GUID'))
-
-    -- this function will handle all of the extra cards for every extra players
-    decksSetup(deck_age1, deck_age2, deck_age3, deck_guild)
+    decksSetup(base_deck)
 
     -- ! PLAYER BOARD SETUP
     -- preparing the params for our setup board function
@@ -454,6 +457,9 @@ function startGame()
     local coins_bag = Global.getVar('COINS_BAGS')
 
     playerBoardSetup(wonders_bags, coins_bag)
+
+    -- ! PLAYERS FLIP WONDER
+    -- TODO create a new way to flip the wonder and udpate a status
 
     -- without this the LuaCoroutine will give us an error
     return 1

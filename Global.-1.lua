@@ -678,11 +678,30 @@ PLAYERS = {
 }
 
 OBJECTS_OFFSETS = {
+    ['stacks'] = {
+        ['non_buyable_res_stack'] = -16.2,
+        ['brown_res_stack'] = -13.50,
+        ['grey_stack'] = -10.80,
+        ['commerce_stack'] = -8.10,
+        ['blue_stack'] = -5.40,
+        ['war_conflict_stack'] = -2.70,
+        ['naval_conflict_stack'] = 0,
+        ['compass_stack'] = 2.70,
+        ['tablet_stack'] = 5.40,
+        ['gear_stack'] = 8.10,
+        ['green_island_stack'] = 10.80,
+        ['purple_stack'] = 13.50,
+        ['black_stack'] = 16.2,
+
+        ['z'] = 41
+    },
+
     ['wonder'] = 14,
+    
     ['coins'] = {
-        offset_right = 5,
-        offset_forward = 17.5,
-        offset_between = -0.80
+        x = 5,
+        z = 17.5,
+        padding = -0.80
     }
 }
 
@@ -710,3 +729,33 @@ COINS_BAGS = {
     '3cad45',
     '9e60c9'
 }
+
+-- ! FUNCTIONS 
+
+-- one important feature of this mod is the auto placement of cards
+-- every single column in a player's board is made for specific kind of cards (not colors)
+-- so to make things easier we calculate every origin(x, y, z) for each stack
+function onLoad()
+    for _, color in pairs(getSeatedPlayers()) do
+
+        -- for every player we calculate these origins based on its hand transform (position, rotation etc. etc.)
+        local origin = Player[color].getHandTransform(1)
+
+        -- the origin we are going to calucate
+        local stack_origin = Vector(0, 0, 0)
+
+        -- a table of offsets for each kind of cards
+        local stack_offsets = Global.getVar('OBJECTS_OFFSETS')['stacks']
+
+        -- for every kind of stack we then calculate the origin using our offsets
+        for stack in pairs(PLAYERS[string.lower(color)]['objects']) do
+            stack_origin[1] = origin.position[1] + origin.forward[1] * stack_offsets['z'] + origin.right[1] * stack_offsets[stack]
+            stack_origin[2] = 3
+            stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets['z'] + origin.right[3] * stack_offsets[stack]
+
+            -- in the end we update the origin in our table
+            PLAYERS[string.lower(color)]['objects'][stack]['origin'] = stack_origin
+        end
+
+    end
+end
