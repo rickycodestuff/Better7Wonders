@@ -18,7 +18,6 @@ end
 
 function startGameClick()
     -- i dont really understand this function but it seems to be mandatory 
-
     startLuaCoroutine(self, 'startGame')
     self.destruct()
 end
@@ -28,239 +27,6 @@ function wait(time)
     repeat
         coroutine.yield(0)
     until os.time() > start + time
-end
-
-function testPlacements(deck1, deck2, deck3)
-    local global_placements = Global.getVar('white_placement')
-    local offset_z = -1
-    local mixed_deck = deck1
-
-    local max_cards = {5, 13, 3, 20, 19, 20, 6, 5, 14, 5, 3, 9, 21}
-
-    mixed_deck.putObject(deck2)
-    mixed_deck.putObject(deck3)
-    mixed_deck.shuffle()
-
-    -- island 
-    for i = 1, 5 do
-        local temp_x = global_placements['card_zone']['island_resources'][1]
-        local temp_y = global_placements['card_zone']['island_resources'][2]
-        local temp_z = global_placements['card_zone']['island_resources'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- brown 
-    for i = 1, 13 do
-        local temp_x = global_placements['card_zone']['brown_resources'][1]
-        local temp_y = global_placements['card_zone']['brown_resources'][2]
-        local temp_z = global_placements['card_zone']['brown_resources'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- grey 
-    for i = 1, 3 do
-        local temp_x = global_placements['card_zone']['grey_resources'][1]
-        local temp_y = global_placements['card_zone']['grey_resources'][2]
-        local temp_z = global_placements['card_zone']['grey_resources'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- commerce 
-    for i = 1, 20 do
-        local temp_x = global_placements['card_zone']['commerce'][1]
-        local temp_y = global_placements['card_zone']['commerce'][2]
-        local temp_z = global_placements['card_zone']['commerce'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- blue 
-    for i = 1, 19 do
-        local temp_x = global_placements['card_zone']['blue'][1]
-        local temp_y = global_placements['card_zone']['blue'][2]
-        local temp_z = global_placements['card_zone']['blue'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- red 
-    for i = 1, 20 do
-        local temp_x = global_placements['card_zone']['war_conflict'][1]
-        local temp_y = global_placements['card_zone']['war_conflict'][2]
-        local temp_z = global_placements['card_zone']['war_conflict'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- naval 
-    for i = 1, 6 do
-        local temp_x = global_placements['card_zone']['naval_conflict'][1]
-        local temp_y = global_placements['card_zone']['naval_conflict'][2]
-        local temp_z = global_placements['card_zone']['naval_conflict'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- compass 
-    for i = 1, 5 do
-        local temp_x = global_placements['card_zone']['compass'][1]
-        local temp_y = global_placements['card_zone']['compass'][2]
-        local temp_z = global_placements['card_zone']['compass'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- tablet 
-    for i = 1, 14 do
-        local temp_x = global_placements['card_zone']['tablet'][1]
-        local temp_y = global_placements['card_zone']['tablet'][2]
-        local temp_z = global_placements['card_zone']['tablet'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- gear 
-    for i = 1, 5 do
-        local temp_x = global_placements['card_zone']['gear'][1]
-        local temp_y = global_placements['card_zone']['gear'][2]
-        local temp_z = global_placements['card_zone']['gear'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- green island 
-    for i = 1, 3 do
-        local temp_x = global_placements['card_zone']['green_island'][1]
-        local temp_y = global_placements['card_zone']['green_island'][2]
-        local temp_z = global_placements['card_zone']['green_island'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- purple 
-    for i = 1, 9 do
-        local temp_x = global_placements['card_zone']['purple'][1]
-        local temp_y = global_placements['card_zone']['purple'][2]
-        local temp_z = global_placements['card_zone']['purple'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
-
-    -- black 
-    for i = 1, 21 do
-        local temp_x = global_placements['card_zone']['black'][1]
-        local temp_y = global_placements['card_zone']['black'][2]
-        local temp_z = global_placements['card_zone']['black'][3] + offset_z * (i - 1)
-
-        card_placed = mixed_deck.takeObject({
-            flip = true,
-            smooth = false,
-            position = Vector(temp_x, temp_y, temp_z)
-        })
-
-        wait(2)
-
-        card_placed.setLock(true)
-    end
 end
 
 function decksSetup(base_deck)
@@ -442,6 +208,9 @@ function testCards()
     local deck = getObjectFromGUID('501ae8')
     local players = Global.getTable('PLAYERS')
 
+    local max_cards = {5, 13, 3, 20, 19, 20, 6, 5, 14, 5, 3, 9, 21}
+    local stack_names = {}
+
     for _, color in pairs(getSeatedPlayers()) do
 
         local relative_rot = Vector(0, 0, 0)
@@ -449,19 +218,31 @@ function testCards()
         relative_rot[2] = Player[color].getHandTransform(1).rotation[2] + 180
         relative_rot[3] = Player[color].getHandTransform(1).rotation[3]
 
-        for _, stack in pairs(players[string.lower(color)]['objects']) do
+        for name, _ in pairs(players[string.lower(color)]['objects']) do
+            table.insert(stack_names, name)
+        end
 
-            local position = stack['origin']
-            print(position)
+        for i = 1, #max_cards do
+            for j = 1, max_cards[i] do
+                local stack_name = stack_names[i]
+                local position = players[string.lower(color)]['objects'][stack_name]['origin']
 
-            local card_placed = deck.takeObject({
-                position = position,
-                rotation = relative_rot,
-                smooth = false,
-                callback_function = function (spawned_object)
-                    spawned_object.setLock(true)
-                end
-            })
+                position[1] = position[1] + Player[color].getHandTransform(1).forward[1] * - 1
+                position[2] = 2
+                position[3] = position[3] + Player[color].getHandTransform(1).forward[3] * - 1
+
+                local card_placed = deck.takeObject({
+                    position = position,
+                    rotation = relative_rot,
+                    smooth = false,
+                    -- callback_function = function (spawned_object)
+                        -- spawned_object.setLock(true)
+                    -- end
+                })
+
+                wait(1)
+                card_placed.setLock(true)
+            end
         end
     end
 end

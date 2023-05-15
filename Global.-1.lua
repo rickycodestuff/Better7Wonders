@@ -2,8 +2,6 @@
 -- in this API we'll need the GUID if we want to use its functions
 UTILS = 'db716c'
 
-VALID_COLORS = { 'White', 'Purple', 'Red', 'Yellow', 'Green', 'Orange', 'Blue'}
-
 TABLE_HEIGHT = 1.41
 
 -- ! OBJECTS PLACEMENT
@@ -736,45 +734,7 @@ COINS_BAGS = {
 
 -- ! FUNCTIONS 
 -- if you are looking for something it's probably in the onLoad() function 
-function fixFloat(f)
-
-    -- the goal of this function is to fix some weird calculations with my coordinates
-    -- in my onLoad() function i calculate every origin of every stack of card in a player's city 
-    -- in many coordinate tho the result it's not what i would expect
-    -- insated of z = 10.80 i get z = 10.80000003
-    -- or again instaed of x = -56 i get x = -55.99999996
-    -- these are "standard" float problems but in the end they could mess up the cards placement
-
-    -- early return just in case we pass a non-float number 
-    if type(f) ~= 'float' then
-        return f
-    end
-
-    -- the second parameter let us split the decimal number in two strings
-    -- the first one is the integer part of f, wich we don't care about
-    -- the second one is the decimal part
-    local integer, decimals = string.match(tostring(f), "([^.]*)%.([^.]*)")
-
-    -- if f is an "integer" it means that decimals we'll be nill (or not a number of course)
-    -- we don't need to fix anything so we make an eraly return
-    if type(decimals) ~= 'number' then
-        return f
-    end
-
-    -- and if the decimal digits are less than 3 that means that the coordinate doesn't need fixing 
-    if tonumber(decimals) < 3 then
-        return f
-    end
-
-    -- we now need to work on its 3rd digits
-    local third_decimal = tonumber(string.sub(decimals, 3, 3)) 
-
-    -- giving the last example if the calulation gives us -55.999995 instaed of -55 we only need to round it
-    if string.sub(decimals, 3, 3) == 0 then 
-
-    end
-end
-
+    
 function onSave()
 end
 
