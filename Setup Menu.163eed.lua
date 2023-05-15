@@ -375,7 +375,7 @@ function playerBoardSetup(wonders_bags, coins_bag)
         -- only the x or the z coordinate will change, depending on the player's hand position
         -- the other cordinate will be the same as the player's
         wonder_pos[1] = origin.position[1] + origin.forward[1] * wonder_offset
-        wonder_pos[2] = 2   -- we also don't care about the Y, we'll just let it "fall" on the table
+        wonder_pos[2] = Global.getVar('TABLE_HEIGHT')
         wonder_pos[3] = origin.position[3] + origin.forward[3] * wonder_offset
 
         -- the rotation in the other hand will be the same as the player's 
@@ -437,6 +437,35 @@ function playerBoardSetup(wonders_bags, coins_bag)
 
 end
 
+function testCards()
+
+    local deck = getObjectFromGUID('501ae8')
+    local players = Global.getTable('PLAYERS')
+
+    for _, color in pairs(getSeatedPlayers()) do
+
+        local relative_rot = Vector(0, 0, 0)
+        relative_rot[1] = Player[color].getHandTransform(1).rotation[1]
+        relative_rot[2] = Player[color].getHandTransform(1).rotation[2] + 180
+        relative_rot[3] = Player[color].getHandTransform(1).rotation[3]
+
+        for _, stack in pairs(players[string.lower(color)]['objects']) do
+
+            local position = stack['origin']
+            print(position)
+
+            local card_placed = deck.takeObject({
+                position = position,
+                rotation = relative_rot,
+                smooth = false,
+                callback_function = function (spawned_object)
+                    spawned_object.setLock(true)
+                end
+            })
+        end
+    end
+end
+
 function startGame()
 
     -- ! MAIN FUNCTION
@@ -457,6 +486,8 @@ function startGame()
     local coins_bag = Global.getVar('COINS_BAGS')
 
     playerBoardSetup(wonders_bags, coins_bag)
+
+    testCards()
 
     -- ! PLAYERS FLIP WONDER
     -- TODO create a new way to flip the wonder and udpate a status
