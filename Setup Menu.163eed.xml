@@ -43,7 +43,7 @@
         height="200" 
         rectAlignment="LowerCenter" 
         offsetXY="0 -300" 
-        onclick="startGameClick">
+        onclick="db716c/startGameClick">
             <Text class="buttonLabel">Start Game</Text>
     </Button>
 </Panel>

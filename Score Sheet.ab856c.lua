@@ -44,8 +44,8 @@ function onLoad()
     local pointOffsetZ = 0.132
 
     -- create the input for all player's points
-    for j = 1, 12 do
-        for i = 1, 7 do
+    for i = 1, 7 do
+        for j = 1, 12 do
             self.createInput({
                 input_function = 'none',
                 function_owner = self,
@@ -94,4 +94,9 @@ end
 function none() 
     -- the creatInput() function requires a function to be called otherwise it will give an error
     -- so this is just a blank function
+end
+
+function onChat()
+    local scoresheet = self.getInputs()
+    print(scoresheet[9].value)
 end
