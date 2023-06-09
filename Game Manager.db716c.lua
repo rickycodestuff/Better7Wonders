@@ -13,24 +13,21 @@ function startGame()
     -- ! MAIN FUNCTION
     -- ! this is where the game will be setup and where it will start
     -- ! if you are looking for something it's probably somewhere here 
+    broadcastToAll('Game starting')
+    wait(1)
+
+    broadcastToAll('Shuffling decks...')
+    wait(2)
 
     -- ! CARDS SETUP
-    -- getting the base decks from our global table
-    -- every element in that table is an array in wich we stored every GUID of every decks of the base game
-    -- so in the 'age1' array will have the guid for the 3+ players deck, for the 4+ players deck etc. etc.
-    local base_deck = Global.getVar('BASE_DECK_GUID')
-
-    decksSetup(base_deck)
+    decksSetup()
 
     -- ! PLAYER BOARD SETUP
-    -- preparing the params for our setup board function
-    local wonders_bags = Global.getVar('WONDERS_BAGS')
-    local coins_bag = Global.getVar('COINS_BAGS')
-
-    playerBoardSetup(wonders_bags, coins_bag)
+    playerBoardSetup()
+    broadcastToAll("Chose your wonder's side")
 
     -- this is just for testing placements
-    testCards()
+    -- testCards()
 
     -- ! PLAYERS FLIP WONDER
     -- TODO create a new way to flip the wonder and udpate a status
@@ -39,7 +36,12 @@ function startGame()
     return 1
 end
 
-function decksSetup(base_deck)
+-- ! CARDS SETUP
+function decksSetup()
+    -- getting the base decks from our global table
+    -- every element in that table is an array in wich we stored every GUID of every decks of the base game
+    -- so in the 'age1' array will have the guid for the 3+ players deck, for the 4+ players deck etc. etc.
+    local base_deck = Global.getVar('BASE_DECK_GUID')
 
     -- this function will prepare the decks depending on how many players there are in the match
     -- since its impossible to play in less than 3 players we can already store our base decks
@@ -95,14 +97,17 @@ function decksSetup(base_deck)
     deck_age3.shuffle()
 end
 
-function playerBoardSetup(wonders_bags, coins_bag)
-
-    -- since we have to place wonders, coins, and shipyard for every player
-    -- we'll loop through every one of them and place them as we go 
+-- ! PLAYER BOARD SETUP
+function playerBoardSetup()
+    -- in this function we'll prepare everything a player needs to place in his "area"
+    -- such as random wonder, coins and stockyard, if armada exp is chosen
+    local wonders_bags = Global.getVar('WONDERS_BAGS')  -- this give us the entire table of wonders guid, each divided for expansion
+    local coins_bag = Global.getVar('COINS_BAGS')
 
     -- ! WONDERS SETUP
-    local base_wonders_bag = getObjectFromGUID(wonders_bags['base'])
+    local base_wonders_bag = getObjectFromGUID(wonders_bags['base']) -- getting the base game wonders
 
+    -- TODO
     -- if the players have chosen some expansions we'll add to our base game wonders
     if leaders_exp then
         
@@ -120,13 +125,15 @@ function playerBoardSetup(wonders_bags, coins_bag)
         
     end
 
+    -- after we got all the wonders ready we shuffle them 
+    -- so that we can then give them to ech player 
     base_wonders_bag.shuffle()
 
     -- ! COINS SETUP
     local silver_coins_bag = getObjectFromGUID(coins_bag[1])
     local coins = 3
 
-    -- if the players have chosen the leaders expansions they'll have 6 coins
+    -- TODO if the players have chosen the leaders expansions they'll have 6 coins
     if leaders_exp then coins = 6 end
 
     -- ! SHIPYARD SETUP
@@ -161,15 +168,13 @@ function playerBoardSetup(wonders_bags, coins_bag)
         relative_rot[2] = origin.rotation[2] + 180
         relative_rot[3] = origin.rotation[3]
 
-        local current_wonder = base_wonders_bag.takeObject({
+        local player_wonder = base_wonders_bag.takeObject({
             position = wonder_pos,
             rotation = relative_rot,
             smooth = false
         })
 
-        -- in the end we'll lock it so it won't move due to the game's physic
-        wait(1)
-        current_wonder.setLock(true)
+        -- TODO add player wonder to global variables so that we can keep track of its data
 
         --! COINS PLACEMENT
         -- initialize our coins position and rotation
