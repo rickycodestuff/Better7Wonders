@@ -21,7 +21,8 @@
         height = '24'
         width = '120'
         fontSize = '18'
-        fontStyle = 'Bold'>
+        fontStyle = 'Bold'
+        rectAlignment = 'lowerCenter'>
     </Button>
 
     <Text class = 'textStatusTitle' 
@@ -38,14 +39,23 @@
         alignment = 'middleLeft'>
     </Text>
 
-    <Row id = 'rowPlayer' preferredHeight = '24'></Row>
-    <Row preferredHeight = '24'></Row>
+    <Row class = 'rowTitle' id = 'rowTitle' 
+        preferredHeight = '24'>
+    </Row>
+
+    <Row class = 'rowPlayer' id = 'rowPlayer' 
+        preferredHeight = '24'>
+    </Row>
+
+    <Row class = 'rowButton' id = 'rowButton' 
+        preferredHeight = '36'>
+    </Row>
 </Defaults>
 
 <!-- ! MAIN XML -->
 <Panel class = 'panelStatus'>
     <TableLayout class = 'tableStatus'>
-        <Row>
+        <Row class = 'rowTitle'>
             <Cell columnSpan = '2'>
                 <Text class = 'textStatusTitle' id = 'textStatusTitle'>WAITING TO START MATCH</Text>
             </Cell>

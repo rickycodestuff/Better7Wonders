@@ -851,7 +851,7 @@ function populateStatusPanel()
         -- this the parent tag <Row> that contains every other table you see above this 
         local row_player = {
             tag            = 'Row',
-            attributes     = {},
+            attributes     = {class = 'rowPlayer'},
             children       = {cell_player_status, cell_player_name}
         }
 
@@ -861,26 +861,50 @@ function populateStatusPanel()
 
     -- at the end of the loop we'll overwrite the table's children
     -- same strucutre as before 
-    xml_table[2].children[1].children = new_children
+    -- TODO REMOVE COMMENT xml_table[2].children[1].children = new_children
 
-    -- lastly we set and update the panel using the LuaCoroutine
-    self.UI.setXmlTable(xml_table)
-    updateStatusPanelUI(#getValidPlayers())
+    -- finally we can update our status panel
+    if #getValidPlayers() < 3 then
 
-    -- TODO remove comment 
-    -- local button_ready = {
-    --     tag = 'Button',
-    --     attributes = {class = 'buttonReady'},
-    --     value = 'Ready',
-    --     children = {}
-    -- }
+        -- normally we would just update the panel's size based on these new children
+        xml_table[2].children[1].children = new_children
 
-    -- local row_ready = {
-    --     tag = 'Row',
-    --     attributes = {preferredHeight = '64'},
-    --     children = {button_ready}
-    -- }
+        self.UI.setXmlTable(xml_table)
+        updateStatusPanelUI(#getValidPlayers())
+    else
 
+        -- but whenever there are 3 players or more (minimum players for 7 Wonders)
+        -- not only we update based on the players but also we'll add a ready button_ready
+        -- the scope of this button is to tell the other players whenever X player is ready to reveal their move
+
+        -- again read this from the last table (row_ready)
+        local button_ready = {
+            tag = 'Button',
+            attributes = {class = 'buttonReady'},
+            value = 'Ready',
+            children = {}
+        }
+
+        -- local cell_ready = {
+        --     tag = 'Cell',
+        --     attributes = {columnSpan = '2'},
+        --     children = {button_ready}
+        -- }
+
+        local row_ready = {
+            tag = 'Row',
+            attributes = {class = 'rowButton'},
+            children = {button_ready}
+        }
+
+        -- we add the new row to the other ones 
+        new_children[#new_children + 1] = row_ready
+        xml_table[2].children[1].children = new_children
+
+        -- and update the UI
+        self.UI.setXmlTable(xml_table)
+        updateStatusPanelUI(#getValidPlayers())
+    end
 end
 
 function getValidPlayers()
@@ -918,7 +942,7 @@ function updateStatusPanelUI(n_players)
         -- 2) the spacing between each one of them
         -- 3) the height of the panel itself
         -- 4) the padding of the panel
-        local row_height = tonumber(UI.getAttribute('rowPlayer', 'preferredHeight'))
+        local row_height = tonumber(UI.getAttribute('rowTitle', 'preferredHeight'))
         local table_spacing = tonumber(UI.getAttribute('tableStatus', 'cellSpacing'))
         local panel_height = tonumber(UI.getAttribute('panelStatus', 'height'))
         local panel_padding = tonumber(UI.getAttribute('panelStatus', 'padding'))
@@ -931,6 +955,16 @@ function updateStatusPanelUI(n_players)
 
         if new_panel_height ~= panel_height then
             -- update panel height
+            UI.setAttribute('panelStatus', 'height', new_panel_height)
+        end
+
+        -- edit the panel based on the ready button 
+        -- that shows up only when there are >= 3 players
+        if #getValidPlayers() >= 3 then
+            local row_button_height = tonumber(UI.getAttribute('rowButton', 'preferredHeight'))
+
+            new_panel_height = new_panel_height + row_button_height + panel_padding
+
             UI.setAttribute('panelStatus', 'height', new_panel_height)
         end
 
@@ -947,4 +981,5 @@ function updateStatusPanelUI(n_players)
 end
 
 function onChat(message, player)
+    Hands.hiding = 2
 end
