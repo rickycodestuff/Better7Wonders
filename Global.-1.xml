@@ -1,55 +1,56 @@
 <!-- ! DEFAULTS -->
 <Defaults>
-    <Panel class = 'statusPanel'
-        width = '270' 
-        padding = '5' 
-        height = '450' 
-        color = '#000000CC' 
-        allowDragging = 'True' 
-        returnToOriginalPositionWhenReleased = 'false' 
-        rectAlignment = 'upperCenter'
-        offsetXY = '-700 -20'
-        visibility = 'White|Purple|Yellow|Red|Orange|Blue|Green|Black'>
+    <!-- min panel dimensions 268 x 40 | padding 8-->
+    <Panel class = 'panelStatus' id = 'panelStatus'
+        width = '268' 
+        height = '40' 
+        padding = '8' 
+        color = '#000000CC'
+        rectAlignment = 'upperLeft'
+        offsetXY = '148 -20'
+        visibility = 'White|Purple|Yellow|Red|Orange|Blue|Green|Black|Grey'>
     </Panel>
 
-    <TableLayout class = 'statusTable'
-        columnWidths = '28 0' 
-        cellSpacing = '5' 
-        offsetXY = '0 -30'
-        allowDragging = 'True' 
-        returnToOriginalPositionWhenReleased = 'false' 
-        autoCalculateHeight = 'true'>
+    <TableLayout class = 'tableStatus' id = 'tableStatus'
+        columnWidths = '24 0' 
+        cellSpacing = '8' 
+        offsetXY = '0 -32'>
     </TableLayout>
 
-    <Panel class = 'statusBox'
-        height = '20'
-        width = '20'
-        color = 'green'>
-    </Panel>
+    <Button class = 'buttonReady'
+        height = '24'
+        width = '120'
+        fontSize = '18'
+        fontStyle = 'Bold'>
+    </Button>
 
-    <Text class = 'statusTitle' 
+    <Text class = 'textStatusTitle' 
         fontSize = '18'
         fontStyle = 'bold' 
         color = 'white'
-        alignment='upperCenter' 
-        offsetXY='0 -4'>
+        alignment='middleCenter'>
     </Text>
 
-    <Text class = 'playerName' 
+    <Text class = 'textPlayerName' 
         fontSize = '18' 
-        color = 'grey'
-        alignment = 'middleLeft'
         fontStyle = 'Bold'
-        dontUseTableCellBackground = 'true'>
+        color = 'grey'
+        alignment = 'middleLeft'>
     </Text>
 
-    <Cell dontUseTableCellBackground = 'true'></Cell>
-    <Row height = '32'></Row>
+    <Row id = 'rowPlayer' preferredHeight = '24'></Row>
+    <Row preferredHeight = '24'></Row>
 </Defaults>
 
 <!-- ! MAIN XML -->
-<Panel class = 'statusPanel'>
-    <TableLayout class = 'statusTable'>
+<Panel class = 'panelStatus'>
+    <TableLayout class = 'tableStatus'>
+        <Row>
+            <Cell columnSpan = '2'>
+                <Text class = 'textStatusTitle' id = 'textStatusTitle'>WAITING TO START MATCH</Text>
+            </Cell>
+        </Row>
         <!-- rows to be filled with players name and status -->
+
     </TableLayout>
 </Panel>
