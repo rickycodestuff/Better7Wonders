@@ -4,7 +4,7 @@ function startGameClick()
     -- i dont really understand this function but it seems to be mandatory 
     startLuaCoroutine(self, 'startGame')
 
-    -- this object is the setup menu cube, it will dissapear whenever u start the game
+    -- this object is the setup menu cube, it will dissapear whenever you start the game
     getObjectFromGUID('163eed').destruct()
 end
 
@@ -24,7 +24,13 @@ function startGame()
 
     -- ! PLAYER BOARD SETUP
     playerBoardSetup()
+
+    -- ! CHOOSING THE WONDER SIDE
     broadcastToAll("Chose your wonder's side")
+
+    -- TODO COMMENT
+    local status_panel = getObjectFromGUID('80fac4')
+    status_panel.setVar('STATUS', true)
 
     -- this is just for testing placements
     -- testCards()
@@ -179,7 +185,6 @@ function playerBoardSetup()
         --! COINS PLACEMENT
         -- initialize our coins position and rotation
         local coins_pos = Vector(0, 0, 0)
-        local coins_rot = Vector(0, 180, 0)
 
         local coins_offset_x = Global.getVar('OBJECTS_OFFSETS')['coins']['x']
         local coins_offset_z = Global.getVar('OBJECTS_OFFSETS')['coins']['z']

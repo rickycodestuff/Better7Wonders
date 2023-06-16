@@ -95,8 +95,3 @@ function none()
     -- the creatInput() function requires a function to be called otherwise it will give an error
     -- so this is just a blank function
 end
-
-function onChat()
-    local scoresheet = self.getInputs()
-    print(scoresheet[9].value)
-end
