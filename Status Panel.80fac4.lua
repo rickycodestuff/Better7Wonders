@@ -1,9 +1,14 @@
 -- these are variables that will help us regolate the game's flow
--- the first one set whenever players can edit their status or not
-GLOBAL_STATUS = false
 
--- and then this one store every player's status
-PLAYERS_STATUS = {}
+GLOBAL_STATUS = false   -- whenever players can edit their status or not
+PLAYERS_STATUS = {}     -- every player's status
+ALL_READY = false       -- if all players are ready
+
+GAME_MANAGER_GUID = "db716c"
+
+function onLoad(save_state)
+    GAME_MANAGER = getObjectFromGUID(GAME_MANAGER_GUID)
+end
 
 function populateStatusPanel()
 
@@ -42,12 +47,12 @@ function populateStatusPanel()
 
     -- now for each player we will generate a row tag
     -- containing his status box and his steam name 
-    for _, player in pairs(Global.call('getValidPlayers')) do
+    for _, color in pairs(getSeatedPlayers()) do
 
         -- this is pretty much for the init of this PLAYERS_STATUS table
         -- so this if statement is saying 'if staus x is nill set it to false'
-        if not PLAYERS_STATUS[player.color] then
-            PLAYERS_STATUS[player.color] = false
+        if PLAYERS_STATUS[color] == nil then
+            PLAYERS_STATUS[color] = false
         end
 
         -- start reading this from the last table, the row_player  
@@ -56,7 +61,7 @@ function populateStatusPanel()
         local text_player_name = {
             tag            = 'Text',
             attributes     = {class = 'textPlayerName'},
-            value          = player.color, -- TODO change to steam_name 
+            value          = Player[color].steam_name, -- TODO change to steam_name 
             children       = {}
         }
 
@@ -77,9 +82,9 @@ function populateStatusPanel()
                 -- the player.color always return a capitalized color, and I don't like capitalized attributes lmao
                 -- so this id will be something like : id = 'whiteTextStatus'
                 -- you'll see more of these in my script
-                id = string.lower(player.color) .. 'TextStatus'
+                id = string.lower(color) .. 'TextStatus'
             },
-            value = PLAYERS_STATUS[player.color] and '✔' or '✘',
+            value = PLAYERS_STATUS[color] and '✔' or '✘',
             children = {}
         }
 
@@ -88,8 +93,8 @@ function populateStatusPanel()
             tag            = 'Panel',
             attributes     = {
                 class = 'panelPlayerStatus', 
-                id = string.lower(player.color) .. 'BoxStatus',
-                color = PLAYERS_STATUS[player.color] and 'green' or 'red'   -- ternary operator in lua
+                id = string.lower(color) .. 'BoxStatus',
+                color = PLAYERS_STATUS[color] and 'green' or 'red'   -- ternary operator in lua
             },
             children       = {text_player_status}
         }
@@ -115,10 +120,10 @@ function populateStatusPanel()
 
     -- before we can update our status panel we'll also check for the minum players for 7 Wonders
     -- spoiler it's 3
-    if #Global.call('getValidPlayers') >= 3 then
+    if #getSeatedPlayers() >= 3 then
 
         -- as asson as 3 or more players are in valid seats let's create a button
-        for _, player in pairs(Global.call('getValidPlayers')) do
+        for _, color in pairs(getSeatedPlayers()) do
 
             -- this is the button that will change our status inside the status panel 
             -- as you can see it's not inside a row nor a cell, and also its visibility changes for every player
@@ -133,9 +138,9 @@ function populateStatusPanel()
                 tag = 'Button',
                 attributes = {
                     class = 'buttonReady',
-                    id = string.lower(player.color) .. 'ButtonReady',
-                    text = PLAYERS_STATUS[player.color] and 'Undo Ready' or 'Ready',
-                    visibility = player.color
+                    id = string.lower(color) .. 'ButtonReady',
+                    text = PLAYERS_STATUS[color] and 'Undo Ready' or 'Ready',
+                    visibility = color
                 },
                 children = {}
             }
@@ -143,12 +148,12 @@ function populateStatusPanel()
             -- now this table is full of x rows for every player + x buttons
             new_children[#new_children + 1] = button_ready
         end
-
-        -- lastly we update the UI
-        xml_table[2].children[1].children = new_children
-        Global.UI.setXmlTable(xml_table)
-        updateStatusPanelUI(#Global.call('getValidPlayers'))
     end
+
+    -- lastly we update the UI
+    xml_table[2].children[1].children = new_children
+    Global.UI.setXmlTable(xml_table)
+    updateStatusPanelUI(#getSeatedPlayers())
 end
 
 -- since the startLuaCoroutine() function does not let you use paramaters
@@ -157,7 +162,7 @@ end
 function updateStatusPanelUI(n_players)
     function coinside()
 
-        -- pauses the couritine to resolve the UI
+        -- pauses the coroutine to resolve the UI
         coroutine.yield(0)
 
         -- to "visually" add a row inside our panel we have to edit its height, using:
@@ -183,13 +188,13 @@ function updateStatusPanelUI(n_players)
 
         -- edit the panel based on the ready button 
         -- that shows up only when there are >= 3 players
-        if #Global.call('getValidPlayers') >= 3 then
+        if #getSeatedPlayers() >= 3 then
 
             -- this only serve us to have a more "dynamic" panel
             -- since we have multiple ids built like: "colorButtonReady"
             -- we take the first player and his button id
-            local player = Global.call('getValidPlayers')[1]
-            local ready_button = string.lower(player.color) .. 'ButtonReady'
+            local color = getSeatedPlayers()[1]
+            local ready_button = string.lower(color) .. 'ButtonReady'
             local row_button_height = tonumber(Global.UI.getAttribute(ready_button, 'height'))
 
             -- we calculate and update the panel's height based on this height now
@@ -214,17 +219,24 @@ end
 function switchStatus(player, value, id)
 
     if not GLOBAL_STATUS then
-        return broadcastToColor("Can't change status right now", player.color) 
+        return broadcastToColor("Can't change status right now", player.color)
     end
 
     -- switch the player status to true -> false and viceversa
-    if PLAYERS_STATUS[player.color] then PLAYERS_STATUS[player.color] = false
-    else PLAYERS_STATUS[player.color] = true end
+    PLAYERS_STATUS[player.color] = not PLAYERS_STATUS[player.color]
+
+    -- check if all players are ready
+    if arePlayersReady() then
+        GLOBAL_STATUS = false
+        broadcastToAll("All players ready!")
+
+        GAME_MANAGER.call("nextGamePhase")
+    end
 
     -- the LuaCoroutine function
     function updateButtonReadyUI()
 
-        -- pauses the couritine to resolve the UI
+        -- pauses the coroutine to resolve the UI
         coroutine.yield(0)
 
         -- to display the player status we update 
@@ -242,13 +254,44 @@ function switchStatus(player, value, id)
 
     -- since we are going to update the UI better do it using a coroutine
     startLuaCoroutine(self, 'updateButtonReadyUI')
+end
 
+function setStatusPanelTitle(title)
+    function coinside()
+
+        -- pauses the coroutine to resolve the UI
+        coroutine.yield(0)
+
+        -- update the status panel title
+        Global.UI.setValue('textStatusTitle', title)
+
+        return 1
+    end
+
+    startLuaCoroutine(self, 'coinside')
+end
+
+-- the PLAYERS_STATUS table often get "messy" (GOAAAL) when someone changes color 
+-- because it stores even colors not used, this is just a way to reset it
+-- ! even tho it's not recomended to change seat during the game
+function resetPlayersStatus()
+    PLAYERS_STATUS = {}
+
+    for _, seated_color in pairs(getSeatedPlayers()) do
+        PLAYERS_STATUS[seated_color] = false
+    end
+end
+
+-- TODO COMMENT
+function arePlayersReady()
+    for _, status in pairs(PLAYERS_STATUS) do
+        if not status then return false end
+    end
+
+    ALL_READY = true -- TODO maybe remove???
+    return true
 end
 
 -- ! DEBUG
-function onChat(msg)
-    if GLOBAL_STATUS then GLOBAL_STATUS = false
-    else GLOBAL_STATUS = true end
-
-    print('Status : ' .. tostring(GLOBAL_STATUS))
-end
+-- function onChat(msg)
+-- end

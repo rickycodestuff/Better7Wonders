@@ -1,48 +1,61 @@
 ---@diagnostic disable: lowercase-global
 
-function startGameClick()
-    -- i dont really understand this function but it seems to be mandatory 
-    startLuaCoroutine(self, 'startGame')
+-- ! GLOBAL VARIABLES
+PLAYERS_ORDER = {'White', 'Purple', 'Red', 'Yellow', 'Green', 'Orange', 'Blue'}
 
-    -- this object is the setup menu cube, it will dissapear whenever you start the game
-    getObjectFromGUID('163eed').destruct()
+GAME_PHASES = {
+    ["base"] = {
+        ["0"] = "CHOOSE WONDER'S SIDE",
+        ["1"] = "AGE I",
+        ["8"] = "AGE I - WAR CONFLICT",
+        ["9"] = "AGE II",
+        ["16"] = "AGE II - WAR CONFLICT",
+        ["17"] = "AGE III",
+        ["24"] = "AGE III - WAR CONFLICT",
+    }
+}
+
+CURRENT_PHASE = 0
+
+function onLoad(save_state)
+    -- this is just the init of the other scripts
+    STATUS_PANEL = Global.getVar('STATUS_PANEL')
+end
+
+-- ! FUNCTIONS
+function startGameClick()
+    if #getSeatedPlayers() < 3 then
+        broadcastToAll("Not enough players", "Red")
+        return
+    else
+        startLuaCoroutine(self, 'startGame')
+        getObjectFromGUID('163eed').destruct()      -- it'll hide the setup menu
+    end
+
+
 end
 
 function startGame()
-
-    -- ! MAIN FUNCTION
-    -- ! this is where the game will be setup and where it will start
-    -- ! if you are looking for something it's probably somewhere here 
+    -- ! GAME SETUP
+    STATUS_PANEL.call('resetPlayersStatus')
     broadcastToAll('Game starting')
     wait(1)
 
     broadcastToAll('Shuffling decks...')
+    decksSetup()
     wait(2)
 
-    -- ! CARDS SETUP
-    decksSetup()
-
-    -- ! PLAYER BOARD SETUP
     playerBoardSetup()
 
     -- ! CHOOSING THE WONDER SIDE
+    STATUS_PANEL.call('setStatusPanelTitle', "CHOOSE WONDER'S SIDE")
+    STATUS_PANEL.setVar('GLOBAL_STATUS', true)
     broadcastToAll("Chose your wonder's side")
-
-    -- TODO COMMENT
-    local status_panel = getObjectFromGUID('80fac4')
-    status_panel.setVar('STATUS', true)
-
-    -- this is just for testing placements
-    -- testCards()
-
-    -- ! PLAYERS FLIP WONDER
-    -- TODO create a new way to flip the wonder and udpate a status
 
     -- without this the LuaCoroutine will give us an error
     return 1
 end
 
--- ! CARDS SETUP
 function decksSetup()
     -- getting the base decks from our global table
     -- every element in that table is an array in wich we stored every GUID of every decks of the base game
@@ -51,12 +64,12 @@ function decksSetup()
 
     -- this function will prepare the decks depending on how many players there are in the match
     -- since its impossible to play in less than 3 players we can already store our base decks
-    local deck_age1 = getObjectFromGUID(base_deck['age1'][1])
-    local deck_age2 = getObjectFromGUID(base_deck['age2'][1])
+    deck_age1 = getObjectFromGUID(base_deck['age1'][1])
+    deck_age2 = getObjectFromGUID(base_deck['age2'][1])
 
     -- the base deck for age3 its made of the base age3 cards plus N guild cards
     -- so we'll prepare both of them and then join them
-    local deck_age3 = getObjectFromGUID(base_deck['age3'][1])
+    deck_age3 = getObjectFromGUID(base_deck['age3'][1])
     local deck_guild = getObjectFromGUID(Global.getVar('GUILD_DECK_GUID'))
     
     -- this function will handle all of the extra cards for every extra players
@@ -103,14 +116,12 @@ function decksSetup()
     deck_age3.shuffle()
 end
 
--- ! PLAYER BOARD SETUP
 function playerBoardSetup()
     -- in this function we'll prepare everything a player needs to place in his "area"
     -- such as random wonder, coins and stockyard, if armada exp is chosen
     local wonders_bags = Global.getVar('WONDERS_BAGS')  -- this give us the entire table of wonders guid, each divided for expansion
     local coins_bag = Global.getVar('COINS_BAGS')
 
-    -- ! WONDERS SETUP
     local base_wonders_bag = getObjectFromGUID(wonders_bags['base']) -- getting the base game wonders
 
     -- TODO
@@ -135,17 +146,14 @@ function playerBoardSetup()
     -- so that we can then give them to ech player 
     base_wonders_bag.shuffle()
 
-    -- ! COINS SETUP
-    local silver_coins_bag = getObjectFromGUID(coins_bag[1])
+    local silver_coins_bag = getObjectFromGUID(coins_bag['silver'])
     local coins = 3
 
     -- TODO if the players have chosen the leaders expansions they'll have 6 coins
     if leaders_exp then coins = 6 end
 
-    -- ! SHIPYARD SETUP
-    -- TODO
+    -- TODO SHIPYARD SETUP
 
-    -- ! OBJECTSS PLACEMENT 
     -- for every player will be calculating the coordinates for their wonder based, coins and shipyard on their hand position
     -- every hand is already placed following some "symmetrical rules"
     for _, color in pairs(getSeatedPlayers()) do
@@ -155,11 +163,10 @@ function playerBoardSetup()
         -- since every objects have to face the player we'll use the same rotation for every objects
         local relative_rot = Vector(0, 0, 0)
 
-        -- ! WONDER PLACEMENT
         -- initialize our wonder position and rotation
         local wonder_pos = Vector(0, 0, 0)
         local wonder_offset = Global.getVar('OBJECTS_OFFSETS')['wonder']
-        
+
         -- since we are using forward to see in wich "direction" the wonder will face
         -- only the x or the z coordinate will change, depending on the player's hand position
         -- the other cordinate will be the same as the player's
@@ -180,9 +187,16 @@ function playerBoardSetup()
             smooth = false
         })
 
-        -- TODO add player wonder to global variables so that we can keep track of its data
+        -- udpate the PLAYERS table to store the wonder taken
+        -- PLAYERS is a table inside Global and luatts treats it a bit "differnt"
+        -- so in order to udpdate we have to overwrite it with a new one
+        local new_table = Global.getTable('PLAYERS')
+        new_table[string.lower(color)]['objects']['wonder']['wonder_obj'] = player_wonder
+        new_table[string.lower(color)]['objects']['wonder']['wonder_pos'] = wonder_pos
+        new_table[string.lower(color)]['objects']['wonder']['wonder_rot'] = relative_rot
 
-        --! COINS PLACEMENT
+        Global.setTable('PLAYERS', new_table)
+
         -- initialize our coins position and rotation
         local coins_pos = Vector(0, 0, 0)
 
@@ -211,13 +225,123 @@ function playerBoardSetup()
 
         if armada_exp then
 
-            -- ! SHIPYARD PLACEMENT
+            -- TODO SHIPYARD PLACEMENT
             -- initialize our shipyard position and rotation
             local shipyard_pos = Vector(0, 0, 0)
             local shipyard_rot = Vector(0, 0, 0)
-        
-            -- TODO
+        end
+    end
+end
 
+function resetWondersPos()
+    -- this function is called right after all players have chosen their wonder side 
+    -- and since i like having a steady position for my wonder 
+    -- it doesn't matter if they move it around it will reset to its default position
+
+    for _, player_color in pairs(getSeatedPlayers()) do
+        local players = Global.getTable('PLAYERS')
+
+        local wonder_data = players[string.lower(player_color)]['objects']['wonder']
+
+        -- if the player flipped the wonder it wont reset its rotation
+        local wonder_rot_z = wonder_data['wonder_obj'].getRotation()[3]
+        wonder_data['wonder_obj'].setRotation({
+            wonder_data['wonder_rot'][1],
+            wonder_data['wonder_rot'][2],
+            wonder_rot_z
+        })
+
+        -- setting to the default position
+        wonder_data['wonder_obj'].setPosition(wonder_data['wonder_pos'])
+    end
+end
+
+-- TODO COMMENT
+function nextGamePhase()
+
+    -- choosing wonder side phase
+    if CURRENT_PHASE == 0 then
+        resetWondersPos()
+        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        nextGamePhase()
+
+        return
+    end
+
+    -- start age 1 phase
+    if CURRENT_PHASE == 1 then
+        broadcastToAll("Starting First Age")
+        deck_age1.deal(7)
+
+        return
+    end
+end
+
+-- pass all cards in each players' hand to its left neighbor
+function passLeft()
+    local sorted_colors = Global.call('getPlayersSorted')
+    local cards_in_hands = {}
+
+    -- we first store each hand inside a table
+    for _, color in pairs(sorted_colors) do
+        cards_in_hands[color] = Player[color].getHandObjects()
+    end
+
+    -- and now we iterate through every player in the match to "shift" its hand
+    -- because we are using a standard i for loop we can access both sorted_colors and cards_in_hands
+    for i = 1, #sorted_colors do
+
+        -- this won't give us an out of range error and set the next player as the first one
+        local next_player = i + 1
+        if next_player > #sorted_colors then next_player = 1 end
+
+        -- iterate each card in the i-th hand and set its position the the next player's hand
+        for _, card in pairs(cards_in_hands[sorted_colors[i]]) do
+            local position = Player[sorted_colors[next_player]].getHandTransform().position
+            card.setPosition(position)
+
+            local rotation = Player[sorted_colors[next_player]].getHandTransform().rotation
+            card.setRotation({
+                rotation[1],
+                rotation[2] + 180,
+                rotation[3]
+            })
+        end
+    end
+end
+
+-- pass all cards in each players' hand to its right neighbor
+function passRight()
+    local sorted_colors = Global.call('getPlayersSorted')
+    local cards_in_hands = {}
+
+    -- we first store each hand inside a table
+    for _, color in pairs(sorted_colors) do
+        cards_in_hands[color] = Player[color].getHandObjects()
+    end
+
+    -- and now we iterate through every player in the match to "shift" its hand
+    -- because we are using a standard i for loop we can access both sorted_colors and cards_in_hands
+    for i = #sorted_colors, 1, -1 do
+
+        -- this won't give us an out of range error and set the next player as the first one
+        local next_player = i - 1
+        if next_player <= 0 then next_player = #sorted_colors end
+
+        -- iterate each card in the i-th hand and set its position the the next player's hand
+        for _, card in pairs(cards_in_hands[sorted_colors[i]]) do
+            local position = Player[sorted_colors[next_player]].getHandTransform().position
+            card.setPosition(position)
+
+            local rotation = Player[sorted_colors[next_player]].getHandTransform().rotation
+            card.setRotation({
+                rotation[1],
+                rotation[2] + 180,
+                rotation[3]
+            })
         end
     end
 end
@@ -272,4 +396,14 @@ function wait(time)
     repeat
         coroutine.yield(0)
     until os.time() > start + time
+end
+
+function onChat(msg)
+    if msg == 'left' then
+        passLeft()
+    end
+
+    if msg == 'right' then
+        passRight()
+    end
 end

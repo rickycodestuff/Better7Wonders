@@ -1,78 +1,78 @@
 <!-- ! DEFAULTS -->
 <Defaults>
     <!-- min panel dimensions 268 x 40 | padding 8-->
-    <Panel class = 'panelStatus' id = 'panelStatus'
-        width = '268' 
-        height = '40' 
-        padding = '8' 
-        color = '#000000CC'
-        rectAlignment = 'upperLeft'
-        offsetXY = '148 -20'
-        visibility = 'White|Purple|Yellow|Red|Orange|Blue|Green|Black|Grey'>
+    <Panel id="panelStatus"
+        class="panelStatus" 
+        width="268" 
+        height="40" 
+        padding="8" 
+        color="#000000CC"
+        rectAlignment="upperLeft"
+        offsetXY="148 -20"
+        visibility="White|Purple|Yellow|Red|Orange|Blue|Green|Black|Grey">
     </Panel>
 
-    <Panel class = 'panelPlayerStatus'
-        color = 'red'>
+    <Panel class="panelPlayerStatus"
+        color="red">
     </Panel>
 
-    <TableLayout class = 'tableStatus' id = 'tableStatus'
-        columnWidths = '24 0' 
-        cellSpacing = '8' 
-        offsetXY = '0 -32'>
+    <TableLayout class="tableStatus" id="tableStatus"
+        columnWidths="24 0" 
+        cellSpacing="8" 
+        offsetXY="0 -32">
     </TableLayout>
 
     <!-- min button dimension 252 x 32 | min offsetXY   -->
-    <Button class = 'buttonReady'
-        height = '32'
-        width = '252'
-        fontSize = '18'
-        fontStyle = 'Bold'
-        rectAlignment = 'lowerCenter'
-        onClick = '80fac4/switchStatus'>
+    <Button class="buttonReady"
+        height="32"
+        width="252"
+        fontSize="18"
+        fontStyle="Bold"
+        rectAlignment="lowerCenter"
+        onClick="80fac4/switchStatus">
     </Button>
 
-    <Text class = 'textStatusTitle' 
-        fontSize = '18'
-        fontStyle = 'bold' 
-        color = 'white'
-        alignment='middleCenter'>
+    <Text class="textStatusTitle" 
+        fontSize="18"
+        fontStyle="bold" 
+        color="white"
+        alignment="middleCenter">
     </Text>
 
-    <Text class = 'textPlayerName' 
-        fontSize = '18' 
-        fontStyle = 'Bold'
-        color = 'grey'
-        alignment = 'middleLeft'>
+    <Text class="textPlayerName" 
+        fontSize="18" 
+        fontStyle="Bold"
+        color="grey"
+        alignment="middleLeft">
     </Text>
 
-    <Text class = 'textPlayerStatus'
-        fontSize = '18'
-        fontStyle = 'bold'
-        color = 'white'>
+    <Text class="textPlayerStatus"
+        fontSize="18"
+        fontStyle="bold"
+        color="white">
     </Text>
 
-    <Row class = 'rowTitle' id = 'rowTitle' 
-        preferredHeight = '24'>
+    <Row class="rowTitle" id="rowTitle" 
+        preferredHeight="24">
     </Row>
 
-    <Row class = 'rowPlayer' id = 'rowPlayer' 
-        preferredHeight = '24'>
+    <Row class="rowPlayer" id="rowPlayer" 
+        preferredHeight="24">
     </Row>
 
-    <Row class = 'rowButton' id = 'rowButton' 
-        preferredHeight = '36'>
+    <Row class="rowButton" id="rowButton" 
+        preferredHeight="36">
     </Row>
 
-    <Cell dontUseTableCellBackground = 'true'>
-    </Cell>
+    <Cell dontUseTableCellBackground="true" />
 </Defaults>
 
 <!-- ! MAIN XML -->
-<Panel class = 'panelStatus'>
-    <TableLayout class = 'tableStatus'>
-        <Row class = 'rowTitle'>
-            <Cell columnSpan = '2'>
-                <Text class = 'textStatusTitle' id = 'textStatusTitle'>WAITING TO START MATCH</Text>
+<Panel class="panelStatus">
+    <TableLayout class="tableStatus">
+        <Row class="rowTitle">
+            <Cell columnSpan="2">
+                <Text class="textStatusTitle" id="textStatusTitle">WAITING TO START MATCH</Text>
             </Cell>
         </Row>
         <!-- rows to be filled with players name and status -->

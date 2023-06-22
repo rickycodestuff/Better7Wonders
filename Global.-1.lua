@@ -1,12 +1,24 @@
+-- ! SCRIPTS GUID
+-- i always love to seprate my script in more script to get a cleaer result
+-- and in lua tts this is a bit weird because you can't just create a file.lua and that's it 
+-- you have to create an in-game object and call its fuction using his guid
 STATUS_PANEL_GUID = '80fac4'
+STATUS_PANEL = nil
 
+-- i dont remeber this
 TABLE_HEIGHT = 1.41
 
--- ! OBJECTS PLACEMENT
+-- ! OBJECT PLACEMENTS
 PLAYERS = {
     white = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -101,8 +113,14 @@ PLAYERS = {
     },
 
     purple = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -197,8 +215,14 @@ PLAYERS = {
     },
 
     red = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -293,8 +317,14 @@ PLAYERS = {
     },
 
     yellow = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -389,8 +419,14 @@ PLAYERS = {
     },
 
     green = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -485,8 +521,14 @@ PLAYERS = {
     },
 
     orange = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -581,8 +623,14 @@ PLAYERS = {
     },
 
     blue = {
-        origin = {},
         objects = {
+            wonder = {
+                wonder_obj = nil,
+                wonder_pos = nil,
+                wonder_rot = nil
+            },
+        },
+        stacks = {
             non_buyable_res_stack = {
                 guid_zone = '',
                 origin = nil,
@@ -678,30 +726,32 @@ PLAYERS = {
 }
 
 OBJECTS_OFFSETS = {
-    ['stacks'] = {
-        ['non_buyable_res_stack'] = -16.2,
-        ['brown_res_stack'] = -13.50,
-        ['grey_stack'] = -10.80,
-        ['commerce_stack'] = -8.10,
-        ['blue_stack'] = -5.40,
-        ['war_conflict_stack'] = -2.70,
-        ['naval_conflict_stack'] = 0,
-        ['compass_stack'] = 2.70,
-        ['tablet_stack'] = 5.40,
-        ['gear_stack'] = 8.10,
-        ['green_island_stack'] = 10.80,
-        ['purple_stack'] = 13.50,
-        ['black_stack'] = 16.2,
+    ["stacks"] = {
+        ["non_buyable_res_stack"] = -16.2,
+        ["brown_res_stack"] = -13.50,
+        ["grey_stack"] = -10.80,
+        ["commerce_stack"] = -8.10,
+        ["blue_stack"] = -5.40,
+        ["war_conflict_stack"] = -2.70,
+        ["naval_conflict_stack"] = 0,
+        ["compass_stack"] = 2.70,
+        ["tablet_stack"] = 5.40,
+        ["gear_stack"] = 8.10,
+        ["green_island_stack"] = 10.80,
+        ["purple_stack"] = 13.50,
+        ["black_stack"] = 16.2,
 
-        ['z'] = 41
+        ["z"] = 41
     },
 
-    ['wonder'] = 14,
-    
-    ['coins'] = {
-        x = 5,
-        z = 17.5,
-        padding = -0.80
+    ["card_to_play"] = 48,
+
+    ["wonder"] = 14,
+
+    ["coins"] = {
+        ["x"] = 5,
+        ["z"] = 17.5,
+        ["padding"] = -0.80
     }
 }
 
@@ -709,39 +759,45 @@ OBJECTS_OFFSETS = {
 
 -- base game
 BASE_DECK_GUID = {
-    ['age1'] = {'501ae8', '9b51a7', '6123d4', 'bf52e6', 'a5a6ee'},
-    ['age2'] = {'8e40b9', '1a8f31', 'e96ff5', '912d26', '453cee'},
-    ['age3'] = {'88f04b', '92c03a', 'b0035e', 'c2a4ea', '864847'}
+    ["age1"] = {'501ae8', '9b51a7', '6123d4', 'bf52e6', 'a5a6ee'},
+    ["age2"] = {'8e40b9', '1a8f31', 'e96ff5', '912d26', '453cee'},
+    ["age3"] = {'88f04b', '92c03a', 'b0035e', 'c2a4ea', '864847'}
 }
 
 GUILD_DECK_GUID = 'a5b1c7'
 
 WONDERS_BAGS = {
-    ['base'] = '56d45b',
-    ['leaders'] = '053343',
-    ['cities'] = 'a49969',
-    ['armada'] = 'e1435d',
-    ['edifice'] = 'd9d9c0'
+    ["base"] = '56d45b',
+    ["leaders"] = '053343',
+    ["cities"] = 'a49969',
+    ["armada"] = 'e1435d',
+    ["edifice"] = 'd9d9c0'
 }
 
 COINS_BAGS = {
-    '3f95a5',
-    '3cad45',
-    '9e60c9'
+    ["silver"] = '3f95a5',      -- 1 gold coins
+    ["gold"] =  '3cad45',       -- 3 gold coins
+    ["bronze"] = '9e60c9'       -- 6 gold coins 
 }
 
 -- ! ONLOAD()
 function onLoad(saved_data)
-    STATUS_PANEL = getObjectFromGUID(STATUS_PANEL_GUID)
 
+    -- ! GLOBAL VARIABLES INIT
+    STATUS_PANEL = getObjectFromGUID(STATUS_PANEL_GUID)
+    Global.setVar('STATUS_PANEL', STATUS_PANEL)
+
+    -- ! SETTING SNAP POINTS
+
+    -- ! FUNCTIONS
+    generateSnapPoints()
     calulcateOrigins()
     STATUS_PANEL.call('populateStatusPanel')
+
 end
 
--- ! FUNCTIONS 
--- if you are looking for something it's probably in the onLoad() function 
 function onPlayerChangeColor(player_color)
-
+    generateSnapPoints()
     STATUS_PANEL.call('populateStatusPanel')
 end
 
@@ -755,13 +811,13 @@ function calulcateOrigins()
     for _, color in pairs(getSeatedPlayers()) do
 
         -- for every player we calculate these origins based on its hand transform (position, rotation etc. etc.)
-        local origin = Player[string.lower(color)].getHandTransform(1)
+        local origin = Player[color].getHandTransform(1)
 
         -- a table of offsets for each kind of cards
         local stack_offsets = Global.getTable('OBJECTS_OFFSETS')['stacks']
 
         -- for every kind of stack we then calculate the origin using our offsets
-        for stack_name, _ in pairs(new_stack[string.lower(color)]['objects']) do
+        for stack_name, _ in pairs(new_stack[string.lower(color)]['stacks']) do
 
             -- the origin we are going to calculate
             local stack_origin = Vector(0, 0, 0)
@@ -770,33 +826,76 @@ function calulcateOrigins()
             stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets['z'] + origin.right[3] * stack_offsets[stack_name]
 
             -- in the end we update the origin in our temp table
-            new_stack[string.lower(color)]['objects'][stack_name]['origin'] = stack_origin
+            new_stack[string.lower(color)]['stacks'][stack_name]['origin'] = stack_origin
         end
 
     end
 
     -- lastly we commit the changes to the original table
     Global.setTable('PLAYERS', new_stack)
-
 end
 
-function getValidPlayers()
-    -- the tabletop api only gives u the Player.getPlayers() function wich will return a table of Player instances
-    -- but we only want the players having a "valid colors" 
-    -- so not players in the grey nor black seat
-    local valid_colors = {'White', 'Purple', 'Red', 'Yellow', 'Green', 'Orange', 'Blue'}
-    local valid_players = {}
+-- this function will generate the snap points in front of every player
+function generateSnapPoints()
+    local snap_points_table = {}
 
-    -- we compare every player's color with every valid colors and just append the ones that matches
-    for _, player in pairs(Player.getPlayers()) do
-        for _, color in pairs(valid_colors) do
-            if player.color == color then
-                table.insert(valid_players, player)
-            end
+    for _, color in pairs(getSeatedPlayers()) do
+        -- init of the position and roation of the snap point
+        local snap_point_pos = Vector(0, 0, 0)
+        local snap_point_rot = Vector(0, 0, 0)
+
+        -- we always set the player's hand as our origin
+        local origin = Player[color].getHandTransform()
+        local offset = self.getTable("OBJECTS_OFFSETS")["card_to_play"]
+
+        -- calculating the position of the snap points
+        snap_point_pos[1] = origin.position[1] + (origin.forward[1] * offset)
+        snap_point_pos[2] = TABLE_HEIGHT
+        snap_point_pos[3] = origin.position[3] + (origin.forward[3] * offset)
+
+        -- calculating the rotaton of the snap points
+        snap_point_rot[1] = origin.rotation[1]
+        snap_point_rot[2] = origin.rotation[2] + 180    -- so that will face the center of the table
+        snap_point_rot[3] = origin.rotation[3]
+
+        -- appending each snap point just made
+        table.insert(snap_points_table, {
+            position = snap_point_pos,
+            rotation = snap_point_rot,
+            rotation_snap = true,
+            tags = {"Card"}
+        })
+    end
+
+    -- setting them all at once
+    self.setSnapPoints(snap_points_table)
+end
+
+-- this function helps us regolate the order of seats
+-- since calling getSeatedPlayers() doesn't give us the players in the right oder
+function getPlayersSorted()
+    local players = {}
+
+    -- the turn type should always be custom (type = 2) and it should alwyas be in the correct order
+    -- but just in case we set our defined order
+    if Turns.type == 1 then
+        Turns.type = 2
+        Turns.order = {'White', 'Purple', 'Red', 'Yellow', 'Green', 'Orange', 'Blue'}
+    end
+
+    -- following the order just set we append the matching colors 
+    for _, color in pairs(Turns.order) do
+        if Player[color].seated then
+            players[#players + 1] = color
         end
     end
 
-    -- this is a Player instances table
-    -- its pretty useful because we can get the steam name, the steam id, the color and many other things
-    return valid_players
+    return players
 end
+
+-- ! TESTING
+-- function onChat()
+--     for _, color in pairs(getSeatedPlayers()) do
+--         print(Player[color].steam_name)
+--     end
+-- end
