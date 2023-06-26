@@ -10,744 +10,771 @@ TABLE_HEIGHT = 1.41
 
 -- ! OBJECT PLACEMENTS
 PLAYERS = {
-    white = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["white"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "7a3bce"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    purple = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["purple"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "79713f"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    red = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["red"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "c98713"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    yellow = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["yellow"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "c0c800"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    green = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["green"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "588f73"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    orange = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["orange"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil,
+            ["zone_guid"] = ""
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "4dc5e4"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
         }
     },
 
-    blue = {
-        card_to_play = {
-            card_pos = nil,
-            card_rot = nil
+    ["blue"] = {
+        ["card_to_play"] = {
+            ["card_pos"] = nil,
+            ["card_rot"] = nil
         },
-        objects = {
-            wonder = {
-                wonder_obj = nil,
-                wonder_pos = nil,
-                wonder_rot = nil
+        ["objects"] = {
+            ["wonder"] = {
+                ["wonder_guid"] = "",
+                ["default_pos"] = nil,
+                ["default_rot"] = nil
             },
+            ["menu"] = {
+                ["guid"] = "ed05de"
+            }
         },
-        stacks = {
-            non_buyable_res_stack = {
-                guid_zone = '',
-                origin = nil,
+        ["stacks"] = {
+            ["non_buyable_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            brown_res_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["brown_res_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            grey_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["grey_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            commerce_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["commerce_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            blue_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["blue_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            war_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["war_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            naval_conflict_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["naval_conflict_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            compass_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["compass_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            tablet_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["tablet_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            gear_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["gear_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            green_island_stack = {
-                guid_zone = '',
-                origin =nil,
+            ["green_island_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] =nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            purple_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["purple_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             },
 
-            black_stack = {
-                guid_zone = '',
-                origin = nil,
+            ["black_stack"] = {
+                ["guid_zone"] = '',
+                ["origin"] = nil,
 
-                cards = {}
+                ["cards"] = {}
             }
         }
     }
@@ -783,7 +810,7 @@ OBJECTS_OFFSETS = {
     }
 }
 
--- ! CARDS AND TOKENS GUID
+-- ! ["CARDS"] AND TOKENS GUID
 
 -- base game
 BASE_DECK_GUID = {
@@ -829,37 +856,37 @@ function onPlayerChangeColor(player_color)
     STATUS_PANEL.call('populateStatusPanel')
 end
 
--- one important feature of this mod is the auto placement of cards
--- every single column in a player's board is made for specific kind of cards (not colors)
--- so to make things easier we calculate every origin(x, y, z) for each stack
+-- one important feature of this mod is the auto placement of ["cards"]
+-- every single column in a player's board is made for specific kind of ["cards"] (not colors)
+-- so to make things easier we calculate every ["origin"](x, y, z) for each stack
 function calulcateOrigins()
     -- instaed of editing every value of PLAYERS we'll just use a temp table
     local new_stack = Global.getTable('PLAYERS')
 
     for _, color in pairs(getSeatedPlayers()) do
 
-        -- for every player we calculate these origins based on its hand transform (position, rotation etc. etc.)
+        -- for every player we calculate these ["origin"]s based on its hand transform (position, rotation etc. etc.)
         local origin = Player[color].getHandTransform(1)
 
-        -- a table of offsets for each kind of cards
-        local stack_offsets = Global.getTable('OBJECTS_OFFSETS')['stacks']
+        -- a table of offsets for each kind of ["cards"]
+        local stack_offsets = Global.getTable("OBJECTS_OFFSETS")["stacks"]
 
-        -- for every kind of stack we then calculate the origin using our offsets
+        -- for every kind of stack we then calculate the ["origin"] using our offsets
         for stack_name, _ in pairs(new_stack[string.lower(color)]['stacks']) do
 
-            -- the origin we are going to calculate
+            -- the ["origin"] we are going to calculate
             local stack_origin = Vector(0, 0, 0)
             stack_origin[1] = origin.position[1] + origin.forward[1] * stack_offsets['z'] + origin.right[1] * stack_offsets[stack_name]
             stack_origin[2] = TABLE_HEIGHT
             stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets['z'] + origin.right[3] * stack_offsets[stack_name]
 
-            -- in the end we update the origin in our temp table
-            new_stack[string.lower(color)]['stacks'][stack_name]['origin'] = stack_origin
+            -- in the end we update the ["origin"] in our temp table
+            new_stack[string.lower(color)]['stacks'][stack_name]["origin"] = stack_origin
         end
 
     end
 
-    -- lastly we commit the changes to the original table
+    -- lastly we commit the changes to the ["origin"]al table
     Global.setTable('PLAYERS', new_stack)
 end
 
@@ -873,7 +900,7 @@ function generateSnapPoints()
         local snap_point_pos = Vector(0, 0, 0)
         local snap_point_rot = Vector(0, 0, 0)
 
-        -- we always set the player's hand as our origin
+        -- we always set the player's hand as our ["origin"]
         local origin = Player[color].getHandTransform()
         local offset = self.getTable("OBJECTS_OFFSETS")["card_to_play"]
 
@@ -913,6 +940,88 @@ function generateSnapPoints()
     Global.setTable("PLAYERS", new_players)
 end
 
+-- generate the menu that pops up whenever a player click on the "wonder step" button in his menu
+function populateWonderMenuUI()
+    for _, color in pairs(getSeatedPlayers()) do
+
+        -- TODO REMOVE AFTER TESTING
+        if color ~= "Blue" then
+            return
+        end
+
+        -- getting the wonder object we previously initialized
+        -- TODO REMOVE AFTER TESTING local wonder = Global.getTable("PLAYERS")[string.lower(color)]["["objects"]"]["wonder"]["["wonder_guid"]"]
+        local wonder = getObjectFromGUID("d401ea")
+
+        -- number of steps of current player's wonder
+        -- this will help us make the wonder menu 
+        local steps = nil
+
+        -- if somehow the object isn't a wonder we'll just exit the function
+        if not wonder.hasTag("Wonder") then return end
+
+        -- iterate through every tag looking for the "Step N" tag 
+        -- where N is the number of step for that wonder
+        for _, tag in pairs(wonder.getTags()) do
+            -- check if the tag has both "Step" and a number after
+            if string.find(tag, "Step") ~= nil and tonumber(string.sub(tag, 6, 6)) then
+                steps = tonumber(string.sub(tag, 6, 6))
+            end
+        end
+
+        -- once we've got the number of steps we can go ahead and build the xml menu
+        -- for each "color menu" object we already defined a <TableLayout> so now we'll build every row
+        -- following the schema:
+
+        -- ?    <Row>
+        -- ?        <Cell>    
+        -- ?            <Button>
+        -- ?                <Text>N Step</Text>
+        -- ?            </Button>
+        -- ?        </Cell>
+        -- ?    </Row>
+
+        --  TODO COMMENT
+        local xml_table = self.UI.getXmlTable()
+        local new_children = {}
+
+        for i = 1, steps do
+            local text_tag = {
+                tag = "Text",
+                attributes = {class="textMenu"},
+                value = "Mhanz potente",
+                children = {}
+            }
+
+            local button_tag = {
+                tag = "Button",
+                attributes = {},
+                value = "",
+                children = {text_tag}
+            }
+
+            local cell_tag = {
+                tag = "Cell",
+                attributes = {},
+                value = "",
+                children = {button_tag}
+            }
+
+            local row_tag = {
+                tag = "Row",
+                attributes = {},
+                value = "",
+                children = {cell_tag}
+            }
+
+            new_children[#new_children + 1] = row_tag
+        end
+
+        xml_table[3].children = new_children
+        Global.UI.setXmlTable(xml_table)
+    end
+end
+
 -- this function helps us regolate the order of seats
 -- since calling getSeatedPlayers() doesn't give us the players in the right oder
 function getPlayersSorted()
@@ -936,8 +1045,7 @@ function getPlayersSorted()
 end
 
 function onChat(msg)
-    if msg == "pos and rot" then
-        print(PLAYERS["blue"]["card_to_play"]["card_pos"])
-        print(PLAYERS["blue"]["card_to_play"]["card_rot"])
+    if msg == "test wonder" then
+        populateWonderMenuUI()
     end
 end
