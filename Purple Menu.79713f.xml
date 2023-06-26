@@ -1,0 +1,12 @@
+<Defaults>
+    <Panel class="Menu"
+        height="1700"
+        width="2000"
+        position="0 0 -400"
+        color="#000000CC"
+        visibility="Purple">
+    </Panel>
+</Defaults>
+
+<Panel class="Menu" id="purpleMenu">
+</Panel>
