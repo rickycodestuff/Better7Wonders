@@ -275,11 +275,14 @@ end
 -- because it stores even colors not used, this is just a way to reset it
 -- ! even tho it's not recomended to change seat during the game
 function resetPlayersStatus()
+    GLOBAL_STATUS = false
     PLAYERS_STATUS = {}
 
     for _, seated_color in pairs(getSeatedPlayers()) do
         PLAYERS_STATUS[seated_color] = false
     end
+
+    populateStatusPanel()
 end
 
 -- TODO COMMENT
@@ -291,7 +294,3 @@ function arePlayersReady()
     ALL_READY = true -- TODO maybe remove???
     return true
 end
-
--- ! DEBUG
--- function onChat(msg)
--- end

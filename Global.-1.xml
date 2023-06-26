@@ -12,10 +12,6 @@
         visibility="White|Purple|Yellow|Red|Orange|Blue|Green|Black|Grey">
     </Panel>
 
-    <Panel class="panelPlayerStatus"
-        color="red">
-    </Panel>
-
     <TableLayout class="tableStatus" id="tableStatus"
         columnWidths="24 0" 
         cellSpacing="8" 

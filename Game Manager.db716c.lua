@@ -259,11 +259,11 @@ end
 -- TODO COMMENT
 function nextGamePhase()
 
-    -- choosing wonder side phase
+    -- wonder side phase
     if CURRENT_PHASE == 0 then
-        resetWondersPos()
-        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
         STATUS_PANEL.call("resetPlayersStatus")
+
+        resetWondersPos()
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         nextGamePhase()
@@ -273,11 +273,60 @@ function nextGamePhase()
 
     -- start age 1 phase
     if CURRENT_PHASE == 1 then
+        STATUS_PANEL.call("resetPlayersStatus")
+
         broadcastToAll("Starting First Age")
+        print("Turn : " .. CURRENT_PHASE)
         deck_age1.deal(7)
 
+        CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
+
+    -- from age1 turn 2 to age1 turn 6
+    if CURRENT_PHASE >= 2 and CURRENT_PHASE < 6 then
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        passLeft()
+
+        print("Turn : " .. CURRENT_PHASE)
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    if CURRENT_PHASE == 6 then
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        passLeft()
+        broadcastToAll("Last turn of the First Age", undefined)
+
+        -- TODO SELL LAST CARD
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    if CURRENT_PHASE == 7 then
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        -- TODO
+        broadcastToAll("Resolving military conflict")
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    if CURRENT_PHASE == 8 then
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        broadcastToAll("Starting Second Age")
+        print("Turn : " .. CURRENT_PHASE)
+        deck_age2.deal(7)
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
 end
 
 -- pass all cards in each players' hand to its left neighbor
@@ -405,5 +454,9 @@ function onChat(msg)
 
     if msg == 'right' then
         passRight()
+    end
+
+    if msg == 'force turn' then
+        nextGamePhase()
     end
 end

@@ -11,6 +11,10 @@ TABLE_HEIGHT = 1.41
 -- ! OBJECT PLACEMENTS
 PLAYERS = {
     white = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -113,6 +117,10 @@ PLAYERS = {
     },
 
     purple = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -215,6 +223,10 @@ PLAYERS = {
     },
 
     red = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -317,6 +329,10 @@ PLAYERS = {
     },
 
     yellow = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -419,6 +435,10 @@ PLAYERS = {
     },
 
     green = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -521,6 +541,10 @@ PLAYERS = {
     },
 
     orange = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -623,6 +647,10 @@ PLAYERS = {
     },
 
     blue = {
+        card_to_play = {
+            card_pos = nil,
+            card_rot = nil
+        },
         objects = {
             wonder = {
                 wonder_obj = nil,
@@ -790,8 +818,8 @@ function onLoad(saved_data)
     -- ! SETTING SNAP POINTS
 
     -- ! FUNCTIONS
-    generateSnapPoints()
     calulcateOrigins()
+    generateSnapPoints()
     STATUS_PANEL.call('populateStatusPanel')
 
 end
@@ -838,6 +866,7 @@ end
 -- this function will generate the snap points in front of every player
 function generateSnapPoints()
     local snap_points_table = {}
+    local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
         -- init of the position and roation of the snap point
@@ -855,7 +884,7 @@ function generateSnapPoints()
 
         -- calculating the rotaton of the snap points
         snap_point_rot[1] = origin.rotation[1]
-        snap_point_rot[2] = origin.rotation[2] + 180    -- so that will face the center of the table
+        snap_point_rot[2] = origin.rotation[2] + 180
         snap_point_rot[3] = origin.rotation[3]
 
         -- appending each snap point just made
@@ -865,10 +894,23 @@ function generateSnapPoints()
             rotation_snap = true,
             tags = {"Card"}
         })
+
+        -- once we made this snap point we'll use its position and rotation for the menu of each player
+        local menu_pos = Vector(snap_point_pos)
+        local menu_rot = Vector(snap_point_rot)
+
+        -- editing so the cube to which is attached the panel is lined up underneath the snap point
+        menu_pos[2] = TABLE_HEIGHT - 0.50
+        menu_rot[2] = menu_rot[2] + 180
+
+        -- saving the vectors inside our main players table
+        new_players[string.lower(color)]["card_to_play"]["card_pos"] = menu_pos
+        new_players[string.lower(color)]["card_to_play"]["card_rot"] = menu_rot
     end
 
     -- setting them all at once
     self.setSnapPoints(snap_points_table)
+    Global.setTable("PLAYERS", new_players)
 end
 
 -- this function helps us regolate the order of seats
@@ -893,9 +935,9 @@ function getPlayersSorted()
     return players
 end
 
--- ! TESTING
--- function onChat()
---     for _, color in pairs(getSeatedPlayers()) do
---         print(Player[color].steam_name)
---     end
--- end
+function onChat(msg)
+    if msg == "pos and rot" then
+        print(PLAYERS["blue"]["card_to_play"]["card_pos"])
+        print(PLAYERS["blue"]["card_to_play"]["card_rot"])
+    end
+end
