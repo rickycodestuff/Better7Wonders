@@ -1,12 +1,74 @@
 <Defaults>
-    <Panel class="Menu"
-        height="1700"
-        width="2000"
-        position="0 0 -400"
+    <Panel class="panelMenu"
+        height="1200"
+        width="1700"
+        position="0 0 -200"
         color="#000000CC"
-        visibility="Purple">
+        visibility="Purple"
+        active="true"
+        offsetXY="0 1200"
+        padding="8">
     </Panel>
+
+    <TableLayout class="tableBaseMenu"
+        columnWidths="0"
+        cellSpacing="80"
+        padding="80 80 80 80">
+    </TableLayout>
+
+    <TableLayout class="tableWonderMenu"
+        columnWidths="0"
+        cellSpacing="80"
+        padding="80 80 80 80"
+        active="false">
+    </TableLayout>
+
+    <Button class="buttonPlayCard"
+        onClick="playCard">
+    </Button>
+
+    <Button class="buttonWonderStep"
+        onClick="wonderStep">
+    </Button>
+
+    <Button class="buttonSellCard"
+        onClick="sellCard">
+    </Button>
+
+    <Text class="textMenu"
+        fontsize="120"
+        color="black">
+    </Text>
 </Defaults>
 
-<Panel class="Menu" id="purpleMenu">
+<Panel class="panelMenu" id="purpleMenu">
+    <TableLayout class="tableBaseMenu" id="purpleBaseMenu">
+        <Row>
+            <Cell>
+                <Button class="buttonPlayCard">
+                    <Text class="textMenu">PLAY</Text>
+                </Button>
+            </Cell>
+        </Row>
+
+        <Row>
+            <Cell>
+                <Button class="buttonWonderStep">
+                    <Text class="textMenu">WONDER STEP</Text>
+                </Button>
+            </Cell>
+        </Row>
+
+        <Row>
+            <Cell>
+                <Button class="buttonSellCard">
+                    <Text class="textMenu">SELL</Text>
+                </Button>
+            </Cell>
+        </Row>
+    </TableLayout>
+
+    <TableLayout class="tableWonderMenu" id="purpleWonderMenu">
+    
+    </TableLayout>
 </Panel>

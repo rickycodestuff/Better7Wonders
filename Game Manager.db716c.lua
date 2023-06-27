@@ -1,7 +1,88 @@
 ---@diagnostic disable: lowercase-global
 
 -- ! GLOBAL VARIABLES
-PLAYERS_ORDER = {'White', 'Purple', 'Red', 'Yellow', 'Green', 'Orange', 'Blue'}
+-- TODO COMMENT
+WONDERS = {
+    -- alexandria
+    ["65a7e6"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 3
+        }
+    },
+
+    -- gizah
+    ["066a81"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 4
+        }
+    },
+
+    -- olympia
+    ["79aad5"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 3
+        }
+    },
+
+    -- ephesos
+    ["e12dcb"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 3
+        }
+    },
+
+    -- halikarnas
+    ["e8fab1"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 3
+        }
+    },
+
+    -- rodhos
+    ["455750"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 2
+        }
+    },
+
+    -- babylon
+    ["1b7653"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 2
+        }
+    },
+
+    -- carthagine
+    ["d401ea"] = {
+        ["day"] = {
+            ["steps"] = 3
+        },
+        ["night"] = {
+            ["steps"] = 2
+        }
+    },
+}
 
 GAME_PHASES = {
     ["base"] = {
@@ -191,9 +272,9 @@ function playerBoardSetup()
         -- PLAYERS is a table inside Global and luatts treats it a bit "differnt"
         -- so in order to udpdate we have to overwrite it with a new one
         local new_table = Global.getTable('PLAYERS')
-        new_table[string.lower(color)]['objects']['wonder']['wonder_obj'] = player_wonder
-        new_table[string.lower(color)]['objects']['wonder']['wonder_pos'] = wonder_pos
-        new_table[string.lower(color)]['objects']['wonder']['wonder_rot'] = relative_rot
+        new_table[string.lower(color)]['objects']['wonder']['guid'] = player_wonder.guid
+        new_table[string.lower(color)]['objects']['wonder']['default_pos'] = wonder_pos
+        new_table[string.lower(color)]['objects']['wonder']['default_rot'] = relative_rot
 
         Global.setTable('PLAYERS', new_table)
 
@@ -241,18 +322,19 @@ function resetWondersPos()
     for _, player_color in pairs(getSeatedPlayers()) do
         local players = Global.getTable('PLAYERS')
 
-        local wonder_data = players[string.lower(player_color)]['objects']['wonder']
+        local wonder_data = players[string.lower(player_color)]["objects"]["wonder"]
+        local wonder_obj = getObjectFromGUID(wonder_data["guid"])
 
         -- if the player flipped the wonder it wont reset its rotation
-        local wonder_rot_z = wonder_data['wonder_obj'].getRotation()[3]
-        wonder_data['wonder_obj'].setRotation({
-            wonder_data['wonder_rot'][1],
-            wonder_data['wonder_rot'][2],
+        local wonder_rot_z = wonder_obj.getRotation()[3]
+        wonder_obj.setRotation({
+            wonder_data['default_rot'][1],
+            wonder_data['default_rot'][2],
             wonder_rot_z
         })
 
         -- setting to the default position
-        wonder_data['wonder_obj'].setPosition(wonder_data['wonder_pos'])
+        wonder_obj.setPosition(wonder_data['default_pos'])
     end
 end
 

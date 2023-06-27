@@ -1,32 +1,28 @@
-BLUE_ZONE_GUID = "ed05de"
+BLUE_ZONE_GUID = Global.getTable("PLAYERS")["blue"]["card_to_play"]["zone_guid"]
 
 function onLoad(save_state)
-    self.UI.setAttribute("blueMenu", "active", "true")
-
-    local card_to_play = Global.getTable("PLAYERS")["blue"]["card_to_play"]
-    self.setPosition(card_to_play["card_pos"])
-    self.setRotation(card_to_play["card_rot"])
+    self.UI.setAttribute("blueMenu", "active", "false")
 end
 
 function onObjectEnterZone(zone, object)
     if zone.guid == BLUE_ZONE_GUID then
-        startLuaCoroutine(self, "showMenu")
+        startLuaCoroutine(self, "showMenuUI")
     end
 end
 
 function onObjectLeaveZone(zone, object)
     if zone.guid == BLUE_ZONE_GUID then
-        startLuaCoroutine(self, "hideMenu")
+        startLuaCoroutine(self, "hideMenuUI")
     end
 end
 
-function hideMenu()
+function hideMenuUI()
     coroutine.yield(0)
     self.UI.setAttribute("blueMenu", "active", "false")
     return 1
 end
 
-function showMenu()
+function showMenuUI()
     coroutine.yield(0)
     self.UI.setAttribute("blueMenu", "active", "true")
     return 1
@@ -48,8 +44,7 @@ end
 
 -- ! TESTING
 function onChat(msg)
-    if msg == "show wonder menu" then
-        self.UI.setAttribute("blueBaseMenu", "active", "false")
-        self.UI.setAttribute("blueWonderMenu", "active", "true")
+    if msg == "populate" then
+        populateWonderMenuUI()
     end
 end

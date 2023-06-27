@@ -2,8 +2,11 @@
 -- i always love to seprate my script in more script to get a cleaer result
 -- and in lua tts this is a bit weird because you can't just create a file.lua and that's it 
 -- you have to create an in-game object and call its fuction using his guid
-STATUS_PANEL_GUID = '80fac4'
+STATUS_PANEL_GUID = "80fac4"
 STATUS_PANEL = nil
+
+GAME_MANAGER_GUID = "db716c"
+GAME_MANAGER = nil
 
 -- i dont remeber this
 TABLE_HEIGHT = 1.41
@@ -12,18 +15,18 @@ TABLE_HEIGHT = 1.41
 PLAYERS = {
     ["white"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "80aa1f"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "7a3bce"
+                ["guid"] = "7a3bce",
+                ["pos"] = nil,
+                ["rot"] = nil,
             }
         },
         ["stacks"] = {
@@ -122,18 +125,18 @@ PLAYERS = {
 
     ["purple"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "4dc378"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "79713f"
+                ["guid"] = "79713f",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -232,18 +235,18 @@ PLAYERS = {
 
     ["red"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "ac77c1"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "c98713"
+                ["guid"] = "c98713",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -342,18 +345,18 @@ PLAYERS = {
 
     ["yellow"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "7acf60"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "c0c800"
+                ["guid"] = "c0c800",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -452,18 +455,18 @@ PLAYERS = {
 
     ["green"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "f35770"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "588f73"
+                ["guid"] = "588f73",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -562,18 +565,18 @@ PLAYERS = {
 
     ["orange"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil,
-            ["zone_guid"] = ""
+            ["zone_guid"] = "cade49"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "4dc5e4"
+                ["guid"] = "4dc5e4",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -672,17 +675,18 @@ PLAYERS = {
 
     ["blue"] = {
         ["card_to_play"] = {
-            ["card_pos"] = nil,
-            ["card_rot"] = nil
+            ["zone_guid"] = "ed05de"
         },
         ["objects"] = {
             ["wonder"] = {
-                ["wonder_guid"] = "",
+                ["guid"] = "",
                 ["default_pos"] = nil,
                 ["default_rot"] = nil
             },
             ["menu"] = {
-                ["guid"] = "ed05de"
+                ["guid"] = "2001b2",
+                ["pos"] = nil,
+                ["rot"] = nil
             }
         },
         ["stacks"] = {
@@ -840,6 +844,7 @@ function onLoad(saved_data)
 
     -- ! GLOBAL VARIABLES INIT
     STATUS_PANEL = getObjectFromGUID(STATUS_PANEL_GUID)
+    GAME_MANAGER = getObjectFromGUID(GAME_MANAGER_GUID)
     Global.setVar('STATUS_PANEL', STATUS_PANEL)
 
     -- ! SETTING SNAP POINTS
@@ -893,7 +898,7 @@ end
 -- this function will generate the snap points in front of every player
 function generateSnapPoints()
     local snap_points_table = {}
-    local new_players = Global.getTable("PLAYERS")
+    -- !local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
         -- init of the position and roation of the snap point
@@ -923,49 +928,45 @@ function generateSnapPoints()
         })
 
         -- once we made this snap point we'll use its position and rotation for the menu of each player
-        local menu_pos = Vector(snap_point_pos)
-        local menu_rot = Vector(snap_point_rot)
+        -- !local menu_pos = Vector(snap_point_pos)
+        -- !local menu_rot = Vector(snap_point_rot)
 
         -- editing so the cube to which is attached the panel is lined up underneath the snap point
-        menu_pos[2] = TABLE_HEIGHT - 0.50
-        menu_rot[2] = menu_rot[2] + 180
+        -- !menu_pos[2] = TABLE_HEIGHT - 0.50
+        -- !menu_rot[2] = menu_rot[2] + 180
 
         -- saving the vectors inside our main players table
-        new_players[string.lower(color)]["card_to_play"]["card_pos"] = menu_pos
-        new_players[string.lower(color)]["card_to_play"]["card_rot"] = menu_rot
+        -- !new_players[string.lower(color)]["objects"]["menu"]["pos"] = menu_pos
+        -- !new_players[string.lower(color)]["objects"]["menu"]["rot"] = menu_rot
     end
 
     -- setting them all at once
     self.setSnapPoints(snap_points_table)
-    Global.setTable("PLAYERS", new_players)
+    -- !Global.setTable("PLAYERS", new_players)
 end
 
 -- generate the menu that pops up whenever a player click on the "wonder step" button in his menu
 function populateWonderMenuUI()
     for _, color in pairs(getSeatedPlayers()) do
 
-        -- TODO REMOVE AFTER TESTING
-        if color ~= "Blue" then
-            return
-        end
-
         -- getting the wonder object we previously initialized
-        -- TODO REMOVE AFTER TESTING local wonder = Global.getTable("PLAYERS")[string.lower(color)]["["objects"]"]["wonder"]["["wonder_guid"]"]
-        local wonder = getObjectFromGUID("d401ea")
+        local wonder_guid = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["wonder"]["guid"]
+
+        -- TODO COMMENT
+        local wonders_table = GAME_MANAGER.getTable("WONDERS")
 
         -- number of steps of current player's wonder
         -- this will help us make the wonder menu 
         local steps = nil
 
         -- if somehow the object isn't a wonder we'll just exit the function
-        if not wonder.hasTag("Wonder") then return end
+        -- TODO REMOVE COMMENT if not getObjectFromGUID(wonder_guid).hasTag("Wonder") then return end
 
         -- iterate through every tag looking for the "Step N" tag 
         -- where N is the number of step for that wonder
-        for _, tag in pairs(wonder.getTags()) do
-            -- check if the tag has both "Step" and a number after
-            if string.find(tag, "Step") ~= nil and tonumber(string.sub(tag, 6, 6)) then
-                steps = tonumber(string.sub(tag, 6, 6))
+        for guid, wonder_data in pairs(wonders_table) do
+            if guid == wonder_guid then
+                steps = wonder_data["day"]["steps"] -- TODO GET DAY OR NIGHT
             end
         end
 
@@ -981,15 +982,19 @@ function populateWonderMenuUI()
         -- ?        </Cell>
         -- ?    </Row>
 
-        --  TODO COMMENT
-        local xml_table = self.UI.getXmlTable()
+        -- TODO COMMENT
+        local menu_guid = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["menu"]["guid"]
+        local menu_obj = getObjectFromGUID(menu_guid)
+
+        local xml_table = menu_obj.UI.getXmlTable()
         local new_children = {}
 
+        --  TODO REMOVE COMMENT
         for i = 1, steps do
             local text_tag = {
                 tag = "Text",
                 attributes = {class="textMenu"},
-                value = "Mhanz potente",
+                value = i .. " STEP",
                 children = {}
             }
 
@@ -1017,8 +1022,8 @@ function populateWonderMenuUI()
             new_children[#new_children + 1] = row_tag
         end
 
-        xml_table[3].children = new_children
-        Global.UI.setXmlTable(xml_table)
+        xml_table[2].children[2].children = new_children
+        menu_obj.UI.setXmlTable(xml_table)
     end
 end
 
@@ -1044,8 +1049,22 @@ function getPlayersSorted()
     return players
 end
 
+-- ! used only to set automatically the menu object "inside" the table
+-- ! might come in handy so i'll keep it
+function generateMenus()
+    for _, color in pairs({"White", "Purple", "Red", "Yellow", "Green", "Orange", "Blue"}) do
+        local menu_data = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["menu"]
+        local menu_obj = getObjectFromGUID(menu_data["guid"])
+        local menu_pos = menu_data["pos"]
+        local menu_rot = menu_data["rot"]
+
+        menu_obj.setPosition(menu_pos)
+        menu_obj.setRotation(menu_rot)
+    end
+end
+
 function onChat(msg)
-    if msg == "test wonder" then
+    if msg == "provando" then
         populateWonderMenuUI()
     end
 end

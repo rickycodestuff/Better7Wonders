@@ -4,7 +4,7 @@
         width="1700"
         position="0 0 -200"
         color="#000000CC"
-        visibility="Blue"
+        visibility="Yellow"
         active="true"
         offsetXY="0 1200"
         padding="8">
@@ -41,8 +41,8 @@
     </Text>
 </Defaults>
 
-<Panel class="panelMenu" id="blueMenu">
-    <TableLayout class="tableBaseMenu" id="blueBaseMenu">
+<Panel class="panelMenu" id="yellowMenu">
+    <TableLayout class="tableBaseMenu" id="yellowBaseMenu">
         <Row>
             <Cell>
                 <Button class="buttonPlayCard">
@@ -68,7 +68,7 @@
         </Row>
     </TableLayout>
 
-    <TableLayout class="tableWonderMenu" id="blueWonderMenu">
+    <TableLayout class="tableWonderMenu" id="yellowWonderMenu">
     
     </TableLayout>
 </Panel>
