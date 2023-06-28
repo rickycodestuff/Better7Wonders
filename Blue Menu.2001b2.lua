@@ -19,6 +19,8 @@ end
 function hideMenuUI()
     coroutine.yield(0)
     self.UI.setAttribute("blueMenu", "active", "false")
+
+    startLuaCoroutine(self, "switchToBaseMenu")
     return 1
 end
 
@@ -34,8 +36,29 @@ function playCard()
 end
 
 function wonderStep()
-    self.UI.setAttribute("blueBaseMenu", "active", "false")
-    self.UI.setAttribute("blueWonderMenu", "active", "true")
+    function switchToWonderMenu()
+        coroutine.yield(0)
+
+        self.UI.setAttribute("blueBaseMenu", "active", "false")
+        self.UI.setAttribute("blueWonderMenu", "active", "true")
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "switchToWonderMenu")
+end
+
+function backToMenu()
+    function switchToBaseMenu()
+        coroutine.yield(0)
+
+        self.UI.setAttribute("blueWonderMenu", "active", "false")
+        self.UI.setAttribute("blueBaseMenu", "active", "true")
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "switchToBaseMenu")
 end
 
 function sellCard()
@@ -44,7 +67,4 @@ end
 
 -- ! TESTING
 function onChat(msg)
-    if msg == "populate" then
-        populateWonderMenuUI()
-    end
 end

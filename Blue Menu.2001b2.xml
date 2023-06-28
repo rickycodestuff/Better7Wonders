@@ -7,45 +7,42 @@
         visibility="Blue"
         active="true"
         offsetXY="0 1200"
-        padding="8">
+        padding="44">
     </Panel>
 
     <TableLayout class="tableBaseMenu"
         columnWidths="0"
-        cellSpacing="80"
-        padding="80 80 80 80">
+        cellSpacing="80">
     </TableLayout>
 
-    <TableLayout class="tableWonderMenu"
-        columnWidths="0"
-        cellSpacing="80"
-        padding="80 80 80 80"
+    <HorizontalLayout class="tableWonderMenu"
+        spacing="80"
         active="false">
+    </HorizontalLayout>
+
+    <Button class="buttonBack"
+        minWidth="317"
+        preferredWidth="317">
+    </Button>
+
+    <TableLayout class="tableMenuSteps"
+        preferredWidth="9999"
+        cellSpacing="80">
     </TableLayout>
 
-    <Button class="buttonPlayCard"
-        onClick="playCard">
-    </Button>
-
-    <Button class="buttonWonderStep"
-        onClick="wonderStep">
-    </Button>
-
-    <Button class="buttonSellCard"
-        onClick="sellCard">
-    </Button>
 
     <Text class="textMenu"
         fontsize="120"
         color="black">
     </Text>
+
 </Defaults>
 
 <Panel class="panelMenu" id="blueMenu">
     <TableLayout class="tableBaseMenu" id="blueBaseMenu">
         <Row>
             <Cell>
-                <Button class="buttonPlayCard">
+                <Button class="buttonPlayCard" onClick="playCard">
                     <Text class="textMenu">PLAY</Text>
                 </Button>
             </Cell>
@@ -53,7 +50,7 @@
 
         <Row>
             <Cell>
-                <Button class="buttonWonderStep">
+                <Button class="buttonWonderStep" onClick="wonderStep">
                     <Text class="textMenu">WONDER STEP</Text>
                 </Button>
             </Cell>
@@ -61,14 +58,24 @@
 
         <Row>
             <Cell>
-                <Button class="buttonSellCard">
+                <Button class="buttonSellCard" onClick="sellCard">
                     <Text class="textMenu">SELL</Text>
                 </Button>
             </Cell>
         </Row>
     </TableLayout>
 
-    <TableLayout class="tableWonderMenu" id="blueWonderMenu">
-    
-    </TableLayout>
+    <HorizontalLayout class="tableWonderMenu" id="blueWonderMenu">
+        <Button class="buttonBack" onClick="backToMenu">
+            <Image image="backArrow"
+                height="100"
+                width="100">
+            </Image>
+        </Button>
+
+        <TableLayout class="tableMenuSteps">
+            <!-- wonder steps -->
+        </TableLayout>
+
+    </HorizontalLayout>
 </Panel>

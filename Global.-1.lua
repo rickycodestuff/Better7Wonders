@@ -21,7 +21,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "7a3bce",
@@ -131,7 +132,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "79713f",
@@ -241,7 +243,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "c98713",
@@ -351,7 +354,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "c0c800",
@@ -461,7 +465,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "588f73",
@@ -571,7 +576,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "4dc5e4",
@@ -681,7 +687,8 @@ PLAYERS = {
             ["wonder"] = {
                 ["guid"] = "",
                 ["default_pos"] = nil,
-                ["default_rot"] = nil
+                ["default_rot"] = nil,
+                ["side"] = nil
             },
             ["menu"] = {
                 ["guid"] = "2001b2",
@@ -947,26 +954,23 @@ end
 
 -- generate the menu that pops up whenever a player click on the "wonder step" button in his menu
 function populateWonderMenuUI()
+    local wonders_table = GAME_MANAGER.getTable("WONDERS")
+
     for _, color in pairs(getSeatedPlayers()) do
 
-        -- getting the wonder object we previously initialized
-        local wonder_guid = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["wonder"]["guid"]
-
-        -- TODO COMMENT
-        local wonders_table = GAME_MANAGER.getTable("WONDERS")
-
-        -- number of steps of current player's wonder
-        -- this will help us make the wonder menu 
+        -- the first part of this function will focus on getting the number of step of the player's wonder
+        local player_wonder_data = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["wonder"]
+        local player_wonder_side = player_wonder_data["side"]
         local steps = nil
 
         -- if somehow the object isn't a wonder we'll just exit the function
-        -- TODO REMOVE COMMENT if not getObjectFromGUID(wonder_guid).hasTag("Wonder") then return end
+        if not getObjectFromGUID(player_wonder_data["guid"]).hasTag("Wonder") then return end
 
-        -- iterate through every tag looking for the "Step N" tag 
-        -- where N is the number of step for that wonder
-        for guid, wonder_data in pairs(wonders_table) do
-            if guid == wonder_guid then
-                steps = wonder_data["day"]["steps"] -- TODO GET DAY OR NIGHT
+        -- iterate through every guids to find the one that matches the player's wonder guid
+        -- and getting the steps for that wonder side
+        for guid, global_wonder_data in pairs(wonders_table) do
+            if guid == player_wonder_data["guid"] then
+                steps = global_wonder_data[player_wonder_side]["steps"]
             end
         end
 
@@ -982,49 +986,58 @@ function populateWonderMenuUI()
         -- ?        </Cell>
         -- ?    </Row>
 
-        -- TODO COMMENT
-        local menu_guid = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["menu"]["guid"]
-        local menu_obj = getObjectFromGUID(menu_guid)
-
+        -- getting the menu object linked to the menuUI as well as its xml table
+        local menu_data = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["menu"]
+        local menu_obj = getObjectFromGUID(menu_data["guid"])
         local xml_table = menu_obj.UI.getXmlTable()
+
         local new_children = {}
 
-        --  TODO REMOVE COMMENT
+        -- making n row tag for n steps
         for i = 1, steps do
-            local text_tag = {
+            local text_step = {
                 tag = "Text",
                 attributes = {class="textMenu"},
-                value = i .. " STEP",
+                value = i .. "° STEP",
                 children = {}
             }
 
-            local button_tag = {
+            local button_step = {
                 tag = "Button",
                 attributes = {},
-                value = "",
-                children = {text_tag}
+                children = {text_step}
             }
 
-            local cell_tag = {
+            local cell_step = {
                 tag = "Cell",
                 attributes = {},
-                value = "",
-                children = {button_tag}
+                children = {button_step}
             }
 
-            local row_tag = {
+            local row_step = {
                 tag = "Row",
                 attributes = {},
-                value = "",
-                children = {cell_tag}
+                children = {cell_step}
             }
 
-            new_children[#new_children + 1] = row_tag
+            new_children[#new_children + 1] = row_step
         end
 
-        xml_table[2].children[2].children = new_children
-        menu_obj.UI.setXmlTable(xml_table)
+        -- finally setting the UI
+        xml_table[2].children[2].children[2].children = new_children
+        updateStepsUI(xml_table, menu_obj)
     end
+end
+
+function updateStepsUI(xml, obj)
+    function coinside()
+        coroutine.yield(0)
+        obj.UI.setXmlTable(xml)
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "coinside")
 end
 
 -- this function helps us regolate the order of seats
@@ -1064,7 +1077,7 @@ function generateMenus()
 end
 
 function onChat(msg)
-    if msg == "provando" then
+    if msg == "new layout" then
         populateWonderMenuUI()
     end
 end

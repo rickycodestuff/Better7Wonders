@@ -314,28 +314,39 @@ function playerBoardSetup()
     end
 end
 
-function resetWondersPos()
-    -- this function is called right after all players have chosen their wonder side 
-    -- and since i like having a steady position for my wonder 
-    -- it doesn't matter if they move it around it will reset to its default position
+-- this function is called right after all players have chosen their wonder side 
+-- and since i like having a steady position for my wonder 
+-- it doesn't matter if they move it around it will reset to its default position
+function saveWondersData()
+    local new_players = Global.getTable('PLAYERS')
 
     for _, player_color in pairs(getSeatedPlayers()) do
-        local players = Global.getTable('PLAYERS')
 
-        local wonder_data = players[string.lower(player_color)]["objects"]["wonder"]
+        local wonder_data = new_players[string.lower(player_color)]["objects"]["wonder"]
         local wonder_obj = getObjectFromGUID(wonder_data["guid"])
 
         -- if the player flipped the wonder it wont reset its rotation
         local wonder_rot_z = wonder_obj.getRotation()[3]
         wonder_obj.setRotation({
-            wonder_data['default_rot'][1],
-            wonder_data['default_rot'][2],
+            wonder_data["default_rot"][1],
+            wonder_data["default_rot"][2],
             wonder_rot_z
         })
 
         -- setting to the default position
-        wonder_obj.setPosition(wonder_data['default_pos'])
+        wonder_obj.setPosition(wonder_data["default_pos"])
+
+        -- after placing the wonder we'll save its flip status
+        -- so if the player has flipped its wonder it means that its z axis is now 180
+        -- and since whenever you flip or rotate an object in tts its not very precise we set a range for that 
+        if math.floor(wonder_rot_z) < 182 and math.floor(wonder_rot_z) > 178 then
+            new_players[string.lower(player_color)]["objects"]["wonder"]["side"] = "night"
+        else
+            new_players[string.lower(player_color)]["objects"]["wonder"]["side"] = "day"
+        end
     end
+
+    Global.setTable("PLAYERS", new_players)
 end
 
 -- TODO COMMENT
@@ -345,7 +356,8 @@ function nextGamePhase()
     if CURRENT_PHASE == 0 then
         STATUS_PANEL.call("resetPlayersStatus")
 
-        resetWondersPos()
+        saveWondersData()
+        -- Global.call("populateWonderMenuUI")
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         nextGamePhase()
@@ -530,15 +542,14 @@ function wait(time)
 end
 
 function onChat(msg)
-    if msg == 'left' then
-        passLeft()
-    end
-
-    if msg == 'right' then
-        passRight()
-    end
-
     if msg == 'force turn' then
         nextGamePhase()
+    end
+
+    if msg == "test sides" then
+        for _, color in pairs(getSeatedPlayers()) do
+            local side = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["wonder"]["side"]
+            print(color .. " " .. side)
+        end
     end
 end
