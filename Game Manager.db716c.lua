@@ -1,7 +1,14 @@
 ---@diagnostic disable: lowercase-global
 
--- ! GLOBAL VARIABLES
--- TODO COMMENT
+-- ! IN GAME OBJECTS
+BASE_DECK_GUID = {
+    ["age1"] = {'df6181', 'ab60e5', '0ba410', 'd31232', 'a86148'},
+    ["age2"] = {'10bde5', 'ff4d7e', 'edd70b', 'e64174', '491048'},
+    ["age3"] = {'6d3f26', '73a442', '769796', '468520', 'ddf0ef'}
+}
+
+GUILD_DECK_GUID = 'a99d89'
+
 WONDERS = {
     -- alexandria
     ["65a7e6"] = {
@@ -84,6 +91,20 @@ WONDERS = {
     },
 }
 
+WONDERS_BAGS = {
+    ["base"] = '56d45b',
+    ["leaders"] = '053343',
+    ["cities"] = 'a49969',
+    ["armada"] = 'e1435d',
+    ["edifice"] = 'd9d9c0'
+}
+
+COINS_BAGS = {
+    ["silver"] = 'b6fb06',      -- 1 gold coins
+    ["gold"] =  '366c77',       -- 3 gold coins
+    ["bronze"] = 'f2677a'       -- 6 gold coins 
+}
+
 GAME_PHASES = {
     ["base"] = {
         ["0"] = "CHOOSE WONDER'S SIDE",
@@ -98,9 +119,12 @@ GAME_PHASES = {
 
 CURRENT_PHASE = 0
 
+-- ! FUNCIONTS
+
 function onLoad(save_state)
     -- this is just the init of the other scripts
-    STATUS_PANEL = Global.getVar('STATUS_PANEL')
+    STATUS_PANEL = Global.getVar("STATUS_PANEL")
+    PLAYERS_MENU = Global.getVar("PLAYERS_MENU")
 end
 
 -- ! FUNCTIONS
@@ -112,8 +136,6 @@ function startGameClick()
         startLuaCoroutine(self, 'startGame')
         getObjectFromGUID('163eed').destruct()      -- it'll hide the setup menu
     end
-
-
 end
 
 function startGame()
@@ -141,7 +163,7 @@ function decksSetup()
     -- getting the base decks from our global table
     -- every element in that table is an array in wich we stored every GUID of every decks of the base game
     -- so in the 'age1' array will have the guid for the 3+ players deck, for the 4+ players deck etc. etc.
-    local base_deck = Global.getVar('BASE_DECK_GUID')
+    local base_deck = self.getTable("BASE_DECK_GUID")
 
     -- this function will prepare the decks depending on how many players there are in the match
     -- since its impossible to play in less than 3 players we can already store our base decks
@@ -151,7 +173,7 @@ function decksSetup()
     -- the base deck for age3 its made of the base age3 cards plus N guild cards
     -- so we'll prepare both of them and then join them
     deck_age3 = getObjectFromGUID(base_deck['age3'][1])
-    local deck_guild = getObjectFromGUID(Global.getVar('GUILD_DECK_GUID'))
+    local deck_guild = getObjectFromGUID(GUILD_DECK_GUID)
     
     -- this function will handle all of the extra cards for every extra players
     -- add 4+ cards
@@ -200,8 +222,8 @@ end
 function playerBoardSetup()
     -- in this function we'll prepare everything a player needs to place in his "area"
     -- such as random wonder, coins and stockyard, if armada exp is chosen
-    local wonders_bags = Global.getVar('WONDERS_BAGS')  -- this give us the entire table of wonders guid, each divided for expansion
-    local coins_bag = Global.getVar('COINS_BAGS')
+    local wonders_bags = self.getTable('WONDERS_BAGS')  -- this give us the entire table of wonders guid, each divided for expansion
+    local coins_bag = self.getTable('COINS_BAGS')
 
     local base_wonders_bag = getObjectFromGUID(wonders_bags['base']) -- getting the base game wonders
 
@@ -276,7 +298,7 @@ function playerBoardSetup()
         new_table[string.lower(color)]['objects']['wonder']['default_pos'] = wonder_pos
         new_table[string.lower(color)]['objects']['wonder']['default_rot'] = relative_rot
 
-        Global.setTable('PLAYERS', new_table)
+        Global.setTable("PLAYERS", new_table)
 
         -- initialize our coins position and rotation
         local coins_pos = Vector(0, 0, 0)
@@ -352,12 +374,13 @@ end
 -- TODO COMMENT
 function nextGamePhase()
 
-    -- wonder side phase
+    -- choosing wonder side phase
     if CURRENT_PHASE == 0 then
         STATUS_PANEL.call("resetPlayersStatus")
 
         saveWondersData()
-        -- Global.call("populateWonderMenuUI")
+        PLAYERS_MENU.call("generateMenus")
+        -- ! REMOVE Global.call("populateWonderMenuUI")
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         nextGamePhase()
@@ -365,25 +388,30 @@ function nextGamePhase()
         return
     end
 
-    -- start age 1 phase
+    -- first turn
     if CURRENT_PHASE == 1 then
         STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
         broadcastToAll("Starting First Age")
-        print("Turn : " .. CURRENT_PHASE)
         deck_age1.deal(7)
+        print("Turn : " .. CURRENT_PHASE)
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
 
     -- from age1 turn 2 to age1 turn 6
-    if CURRENT_PHASE >= 2 and CURRENT_PHASE < 6 then
+    if CURRENT_PHASE > 1 and CURRENT_PHASE < 6 then
+        -- TODO resolvePrevTurn()
+        -- TODO resetActions()
+        PLAYERS_MENU.call("generateMenus")
         STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
         passLeft()
-
         print("Turn : " .. CURRENT_PHASE)
+
         CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
@@ -489,6 +517,16 @@ function passRight()
     end
 end
 
+function resetActions()
+    local new_players = Global.getTable("PLAYERS")
+
+    for _, color in pairs(getSeatedPlayers()) do
+        new_players[string.lower(color)]["card_to_play"]["chosen_action"] = ""
+    end
+
+    Global.setTable("PLAYERS", new_players)
+end
+
 -- ! TESTING
 function testCards()
 
@@ -544,12 +582,5 @@ end
 function onChat(msg)
     if msg == 'force turn' then
         nextGamePhase()
-    end
-
-    if msg == "test sides" then
-        for _, color in pairs(getSeatedPlayers()) do
-            local side = Global.getTable("PLAYERS")[string.lower(color)]["objects"]["wonder"]["side"]
-            print(color .. " " .. side)
-        end
     end
 end

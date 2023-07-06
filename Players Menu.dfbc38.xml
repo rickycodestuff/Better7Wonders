@@ -1,0 +1,57 @@
+<Defaults>
+
+    <!-- [defaults attributes for the menu panel]  -->
+    <!-- width = "800" -->
+    <!-- height = "1200" -->
+    <!-- color = "#000000CC" -->
+    <!-- position = "0 0 -250" -->
+    
+    <Panel class="panelMenu"
+        height="800"
+        width="1200"
+        position="0 0 -250"
+        padding="44"
+        color="#000000CC"
+        active="false">
+    </Panel>
+
+    <TableLayout class="tableBaseMenu"
+        columnWidths="0"
+        cellSpacing="80"
+        active = "true">
+    </TableLayout>
+
+    <Button class="buttonChooseAction"
+        color="white">
+    </Button>
+
+    <Text class="textMenu"
+        fontsize="80"
+        fontStyle="bold"
+        color="black">
+    </Text>
+
+    <HorizontalLayout class="tableWonderMenu"
+        spacing="80"
+        active="false">
+    </HorizontalLayout>
+
+    <Button class="buttonBack"
+        minWidth="184"
+        preferredWidth="184">
+    </Button>
+
+    <Image class="imgArrow"
+        height="100"
+        width="100"
+        image="backArrow">
+    </Image>
+
+    <TableLayout class="tableMenuSteps"
+        preferredWidth="9999"
+        cellSpacing="80">
+    </TableLayout>
+</Defaults>
+
+<Panel>
+</Panel>

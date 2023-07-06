@@ -8,6 +8,9 @@ STATUS_PANEL = nil
 GAME_MANAGER_GUID = "db716c"
 GAME_MANAGER = nil
 
+PLAYERS_MENU_GUID = "dfbc38"
+PLAYERS_MENU = nil
+
 -- i dont remeber this
 TABLE_HEIGHT = 1.41
 
@@ -15,7 +18,8 @@ TABLE_HEIGHT = 1.41
 PLAYERS = {
     ["white"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "80aa1f"
+            ["zone_guid"] = "80aa1f",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -126,7 +130,8 @@ PLAYERS = {
 
     ["purple"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "4dc378"
+            ["zone_guid"] = "4dc378",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -237,7 +242,8 @@ PLAYERS = {
 
     ["red"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "ac77c1"
+            ["zone_guid"] = "ac77c1",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -348,7 +354,8 @@ PLAYERS = {
 
     ["yellow"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "7acf60"
+            ["zone_guid"] = "7acf60",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -436,7 +443,7 @@ PLAYERS = {
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -459,7 +466,8 @@ PLAYERS = {
 
     ["green"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "f35770"
+            ["zone_guid"] = "f35770",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -526,7 +534,7 @@ PLAYERS = {
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -547,7 +555,7 @@ PLAYERS = {
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -570,7 +578,8 @@ PLAYERS = {
 
     ["orange"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "cade49"
+            ["zone_guid"] = "cade49",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -637,7 +646,7 @@ PLAYERS = {
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -658,7 +667,7 @@ PLAYERS = {
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -681,7 +690,8 @@ PLAYERS = {
 
     ["blue"] = {
         ["card_to_play"] = {
-            ["zone_guid"] = "ed05de"
+            ["zone_guid"] = "ed05de",
+            ["chosen_action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -748,7 +758,7 @@ PLAYERS = {
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -769,7 +779,7 @@ PLAYERS = {
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
+                ["origin"] = nil,
 
                 ["cards"] = {}
             },
@@ -821,37 +831,13 @@ OBJECTS_OFFSETS = {
     }
 }
 
--- ! ["CARDS"] AND TOKENS GUID
-
--- base game
-BASE_DECK_GUID = {
-    ["age1"] = {'501ae8', '9b51a7', '6123d4', 'bf52e6', 'a5a6ee'},
-    ["age2"] = {'8e40b9', '1a8f31', 'e96ff5', '912d26', '453cee'},
-    ["age3"] = {'88f04b', '92c03a', 'b0035e', 'c2a4ea', '864847'}
-}
-
-GUILD_DECK_GUID = 'a5b1c7'
-
-WONDERS_BAGS = {
-    ["base"] = '56d45b',
-    ["leaders"] = '053343',
-    ["cities"] = 'a49969',
-    ["armada"] = 'e1435d',
-    ["edifice"] = 'd9d9c0'
-}
-
-COINS_BAGS = {
-    ["silver"] = '3f95a5',      -- 1 gold coins
-    ["gold"] =  '3cad45',       -- 3 gold coins
-    ["bronze"] = '9e60c9'       -- 6 gold coins 
-}
-
 -- ! ONLOAD()
 function onLoad(saved_data)
 
     -- ! GLOBAL VARIABLES INIT
     STATUS_PANEL = getObjectFromGUID(STATUS_PANEL_GUID)
     GAME_MANAGER = getObjectFromGUID(GAME_MANAGER_GUID)
+    PLAYERS_MENU = getObjectFromGUID(PLAYERS_MENU_GUID)
     Global.setVar('STATUS_PANEL', STATUS_PANEL)
 
     -- ! SETTING SNAP POINTS
@@ -905,7 +891,7 @@ end
 -- this function will generate the snap points in front of every player
 function generateSnapPoints()
     local snap_points_table = {}
-    -- !local new_players = Global.getTable("PLAYERS")
+    local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
         -- init of the position and roation of the snap point
@@ -935,21 +921,21 @@ function generateSnapPoints()
         })
 
         -- once we made this snap point we'll use its position and rotation for the menu of each player
-        -- !local menu_pos = Vector(snap_point_pos)
-        -- !local menu_rot = Vector(snap_point_rot)
+        local menu_pos = Vector(snap_point_pos)
+        local menu_rot = Vector(snap_point_rot)
 
         -- editing so the cube to which is attached the panel is lined up underneath the snap point
-        -- !menu_pos[2] = TABLE_HEIGHT - 0.50
-        -- !menu_rot[2] = menu_rot[2] + 180
+        menu_pos[2] = TABLE_HEIGHT - 0.50
+        menu_rot[2] = menu_rot[2] + 180
 
         -- saving the vectors inside our main players table
-        -- !new_players[string.lower(color)]["objects"]["menu"]["pos"] = menu_pos
-        -- !new_players[string.lower(color)]["objects"]["menu"]["rot"] = menu_rot
+        new_players[string.lower(color)]["objects"]["menu"]["pos"] = menu_pos
+        new_players[string.lower(color)]["objects"]["menu"]["rot"] = menu_rot
     end
 
     -- setting them all at once
     self.setSnapPoints(snap_points_table)
-    -- !Global.setTable("PLAYERS", new_players)
+    Global.setTable("PLAYERS", new_players)
 end
 
 -- generate the menu that pops up whenever a player click on the "wonder step" button in his menu
@@ -1077,7 +1063,10 @@ function generateMenus()
 end
 
 function onChat(msg)
-    if msg == "new layout" then
-        populateWonderMenuUI()
+    if msg == "actions" then
+        local players = Global.getTable("PLAYERS")
+        for _, color in pairs(getSeatedPlayers()) do
+            print(color .. " " .. players[string.lower(color)]["card_to_play"]["chosen_action"])
+        end
     end
 end
