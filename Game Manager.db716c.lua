@@ -529,6 +529,10 @@ function passRight()
     end
 end
 
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   ACTION FUNCTIONS                                               │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 function resetActions()
     local new_players = Global.getTable("PLAYERS")
 
@@ -539,7 +543,30 @@ function resetActions()
     Global.setTable("PLAYERS", new_players)
 end
 
--- ! TESTING
+-- TODO COMMENT
+function resolvePrevTurn()
+    for _, color in pairs(getSeatedPlayers()) do
+        local player_color = string.lower(color)
+        local zone_data = Global.getTable("PLAYERS")[player_color]["card_to_play"]
+
+        -- TODO if action_data["chosen_action"] == "play" then end
+        -- TODO if action_data["chosen_action"] == "wonder" then end
+        if action_data["chosen_action"] == "sell" then sellCard(zone_data) end
+    end
+end
+
+-- TODO COMMENT
+function sellCard(zone_data)
+    local player_zone = getObjectFromGUID(zone_data["zone_guid"])
+    local card_to_sell = player_zone.getObjects()[1]
+
+    card_to_sell.setPosition({0, 2, 0})
+end
+
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                    TESTING & DEBUG                                               │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 function testCards()
 
     local deck = getObjectFromGUID('501ae8')
@@ -600,5 +627,10 @@ end
 function onChat(msg)
     if msg == 'force turn' then
         nextGamePhase()
+    end
+
+    if msg == "selling test" then
+        local white_zone = Global.getTable("PLAYERS")["white"]["card_to_play"]
+        sellCard(white_zone)
     end
 end

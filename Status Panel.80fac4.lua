@@ -219,12 +219,14 @@ end
 function switchStatus(player, value, id)
     local color = string.lower(player.color)
 
-    -- first early return: if player's can't set their status yet
+    -- to make the code prettier will run through a series of early return
+
+    -- player's can't set their status yet
     if not GLOBAL_STATUS then
         return broadcastToColor("Can't change status right now", player.color)
     end
 
-    -- second early return: if a player hasn't chosen an action yet
+    -- player hasn't chosen an action yet
     local current_phase = GAME_MANAGER.getVar("CURRENT_PHASE")
     local player_action = Global.getTable("PLAYERS")[color]["card_to_play"]["chosen_action"]
 
@@ -232,41 +234,31 @@ function switchStatus(player, value, id)
         return broadcastToColor("You must choose an action inside your menu first", player.color)
     end
 
+    -- player has droped more than one card inside his zone
+    local zone_guid = Global.getTable("PLAYERS")[color]["card_to_play"]["zone_guid"]
+    local zone_obj = getObjectFromGUID(zone_guid)
+
+    if #zone_obj.getObjects() > 1 then
+        return broadcastToColor("You must play only one card inside your zone", player.color)
+    end
+
+    -- TODO player has not X card in his hand
+
+    -- now we can go on with the regular flow of the funcion
+
     -- switch the player status to true -> false and viceversa
     PLAYERS_STATUS[color] = not PLAYERS_STATUS[color]
 
     -- after switching the status now we must update the Status Panel
     updateButtonReadyUI(color)
 
-    -- check if all players are ready
+    -- check if all players are ready to go into the next game phase
     if arePlayersReady() then
         GLOBAL_STATUS = false
         broadcastToAll("All players ready!")
 
         GAME_MANAGER.call("nextGamePhase")
     end
-
-    -- the LuaCoroutine function
-    -- function updateButtonReadyUI()
-
-    --     -- pauses the coroutine to resolve the UI
-    --     coroutine.yield(0)
-
-    --     -- to display the player status we update 
-    --     -- his panel: ✔ = ready and ✘ = not ready (duh)
-    --     Global.UI.setAttribute(player_color .. "BoxStatus", "color", PLAYERS_STATUS[player.color] and 'green' or 'red')
-
-    --     -- the text inside the panel green = ready and red = not ready (duh2)
-    --     Global.UI.setValue(player_color .. "TextStatus", PLAYERS_STATUS[player.color] and '✔' or '✘')
-
-    --     -- and the text on the button just pressed
-    --     Global.UI.setAttribute(player_color .. "ButtonReady", "text", PLAYERS_STATUS[player.color] and 'Undo Ready' or 'Ready')
-
-    --     return 1
-    -- end
-
-    -- since we are going to update the UI better do it using a coroutine
-    -- startLuaCoroutine(self, 'updateButtonReadyUI')
 end
 
 function updateButtonReadyUI(player_color)

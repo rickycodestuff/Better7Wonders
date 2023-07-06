@@ -1069,4 +1069,12 @@ function onChat(msg)
             print(color .. " " .. players[string.lower(color)]["card_to_play"]["chosen_action"])
         end
     end
+
+    if msg == "zone" then
+        local zone = getObjectFromGUID("80aa1f")
+
+        for _, objects in pairs(zone.getObjects()) do
+            print(objects)
+        end
+    end
 end

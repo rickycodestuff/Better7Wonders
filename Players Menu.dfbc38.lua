@@ -187,7 +187,7 @@ function generateMenus()
             attributes = {
                 id = string.lower(color) .. "ButtonSell",
                 class = "buttonChooseAction",
-                onClick = "onClickSellCard"
+                onClick = "onClickActionSell"
             },
             children = {text_button_sell}
         }
@@ -245,7 +245,7 @@ function generateMenus()
             attributes = {
                 id = string.lower(color) .. "ButtonPlay",
                 class = "buttonChooseAction",
-                onClick = "onClickPlayCard"
+                onClick = "onClickActionPlay"
             },
             children = {text_button_play}
         }
@@ -377,7 +377,7 @@ end
 -- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- TODO
-function onClickPlayCard(player, value, id)
+function onClickActionPlay(player, value, id)
     local color = string.lower(player.color)
 
     if self.UI.getAttribute(id, "color") == "white" then
@@ -422,7 +422,7 @@ function onClickSwitchToBaseMenu(player, value, id)
 end
 
 -- TODO 
-function onClickSellCard(player, value, id)
+function onClickActionSell(player, value, id)
     local color = string.lower(player.color)
 
     if self.UI.getAttribute(id, "color") == "white" then
