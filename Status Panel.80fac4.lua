@@ -51,8 +51,8 @@ function populateStatusPanel()
 
         -- this is pretty much for the init of this PLAYERS_STATUS table
         -- so this if statement is saying 'if staus x is nill set it to false'
-        if PLAYERS_STATUS[color] == nil then
-            PLAYERS_STATUS[color] = false
+        if PLAYERS_STATUS[string.lower(color)] == nil then
+            PLAYERS_STATUS[string.lower(color)] = false
         end
 
         -- start reading this from the last table, the row_player  
@@ -61,7 +61,7 @@ function populateStatusPanel()
         local text_player_name = {
             tag            = 'Text',
             attributes     = {class = 'textPlayerName'},
-            value          = Player[color].steam_name, -- TODO change to steam_name 
+            value          = Player[string.lower(color)].steam_name,
             children       = {}
         }
 
@@ -84,7 +84,7 @@ function populateStatusPanel()
                 -- you'll see more of these in my script
                 id = string.lower(color) .. 'TextStatus'
             },
-            value = PLAYERS_STATUS[color] and '✔' or '✘',
+            value = PLAYERS_STATUS[string.lower(color)] and '✔' or '✘',
             children = {}
         }
 
@@ -94,7 +94,7 @@ function populateStatusPanel()
             attributes     = {
                 class = 'panelPlayerStatus', 
                 id = string.lower(color) .. 'BoxStatus',
-                color = PLAYERS_STATUS[color] and 'green' or 'red'   -- ternary operator in lua
+                color = PLAYERS_STATUS[string.lower(color)] and 'green' or 'red'   -- ternary operator in lua
             },
             children       = {text_player_status}
         }
@@ -139,7 +139,7 @@ function populateStatusPanel()
                 attributes = {
                     class = 'buttonReady',
                     id = string.lower(color) .. 'ButtonReady',
-                    text = PLAYERS_STATUS[color] and 'Undo Ready' or 'Ready',
+                    text = PLAYERS_STATUS[string.lower(color)] and 'Undo Ready' or 'Ready',
                     visibility = color
                 },
                 children = {}
@@ -217,13 +217,26 @@ end
 -- this is a "toggle" for the status panel 
 -- it change and shows whenever a player is ready or not 
 function switchStatus(player, value, id)
+    local color = string.lower(player.color)
 
+    -- first early return: if player's can't set their status yet
     if not GLOBAL_STATUS then
         return broadcastToColor("Can't change status right now", player.color)
     end
 
+    -- second early return: if a player hasn't chosen an action yet
+    local current_phase = GAME_MANAGER.getVar("CURRENT_PHASE")
+    local player_action = Global.getTable("PLAYERS")[color]["card_to_play"]["chosen_action"]
+
+    if current_phase > 0 and player_action == nil then
+        return broadcastToColor("You must choose an action inside your menu first", player.color)
+    end
+
     -- switch the player status to true -> false and viceversa
-    PLAYERS_STATUS[player.color] = not PLAYERS_STATUS[player.color]
+    PLAYERS_STATUS[color] = not PLAYERS_STATUS[color]
+
+    -- after switching the status now we must update the Status Panel
+    updateButtonReadyUI(color)
 
     -- check if all players are ready
     if arePlayersReady() then
@@ -234,26 +247,46 @@ function switchStatus(player, value, id)
     end
 
     -- the LuaCoroutine function
-    function updateButtonReadyUI()
+    -- function updateButtonReadyUI()
 
-        -- pauses the coroutine to resolve the UI
+    --     -- pauses the coroutine to resolve the UI
+    --     coroutine.yield(0)
+
+    --     -- to display the player status we update 
+    --     -- his panel: ✔ = ready and ✘ = not ready (duh)
+    --     Global.UI.setAttribute(player_color .. "BoxStatus", "color", PLAYERS_STATUS[player.color] and 'green' or 'red')
+
+    --     -- the text inside the panel green = ready and red = not ready (duh2)
+    --     Global.UI.setValue(player_color .. "TextStatus", PLAYERS_STATUS[player.color] and '✔' or '✘')
+
+    --     -- and the text on the button just pressed
+    --     Global.UI.setAttribute(player_color .. "ButtonReady", "text", PLAYERS_STATUS[player.color] and 'Undo Ready' or 'Ready')
+
+    --     return 1
+    -- end
+
+    -- since we are going to update the UI better do it using a coroutine
+    -- startLuaCoroutine(self, 'updateButtonReadyUI')
+end
+
+function updateButtonReadyUI(player_color)
+    function coinside()
         coroutine.yield(0)
 
         -- to display the player status we update 
         -- his panel: ✔ = ready and ✘ = not ready (duh)
-        Global.UI.setAttribute(string.lower(player.color) .. 'BoxStatus', 'color', PLAYERS_STATUS[player.color] and 'green' or 'red')
+        Global.UI.setAttribute(player_color .. "BoxStatus", "color", PLAYERS_STATUS[player_color] and 'green' or 'red')
 
         -- the text inside the panel green = ready and red = not ready (duh2)
-        Global.UI.setValue(string.lower(player.color) .. 'TextStatus', PLAYERS_STATUS[player.color] and '✔' or '✘')
+        Global.UI.setValue(player_color .. "TextStatus", PLAYERS_STATUS[player_color] and '✔' or '✘')
 
         -- and the text on the button just pressed
-        Global.UI.setAttribute(id, 'text', PLAYERS_STATUS[player.color] and 'Undo Ready' or 'Ready')
+        Global.UI.setAttribute(player_color .. "ButtonReady", "text", PLAYERS_STATUS[player_color] and 'Undo Ready' or 'Ready')
 
         return 1
     end
 
-    -- since we are going to update the UI better do it using a coroutine
-    startLuaCoroutine(self, 'updateButtonReadyUI')
+    startLuaCoroutine(self, "coinside")
 end
 
 function setStatusPanelTitle(title)
@@ -285,7 +318,6 @@ function resetPlayersStatus()
     populateStatusPanel()
 end
 
--- TODO COMMENT
 function arePlayersReady()
     for _, status in pairs(PLAYERS_STATUS) do
         if not status then return false end
@@ -293,4 +325,17 @@ function arePlayersReady()
 
     ALL_READY = true -- TODO maybe remove???
     return true
+end
+
+function wait(time)
+    function coinside()
+        local start = os.time()
+        repeat
+            coroutine.yield(0)
+        until os.time() > start + time
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "coinside")
 end

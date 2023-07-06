@@ -1,6 +1,9 @@
 ---@diagnostic disable: lowercase-global
 
--- ! IN GAME OBJECTS
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   IN-GAME OBJECTS                                                │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 BASE_DECK_GUID = {
     ["age1"] = {'df6181', 'ab60e5', '0ba410', 'd31232', 'a86148'},
     ["age2"] = {'10bde5', 'ff4d7e', 'edd70b', 'e64174', '491048'},
@@ -119,15 +122,16 @@ GAME_PHASES = {
 
 CURRENT_PHASE = 0
 
--- ! FUNCIONTS
-
 function onLoad(save_state)
     -- this is just the init of the other scripts
     STATUS_PANEL = Global.getVar("STATUS_PANEL")
     PLAYERS_MENU = Global.getVar("PLAYERS_MENU")
 end
 
--- ! FUNCTIONS
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   FUNCTIONS                                                      │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 function startGameClick()
     if #getSeatedPlayers() < 3 then
         broadcastToAll("Not enough players", "Red")
@@ -158,6 +162,10 @@ function startGame()
     -- without this the LuaCoroutine will give us an error
     return 1
 end
+
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   SETUP FUNCTIONS                                                │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 function decksSetup()
     -- getting the base decks from our global table
@@ -336,6 +344,10 @@ function playerBoardSetup()
     end
 end
 
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   FUNCTIONS                                                      │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 -- this function is called right after all players have chosen their wonder side 
 -- and since i like having a steady position for my wonder 
 -- it doesn't matter if they move it around it will reset to its default position
@@ -380,7 +392,6 @@ function nextGamePhase()
 
         saveWondersData()
         PLAYERS_MENU.call("generateMenus")
-        -- ! REMOVE Global.call("populateWonderMenuUI")
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         nextGamePhase()
@@ -393,7 +404,8 @@ function nextGamePhase()
         STATUS_PANEL.call("resetPlayersStatus")
         STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
-        broadcastToAll("Starting First Age")
+        wait(2)
+        broadcastToAll("Starting First Age", "Brown")
         deck_age1.deal(7)
         print("Turn : " .. CURRENT_PHASE)
 
@@ -404,7 +416,7 @@ function nextGamePhase()
     -- from age1 turn 2 to age1 turn 6
     if CURRENT_PHASE > 1 and CURRENT_PHASE < 6 then
         -- TODO resolvePrevTurn()
-        -- TODO resetActions()
+        resetActions()
         PLAYERS_MENU.call("generateMenus")
         STATUS_PANEL.call("resetPlayersStatus")
         STATUS_PANEL.setVar("GLOBAL_STATUS", true)
@@ -521,7 +533,7 @@ function resetActions()
     local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
-        new_players[string.lower(color)]["card_to_play"]["chosen_action"] = ""
+        new_players[string.lower(color)]["card_to_play"]["chosen_action"] = nil
     end
 
     Global.setTable("PLAYERS", new_players)
@@ -573,10 +585,16 @@ function testCards()
 end
 
 function wait(time)
-    local start = os.time()
-    repeat
-        coroutine.yield(0)
-    until os.time() > start + time
+    function coinside()
+        local start = os.time()
+        repeat
+            coroutine.yield(0)
+        until os.time() > start + time
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "coinside")
 end
 
 function onChat(msg)

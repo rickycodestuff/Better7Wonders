@@ -1,3 +1,7 @@
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   GLOBAL VARIABLES                                               │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 -- this Players Menu object will create a panel menu for each seated players
 -- so this table will help us position all of these menus 
 -- i would have happily made this as dynamic as possibile but it seems like ther's 
@@ -34,8 +38,13 @@ MENUS_OFFEST = {
 }
 
 function onLoad()
+    STATUS_PANEL = Global.getVar("STATUS_PANEL")
     PLAYERS = Global.getTable("PLAYERS")
 end
+
+-- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+-- │                                                   FUNCTIONS                                                      │
+-- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- automatically generete the Menus for each seated player
 function generateMenus()
@@ -339,7 +348,20 @@ function onObjectLeaveZone(zone, object)
 
         function hidePanelMenu()
             coroutine.yield(0)
+
+            -- first reset the player's action
+            PLAYERS[player_color]["card_to_play"]["chosen_action"] = nil
+            Global.setTable("PLAYERS", PLAYERS)
+
+            -- then reset the status
+            local new_status = STATUS_PANEL.getTable("PLAYERS_STATUS")
+            new_status[player_color] = false
+            STATUS_PANEL.setTable("PLAYERS_STATUS", new_status)
+            STATUS_PANEL.call("updateButtonReadyUI", player_color)
+
+            -- finally hide the menu
             self.UI.setAttribute(player_color .. "PanelMenu", "active", "false")
+
             return 1
         end
 
@@ -423,12 +445,21 @@ function buttonOn(button_id, player_color)
     function coinside()
         coroutine.yield(0)
 
-        -- turn off all the buttons
+        -- first we make sure that the player status is set to false
+        -- so if a player already set their status as true but changed his mind
+        -- by clicking again on another button he'll both turn off his status and set his action
+        -- this way ONLY by clicking on the ready button he'll set his status
+        local new_status = STATUS_PANEL.getTable("PLAYERS_STATUS")
+        new_status[player_color] = false
+        STATUS_PANEL.setTable("PLAYERS_STATUS", new_status)
+        STATUS_PANEL.call("updateButtonReadyUI", player_color)
+
+        -- then turn off all the buttons
         self.UI.setAttribute(player_color .. "ButtonPlay", "color", "white")
         self.UI.setAttribute(player_color .. "ButtonWonder", "color", "white")
         self.UI.setAttribute(player_color .. "ButtonSell", "color", "white")
 
-        -- turn on only the button passed by onClick function
+        -- finally turn on only the button passed by onClick function
         self.UI.setAttribute(button_id, "color", "green")
 
         return 1
@@ -441,7 +472,13 @@ function buttonOff(button_id, player_color)
     function coinside()
         coroutine.yield(0)
 
-        -- turn off only the button passed by onClick function
+        -- first reset the status
+        local new_status = STATUS_PANEL.getTable("PLAYERS_STATUS")
+        new_status[player_color] = false
+        STATUS_PANEL.setTable("PLAYERS_STATUS", new_status)
+        STATUS_PANEL.call("updateButtonReadyUI", player_color)
+
+        -- then turn off only the button passed by onClick function
         self.UI.setAttribute(button_id, "color", "white")
 
         return 1
