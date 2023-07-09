@@ -415,9 +415,8 @@ function nextGamePhase()
 
     -- from age1 turn 2 to age1 turn 6
     if CURRENT_PHASE > 1 and CURRENT_PHASE < 6 then
-        -- TODO resolvePrevTurn()
+        resolvePrevTurn()
         resetActions()
-        PLAYERS_MENU.call("generateMenus")
         STATUS_PANEL.call("resetPlayersStatus")
         STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
@@ -537,7 +536,7 @@ function resetActions()
     local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
-        new_players[string.lower(color)]["card_to_play"]["chosen_action"] = nil
+        new_players[string.lower(color)]["card_zone"]["action"] = nil
     end
 
     Global.setTable("PLAYERS", new_players)
@@ -547,20 +546,89 @@ end
 function resolvePrevTurn()
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
-        local zone_data = Global.getTable("PLAYERS")[player_color]["card_to_play"]
 
-        -- TODO if action_data["chosen_action"] == "play" then end
-        -- TODO if action_data["chosen_action"] == "wonder" then end
-        if action_data["chosen_action"] == "sell" then sellCard(zone_data) end
+        -- init of the player zone and the card placed inside of it
+        local zone_data = Global.getTable("PLAYERS")[player_color]["card_zone"]
+        -- local zone_obj = getObjectFromGUID(zone_data)
+        local card_to_play = getObjectFromGUID(zone_data["guid"]).getObjects()[1]
+
+        print(card_to_play.getName())
+
+        -- swtich case like
+        if zone_data["action"] == "play" then playCardSwitchCase(card_to_play, player_color) end
+
+        -- TODO if zone_data["action"] == "wonder" then end
+
+        if zone_data["action"] == "sell" then sellCard(card_to_play) end
     end
 end
 
--- TODO COMMENT
-function sellCard(zone_data)
-    local player_zone = getObjectFromGUID(zone_data["zone_guid"])
-    local card_to_sell = player_zone.getObjects()[1]
+-- this function only serves as a "switch-like" the the real function under it
+function playCardSwitchCase(card, color)
+    if card.hasTag("NB Resource") then playCard(color, card, "nb_resource") return end -- todo add to game
+    if card.hasTag("Brown") then playCard(color, card, "brown") return end
+    if card.hasTag("Grey") then playCard(color, card, "grey") return end
+    if card.hasTag("Commerce") then playCard(color, card, "commerce") return end
+    if card.hasTag("Blue") then playCard(color, card, "blue") return end
+    if card.hasTag("Military") then playCard(color, card, "military") return end
+    if card.hasTag("Naval") then playCard(color, card, "naval") return end -- todo add to game
+    if card.hasTag("Compass") then playCard(color, card, "compass") return end
+    if card.hasTag("Tablet") then playCard(color, card, "tablet") return end
+    if card.hasTag("Gear") then playCard(color, card, "gear") return end
+    if card.hasTag("Green Island") then playCard(color, card, "green_island") return end -- todo add to game
+    if card.hasTag("Purple") then playCard(color, card, "purple") return end -- todo add to game
+    if card.hasTag("Black") then playCard(color, card, "black") return end -- todo add to game
+end
 
-    card_to_sell.setPosition({0, 2, 0})
+-- place a card in that player[color] area with a given prefix
+function playCard(color, card, stack_prefix)
+    local new_players = Global.getTable("PLAYERS")
+
+    -- if you look at the PLAYERS table inside Global 
+    -- you'll see that every player has a ["stack"] table 
+    -- every element in that table is also a table named like ["something_stack"]
+    -- so to access that stack origin position we first need to buil the stack name
+    -- we do that using that stack_prefix passed as paramater
+    local stack_name = stack_prefix .. "_stack"
+    local card_pos = new_players[string.lower(color)]["stacks"][stack_name]["origin"]
+
+    -- even tho the player has already positioned his card according to his rotation
+    -- we still set the card rotation, for best practice
+    local card_rot = Vector(0, 0, 0)
+    card_rot[1] = Player[color].getHandTransform(1).rotation[1]
+    card_rot[2] = Player[color].getHandTransform(1).rotation[2] + 180
+    card_rot[3] = Player[color].getHandTransform(1).rotation[3]
+
+    -- the lua coroutine for the card placing
+    function coinside()
+        coroutine.yield(0)
+
+        card.setRotation(card_rot)
+        card.setPositionSmooth(card_pos)
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "coinside")
+    -- todo find a way to better lock the card?
+
+end
+
+-- TODO COMMENT
+function sellCard(card)
+    function coinside()
+        coroutine.yield(0)
+
+        -- place card flipped in the discard pile
+        card.setRotation({0, 180, 180})
+        card.setPositionSmooth({0, 2, 0})
+
+        -- TODO give 3 coins
+
+        return 1
+    end
+
+    startLuaCoroutine(self, "coinside")
 end
 
 -- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -569,7 +637,7 @@ end
 
 function testCards()
 
-    local deck = getObjectFromGUID('501ae8')
+    local deck = getObjectFromGUID('df6181')
     local players = Global.getTable('PLAYERS')
 
     local max_cards = {5, 13, 3, 20, 19, 20, 6, 5, 14, 5, 3, 9, 21}
@@ -582,14 +650,15 @@ function testCards()
         relative_rot[2] = Player[color].getHandTransform(1).rotation[2] + 180
         relative_rot[3] = Player[color].getHandTransform(1).rotation[3]
 
-        for name, _ in pairs(players[string.lower(color)]['objects']) do
+        for name, _ in pairs(players[string.lower(color)]["stacks"]) do
             table.insert(stack_names, name)
         end
 
         for i = 1, #max_cards do
             for j = 1, max_cards[i] do
                 local stack_name = stack_names[i]
-                local position = players[string.lower(color)]['objects'][stack_name]['origin']
+                local position = players[string.lower(color)]["stacks"][stack_name]["origin"]
+                print(position)
 
                 position[1] = position[1] + Player[color].getHandTransform(1).forward[1] * - 1
                 position[2] = 2
@@ -598,13 +667,10 @@ function testCards()
                 local card_placed = deck.takeObject({
                     position = position,
                     rotation = relative_rot,
-                    smooth = false,
-                    -- callback_function = function (spawned_object)
-                        -- spawned_object.setLock(true)
-                    -- end
+                    smooth = false
                 })
 
-                wait(1)
+                wait(2)
                 card_placed.setLock(true)
             end
         end
@@ -630,7 +696,16 @@ function onChat(msg)
     end
 
     if msg == "selling test" then
-        local white_zone = Global.getTable("PLAYERS")["white"]["card_to_play"]
-        sellCard(white_zone)
+        local card_test = getObjectFromGUID("b27993")
+        sellCard(card_test)
+    end
+
+    if msg == "playing test" then
+        local card_test = getObjectFromGUID("ce45ae")
+        playCardSwitchCase(card_test, "White")
+    end
+
+    if msg == "card test" then
+        testCards()
     end
 end

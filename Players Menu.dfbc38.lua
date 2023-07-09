@@ -53,6 +53,7 @@ function generateMenus()
     local new_children = {}
 
     for _, color in pairs(getSeatedPlayers()) do
+        print(color)
 
         -- ! GETTING THE STEPS
         -- the first part of this function will focus on getting the number of step of the player's wonder
@@ -307,7 +308,7 @@ end
 function onObjectEnterZone(zone, object)
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
-        local player_zone = PLAYERS[player_color]["card_to_play"]["zone_guid"]
+        local player_zone = PLAYERS[player_color]["card_zone"]["guid"]
 
         function showPanelMenu()
             coroutine.yield(0)
@@ -322,7 +323,7 @@ function onObjectEnterZone(zone, object)
             self.UI.setAttribute(player_color .. "ButtonSell", "color", "white")
 
             -- and obviously reset the player's action
-            PLAYERS[player_color]["card_to_play"]["chosen_action"] = nil
+            PLAYERS[player_color]["card_zone"]["action"] = nil
             Global.setTable("PLAYERS", PLAYERS)
 
             -- finally "refresh" the menu
@@ -344,13 +345,13 @@ end
 function onObjectLeaveZone(zone, object)
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
-        local player_zone = PLAYERS[player_color]["card_to_play"]["zone_guid"]
+        local player_zone = PLAYERS[player_color]["card_zone"]["guid"]
 
         function hidePanelMenu()
             coroutine.yield(0)
 
             -- first reset the player's action
-            PLAYERS[player_color]["card_to_play"]["chosen_action"] = nil
+            PLAYERS[player_color]["card_zone"]["action"] = nil
             Global.setTable("PLAYERS", PLAYERS)
 
             -- then reset the status
@@ -381,14 +382,14 @@ function onClickActionPlay(player, value, id)
     local color = string.lower(player.color)
 
     if self.UI.getAttribute(id, "color") == "white" then
-        PLAYERS[color]["card_to_play"]["chosen_action"] = "play"
+        PLAYERS[color]["card_zone"]["action"] = "play"
         Global.setTable("PLAYERS", PLAYERS)
 
         buttonOn(id, color)
         return
 
     elseif self.UI.getAttribute(id, "color") == "green" then
-        PLAYERS[color]["card_to_play"]["chosen_action"] = nil
+        PLAYERS[color]["card_zone"]["action"] = nil
         Global.setTable("PLAYERS", PLAYERS)
 
         buttonOff(id, color)
@@ -426,14 +427,14 @@ function onClickActionSell(player, value, id)
     local color = string.lower(player.color)
 
     if self.UI.getAttribute(id, "color") == "white" then
-        PLAYERS[color]["card_to_play"]["chosen_action"] = "sell"
+        PLAYERS[color]["card_zone"]["action"] = "sell"
         Global.setTable("PLAYERS", PLAYERS)
 
         buttonOn(id, color)
         return
 
     elseif self.UI.getAttribute(id, "color") == "green" then
-        PLAYERS[color]["card_to_play"]["chosen_action"] = nil
+        PLAYERS[color]["card_zone"]["action"] = nil
         Global.setTable("PLAYERS", PLAYERS)
 
         buttonOff(id, color)
@@ -495,9 +496,37 @@ function onChat(message, player)
     if message == "check actions" then
         for _, color in pairs(getSeatedPlayers()) do
             local player_color = string.lower(color)
-            local player_action = PLAYERS[player_color]["card_to_play"]["chosen_action"]
+            local player_action = PLAYERS[player_color]["card_zone"]["action"]
 
             print(player_color .. " " .. tostring(player_action))
         end
+    end
+
+    if message == "white test menu" then
+        local offset_table = self.getTable("MENUS_OFFEST")
+        local test_xml = self.UI.getXmlTable()
+        local new_children = {}
+
+        local mhanz_tag = {
+            tag = "Panel",
+            attributes = {
+                class = "panelMenu",
+                color = "red",
+                offsetXY = offset_table["purple"]["offsetXY"],
+                rotation = offset_table["purple"]["rotation"],
+            },
+            children = {}
+        }
+
+        new_children[#new_children + 1] = mhanz_tag
+        test_xml[2].children = new_children
+        
+        function coinside()
+            coroutine.yield(0)
+            self.UI.setXmlTable(test_xml)
+            return 1
+        end
+    
+        startLuaCoroutine(self, "coinside")
     end
 end

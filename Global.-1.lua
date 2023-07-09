@@ -17,9 +17,9 @@ TABLE_HEIGHT = 1.41
 -- ! OBJECT PLACEMENTS
 PLAYERS = {
     ["white"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "80aa1f",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "80aa1f",
+            ["action"] = ""
         },
         ["objects"] = {
             ["wonder"] = {
@@ -35,14 +35,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -70,14 +70,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -129,9 +129,9 @@ PLAYERS = {
     },
 
     ["purple"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "4dc378",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "4dc378",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -147,14 +147,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -182,14 +182,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -241,9 +241,9 @@ PLAYERS = {
     },
 
     ["red"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "ac77c1",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "ac77c1",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -259,14 +259,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -294,14 +294,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -353,9 +353,9 @@ PLAYERS = {
     },
 
     ["yellow"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "7acf60",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "7acf60",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -371,14 +371,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -406,14 +406,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -465,9 +465,9 @@ PLAYERS = {
     },
 
     ["green"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "f35770",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "f35770",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -483,14 +483,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -518,14 +518,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -577,9 +577,9 @@ PLAYERS = {
     },
 
     ["orange"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "cade49",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "cade49",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -595,14 +595,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -630,14 +630,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -689,9 +689,9 @@ PLAYERS = {
     },
 
     ["blue"] = {
-        ["card_to_play"] = {
-            ["zone_guid"] = "ed05de",
-            ["chosen_action"] = nil
+        ["card_zone"] = {
+            ["guid"] = "ed05de",
+            ["action"] = nil
         },
         ["objects"] = {
             ["wonder"] = {
@@ -707,14 +707,14 @@ PLAYERS = {
             }
         },
         ["stacks"] = {
-            ["non_buyable_res_stack"] = {
+            ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["brown_res_stack"] = {
+            ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -742,14 +742,14 @@ PLAYERS = {
                 ["cards"] = {}
             },
 
-            ["war_conflict_stack"] = {
+            ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
                 ["cards"] = {}
             },
 
-            ["naval_conflict_stack"] = {
+            ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
 
@@ -803,13 +803,13 @@ PLAYERS = {
 
 OBJECTS_OFFSETS = {
     ["stacks"] = {
-        ["non_buyable_res_stack"] = -16.2,
-        ["brown_res_stack"] = -13.50,
+        ["nb_resource_stack"] = -16.2,
+        ["brown_stack"] = -13.50,
         ["grey_stack"] = -10.80,
         ["commerce_stack"] = -8.10,
         ["blue_stack"] = -5.40,
-        ["war_conflict_stack"] = -2.70,
-        ["naval_conflict_stack"] = 0,
+        ["military_stack"] = -2.70,
+        ["naval_stack"] = 0,
         ["compass_stack"] = 2.70,
         ["tablet_stack"] = 5.40,
         ["gear_stack"] = 8.10,
@@ -820,7 +820,7 @@ OBJECTS_OFFSETS = {
         ["z"] = 41
     },
 
-    ["card_to_play"] = 48,
+    ["card_zone"] = 48,
 
     ["wonder"] = 14,
 
@@ -839,8 +839,6 @@ function onLoad(saved_data)
     GAME_MANAGER = getObjectFromGUID(GAME_MANAGER_GUID)
     PLAYERS_MENU = getObjectFromGUID(PLAYERS_MENU_GUID)
     Global.setVar('STATUS_PANEL', STATUS_PANEL)
-
-    -- ! SETTING SNAP POINTS
 
     -- ! FUNCTIONS
     calulcateOrigins()
@@ -875,7 +873,7 @@ function calulcateOrigins()
             -- the ["origin"] we are going to calculate
             local stack_origin = Vector(0, 0, 0)
             stack_origin[1] = origin.position[1] + origin.forward[1] * stack_offsets['z'] + origin.right[1] * stack_offsets[stack_name]
-            stack_origin[2] = TABLE_HEIGHT
+            stack_origin[2] = TABLE_HEIGHT + 2
             stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets['z'] + origin.right[3] * stack_offsets[stack_name]
 
             -- in the end we update the ["origin"] in our temp table
@@ -900,7 +898,7 @@ function generateSnapPoints()
 
         -- we always set the player's hand as our ["origin"]
         local origin = Player[color].getHandTransform()
-        local offset = self.getTable("OBJECTS_OFFSETS")["card_to_play"]
+        local offset = self.getTable("OBJECTS_OFFSETS")["card_zone"]
 
         -- calculating the position of the snap points
         snap_point_pos[1] = origin.position[1] + (origin.forward[1] * offset)
@@ -1063,10 +1061,10 @@ function generateMenus()
 end
 
 function onChat(msg)
-    if msg == "actions" then
+    if msg == "show actions" then
         local players = Global.getTable("PLAYERS")
         for _, color in pairs(getSeatedPlayers()) do
-            print(color .. " " .. players[string.lower(color)]["card_to_play"]["chosen_action"])
+            print(color .. " " .. tostring(players[string.lower(color)]["card_zone"]["action"]))
         end
     end
 

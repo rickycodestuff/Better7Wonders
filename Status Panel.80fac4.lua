@@ -228,21 +228,22 @@ function switchStatus(player, value, id)
 
     -- player hasn't chosen an action yet
     local current_phase = GAME_MANAGER.getVar("CURRENT_PHASE")
-    local player_action = Global.getTable("PLAYERS")[color]["card_to_play"]["chosen_action"]
+    local player_action = Global.getTable("PLAYERS")[color]["card_zone"]["action"]
 
     if current_phase > 0 and player_action == nil then
         return broadcastToColor("You must choose an action inside your menu first", player.color)
     end
 
     -- player has droped more than one card inside his zone
-    local zone_guid = Global.getTable("PLAYERS")[color]["card_to_play"]["zone_guid"]
+    local zone_guid = Global.getTable("PLAYERS")[color]["card_zone"]["guid"]
     local zone_obj = getObjectFromGUID(zone_guid)
 
-    if #zone_obj.getObjects() > 1 then
-        return broadcastToColor("You must play only one card inside your zone", player.color)
-    end
+    -- if #zone_obj.getObjects() > 1 then
+    --     return broadcastToColor("You must play only one card inside your zone", player.color)
+    -- end
 
     -- TODO player has not X card in his hand
+    -- TODO player dropped a leader card outside the leader recruitment phase
 
     -- now we can go on with the regular flow of the funcion
 
@@ -304,7 +305,7 @@ function resetPlayersStatus()
     PLAYERS_STATUS = {}
 
     for _, seated_color in pairs(getSeatedPlayers()) do
-        PLAYERS_STATUS[seated_color] = false
+        PLAYERS_STATUS[string.lower(seated_color)] = false
     end
 
     populateStatusPanel()
@@ -330,4 +331,12 @@ function wait(time)
     end
 
     startLuaCoroutine(self, "coinside")
+end
+
+function onChat(message, player)
+    if message == "show status" then
+        for color, status in pairs(PLAYERS_STATUS) do
+            print(color .. " " .. tostring(status))
+        end
+    end
 end
