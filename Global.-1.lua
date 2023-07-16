@@ -38,91 +38,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] =nil,
-
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] =nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
         }
@@ -150,84 +137,72 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
-
+                ["origin"] = nil,
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
-
+                ["origin"] = nil,
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
@@ -262,91 +237,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
-
+                ["origin"] = nil,
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] =nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
         }
@@ -374,91 +336,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
-                ["origin"] =nil,
-
+                ["origin"] = nil,
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
         }
@@ -486,91 +435,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
         }
@@ -598,91 +534,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
         }
@@ -710,91 +633,78 @@ PLAYERS = {
             ["nb_resource_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["brown_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["grey_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["commerce_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["blue_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["military_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["naval_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["compass_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["tablet_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["gear_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["green_island_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["purple_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             },
 
             ["black_stack"] = {
                 ["guid_zone"] = '',
                 ["origin"] = nil,
-
                 ["cards"] = {}
             }
         }
@@ -848,6 +758,7 @@ function onLoad(saved_data)
 end
 
 function onPlayerChangeColor(player_color)
+    calulcateOrigins()
     generateSnapPoints()
     STATUS_PANEL.call('populateStatusPanel')
 end
@@ -857,7 +768,7 @@ end
 -- so to make things easier we calculate every ["origin"](x, y, z) for each stack
 function calulcateOrigins()
     -- instaed of editing every value of PLAYERS we'll just use a temp table
-    local new_stack = Global.getTable('PLAYERS')
+    local new_stack = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
 
@@ -868,22 +779,24 @@ function calulcateOrigins()
         local stack_offsets = Global.getTable("OBJECTS_OFFSETS")["stacks"]
 
         -- for every kind of stack we then calculate the ["origin"] using our offsets
-        for stack_name, _ in pairs(new_stack[string.lower(color)]['stacks']) do
+        for stack_name, _ in pairs(new_stack[string.lower(color)]["stacks"]) do
 
             -- the ["origin"] we are going to calculate
             local stack_origin = Vector(0, 0, 0)
-            stack_origin[1] = origin.position[1] + origin.forward[1] * stack_offsets['z'] + origin.right[1] * stack_offsets[stack_name]
+            stack_origin[1] = origin.position[1] + origin.forward[1] * stack_offsets["z"] + origin.right[1] * stack_offsets[stack_name]
             stack_origin[2] = TABLE_HEIGHT + 2
-            stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets['z'] + origin.right[3] * stack_offsets[stack_name]
+            stack_origin[3] = origin.position[3] + origin.forward[3] * stack_offsets["z"] + origin.right[3] * stack_offsets[stack_name]
 
             -- in the end we update the ["origin"] in our temp table
-            new_stack[string.lower(color)]['stacks'][stack_name]["origin"] = stack_origin
+            new_stack[string.lower(color)]["stacks"][stack_name]["origin"] = stack_origin
         end
 
     end
 
-    -- lastly we commit the changes to the ["origin"]al table
-    Global.setTable('PLAYERS', new_stack)
+    -- print(new_stack["white"]["stacks"]["brown_stack"]["origin"])
+
+    -- lastly we commit the changes to the original table
+    Global.setTable("PLAYERS", new_stack)
 end
 
 -- this function will generate the snap points in front of every player
@@ -1073,6 +986,24 @@ function onChat(msg)
 
         for _, objects in pairs(zone.getObjects()) do
             print(objects)
+        end
+    end
+
+    if msg == "test string" then
+        local test_tag = "Commerce"
+        local separator = "[^%s]+"
+        local splitted_string = {}
+
+        -- for str in string.gmatch(test_tag, separator) do
+        --     table.insert(splitted_string, str)
+        -- end
+
+        local card_guid = "643267"
+        local card_obj = getObjectFromGUID(card_guid)
+
+        for i, tag in pairs(card_obj.getTags()) do
+            print(i)
+            print(tag)
         end
     end
 end

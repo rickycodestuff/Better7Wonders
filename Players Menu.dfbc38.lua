@@ -39,7 +39,6 @@ MENUS_OFFEST = {
 
 function onLoad()
     STATUS_PANEL = Global.getVar("STATUS_PANEL")
-    PLAYERS = Global.getTable("PLAYERS")
 end
 
 -- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -53,7 +52,6 @@ function generateMenus()
     local new_children = {}
 
     for _, color in pairs(getSeatedPlayers()) do
-        print(color)
 
         -- ! GETTING THE STEPS
         -- the first part of this function will focus on getting the number of step of the player's wonder
@@ -308,7 +306,8 @@ end
 function onObjectEnterZone(zone, object)
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
-        local player_zone = PLAYERS[player_color]["card_zone"]["guid"]
+        local new_players = Global.getTable("PLAYERS")
+        local player_zone = new_players[player_color]["card_zone"]["guid"]
 
         function showPanelMenu()
             coroutine.yield(0)
@@ -323,8 +322,8 @@ function onObjectEnterZone(zone, object)
             self.UI.setAttribute(player_color .. "ButtonSell", "color", "white")
 
             -- and obviously reset the player's action
-            PLAYERS[player_color]["card_zone"]["action"] = nil
-            Global.setTable("PLAYERS", PLAYERS)
+            new_players[player_color]["card_zone"]["action"] = nil
+            Global.setTable("PLAYERS", new_players)
 
             -- finally "refresh" the menu
             self.UI.setAttribute(player_color .. "WonderMenu", "active", "false")
@@ -345,14 +344,15 @@ end
 function onObjectLeaveZone(zone, object)
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
-        local player_zone = PLAYERS[player_color]["card_zone"]["guid"]
+        local new_players = Global.getTable("PLAYERS")
+        local player_zone = new_players[player_color]["card_zone"]["guid"]
 
         function hidePanelMenu()
             coroutine.yield(0)
 
             -- first reset the player's action
-            PLAYERS[player_color]["card_zone"]["action"] = nil
-            Global.setTable("PLAYERS", PLAYERS)
+            new_players[player_color]["card_zone"]["action"] = nil
+            Global.setTable("PLAYERS", new_players)
 
             -- then reset the status
             local new_status = STATUS_PANEL.getTable("PLAYERS_STATUS")
@@ -377,25 +377,28 @@ end
 -- │                                                   BUTTON FUNCTIONS                                               │
 -- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- TODO
+-- called whenever a player clicks on the Play button 
 function onClickActionPlay(player, value, id)
     local color = string.lower(player.color)
+    local new_players = Global.getTable("PLAYERS")
 
     if self.UI.getAttribute(id, "color") == "white" then
-        PLAYERS[color]["card_zone"]["action"] = "play"
-        Global.setTable("PLAYERS", PLAYERS)
+        new_players[color]["card_zone"]["action"] = "play"
+        Global.setTable("PLAYERS", new_players)
 
         buttonOn(id, color)
         return
 
     elseif self.UI.getAttribute(id, "color") == "green" then
-        PLAYERS[color]["card_zone"]["action"] = nil
-        Global.setTable("PLAYERS", PLAYERS)
+        new_players[color]["card_zone"]["action"] = nil
+        Global.setTable("PLAYERS", new_players)
 
         buttonOff(id, color)
     end
 end
 
+-- called whenever a player clicks on the Wonder button 
+-- switch to the wonder menu where the player can choose what step he wants to build
 function onClickSwitchToWonderMenu(player, value, id)
     local player_color = string.lower(player.color)
 
@@ -409,6 +412,7 @@ function onClickSwitchToWonderMenu(player, value, id)
     startLuaCoroutine(self, "coinside")
 end
 
+-- switch to the base menu
 function onClickSwitchToBaseMenu(player, value, id)
     local player_color = string.lower(player.color)
 
@@ -422,20 +426,21 @@ function onClickSwitchToBaseMenu(player, value, id)
     startLuaCoroutine(self, "coinside")
 end
 
--- TODO 
+-- called whenever a player clicks on the Sell button
 function onClickActionSell(player, value, id)
     local color = string.lower(player.color)
+    local new_players = Global.getTable("PLAYERS")
 
     if self.UI.getAttribute(id, "color") == "white" then
-        PLAYERS[color]["card_zone"]["action"] = "sell"
-        Global.setTable("PLAYERS", PLAYERS)
+        new_players[color]["card_zone"]["action"] = "sell"
+        Global.setTable("PLAYERS", new_players)
 
         buttonOn(id, color)
         return
 
     elseif self.UI.getAttribute(id, "color") == "green" then
-        PLAYERS[color]["card_zone"]["action"] = nil
-        Global.setTable("PLAYERS", PLAYERS)
+        new_players[color]["card_zone"]["action"] = nil
+        Global.setTable("PLAYERS", new_players)
 
         buttonOff(id, color)
     end
@@ -469,6 +474,7 @@ function buttonOn(button_id, player_color)
     startLuaCoroutine(self, "coinside")
 end
 
+-- will turn off every button
 function buttonOff(button_id, player_color)
     function coinside()
         coroutine.yield(0)
@@ -496,7 +502,8 @@ function onChat(message, player)
     if message == "check actions" then
         for _, color in pairs(getSeatedPlayers()) do
             local player_color = string.lower(color)
-            local player_action = PLAYERS[player_color]["card_zone"]["action"]
+            local new_players = Global.getTable("PLAYERS")
+            local player_action = new_players[player_color]["card_zone"]["action"]
 
             print(player_color .. " " .. tostring(player_action))
         end

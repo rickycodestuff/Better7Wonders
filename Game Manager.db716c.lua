@@ -159,6 +159,11 @@ function startGame()
     STATUS_PANEL.setVar('GLOBAL_STATUS', true)
     broadcastToAll("Chose your wonder's side")
 
+    -- ! after this part the rest of the game is managed by
+    -- ! both Game Manager and Status Panel
+    -- ! everytime there's a new turn, Status Panel will call the next game phase
+    -- ! onyl if every players is ready
+
     -- without this the LuaCoroutine will give us an error
     return 1
 end
@@ -301,10 +306,10 @@ function playerBoardSetup()
         -- udpate the PLAYERS table to store the wonder taken
         -- PLAYERS is a table inside Global and luatts treats it a bit "differnt"
         -- so in order to udpdate we have to overwrite it with a new one
-        local new_table = Global.getTable('PLAYERS')
-        new_table[string.lower(color)]['objects']['wonder']['guid'] = player_wonder.guid
-        new_table[string.lower(color)]['objects']['wonder']['default_pos'] = wonder_pos
-        new_table[string.lower(color)]['objects']['wonder']['default_rot'] = relative_rot
+        local new_table = Global.getTable("PLAYERS")
+        new_table[string.lower(color)]["objects"]["wonder"]["guid"] = player_wonder.guid
+        new_table[string.lower(color)]["objects"]["wonder"]["default_pos"] = wonder_pos
+        new_table[string.lower(color)]["objects"]["wonder"]["default_rot"] = relative_rot
 
         Global.setTable("PLAYERS", new_table)
 
@@ -351,7 +356,7 @@ end
 -- this function is called right after all players have chosen their wonder side 
 -- and since i like having a steady position for my wonder 
 -- it doesn't matter if they move it around it will reset to its default position
-function saveWondersData()
+function saveWonderSide()
     local new_players = Global.getTable('PLAYERS')
 
     for _, player_color in pairs(getSeatedPlayers()) do
@@ -383,55 +388,85 @@ function saveWondersData()
     Global.setTable("PLAYERS", new_players)
 end
 
--- TODO COMMENT
+-- since tabletop doesn't have threads
+-- this is our best way to emulate a thread system
+-- this function is called after every player has set their status to ready
+-- it wil go into the next game phase
 function nextGamePhase()
 
-    -- choosing wonder side phase
+    -- the function is called first when all the pòayers have to
+    -- choose their wonder side, so when they all chose we'll enter this if
     if CURRENT_PHASE == 0 then
+
+        -- save the side chosen by the players
+        saveWonderSide()
+
+        -- reset the player status to make them all not ready
         STATUS_PANEL.call("resetPlayersStatus")
 
-        saveWondersData()
+        -- generate a menu actions of each player
         PLAYERS_MENU.call("generateMenus")
 
+        -- skips to the next game phase
         CURRENT_PHASE = CURRENT_PHASE + 1
         nextGamePhase()
 
         return
     end
 
-    -- first turn
+    -- ! AGE I TURN 1
     if CURRENT_PHASE == 1 then
-        STATUS_PANEL.call("resetPlayersStatus")
+
+        broadcastToAll("Starting First Age", "Brown")
+
+        -- makes so players can now set their status 
+        -- since its the beginning of a turn
         STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
-        wait(2)
-        broadcastToAll("Starting First Age", "Brown")
+        -- dealing cards
+        -- todo change n of cards to be dynamic
         deck_age1.deal(7)
-        print("Turn : " .. CURRENT_PHASE)
 
+        -- update game phase so next time nextGamePhase() is called it will
+        -- go into the next game phase
         CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
 
-    -- from age1 turn 2 to age1 turn 6
+    -- ! AGE I TURN 2-3-4-5
+    -- all the turns after the first one (after the last one) are the same
     if CURRENT_PHASE > 1 and CURRENT_PHASE < 6 then
+
+        -- reset everything and makes so players can now set their status
         resolvePrevTurn()
         resetActions()
         STATUS_PANEL.call("resetPlayersStatus")
         STATUS_PANEL.setVar("GLOBAL_STATUS", true)
 
+        -- passing the cards
         passLeft()
+
         print("Turn : " .. CURRENT_PHASE)
 
+        -- update game phase so next time nextGamePhase() is called it will
+        -- go into the next game phase
         CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
 
+    -- ! AGE I LAST TURN
     if CURRENT_PHASE == 6 then
-        STATUS_PANEL.call("resetPlayersStatus")
 
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- passing the cards
         passLeft()
-        broadcastToAll("Last turn of the First Age", undefined)
+
+        broadcastToAll("Last turn of the First Age", "Brown")
 
         -- TODO SELL LAST CARD
 
@@ -439,8 +474,15 @@ function nextGamePhase()
         return
     end
 
+    -- ! END OF AGE I
+    -- ! RESOLVE MILITARY CONFLICT
     if CURRENT_PHASE == 7 then
+
+        -- reset everything
+        resolvePrevTurn()
+        resetActions()
         STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
 
         -- TODO
         broadcastToAll("Resolving military conflict")
@@ -449,17 +491,148 @@ function nextGamePhase()
         return
     end
 
+    -- ! AGE II TURN 1
     if CURRENT_PHASE == 8 then
-        STATUS_PANEL.call("resetPlayersStatus")
 
-        broadcastToAll("Starting Second Age")
-        print("Turn : " .. CURRENT_PHASE)
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        broadcastToAll("Starting Second Age", "Grey")
+
+        -- dealing the cards
         deck_age2.deal(7)
 
         CURRENT_PHASE = CURRENT_PHASE + 1
         return
     end
 
+    -- ! AGE II TURN 2-3-4-5
+    if CURRENT_PHASE > 8 and CURRENT_PHASE < 14 then
+
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- passing the cards
+        passRight()
+
+        print("Turn : " .. CURRENT_PHASE)
+
+        -- update game phase so next time nextGamePhase() is called it will
+        -- go into the next game phase
+        CURRENT_PHASE = CURRENT_PHASE + 1
+    end
+
+    -- ! AGE II LAST TURN
+    if CURRENT_PHASE == 14 then
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- passing the cards
+        passRight()
+
+        broadcastToAll("Last turn of the Second Age", "Grey")
+
+        -- TODO SELL LAST CARD
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+    end
+
+    -- ! END OF AGE II
+    -- ! RESOLVE MILITARY CONFLICT
+    if CURRENT_PHASE == 15 then
+        -- reset everything
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
+
+        -- TODO
+        broadcastToAll("Resolving military conflict")
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    -- ! AGE III TURN 1
+    if CURRENT_PHASE == 16 then
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        broadcastToAll("Starting Third Age", "Yellow")
+
+        -- dealing the cards
+        deck_age3.deal(7)
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    -- ! AGE III TURN 2-3-4-5
+    if CURRENT_PHASE > 16 and CURRENT_PHASE < 22 then
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- passing the cards
+        passLeft()
+
+        print("Turn : " .. CURRENT_PHASE)
+
+        -- update game phase so next time nextGamePhase() is called it will
+        -- go into the next game phase
+        CURRENT_PHASE = CURRENT_PHASE + 1
+    end
+
+    -- ! AGE III LAST TURN
+    if CURRENT_PHASE == 22 then
+        -- reset everything and makes so players can now set their status
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- passing the cards
+        passLeft()
+
+        broadcastToAll("Last turn of the Second Age", "Yellow")
+
+        -- TODO SELL LAST CARD
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+    end
+
+    -- ! END OF AGE III
+    -- ! RESOLVE MILITARY CONFLICT
+    if CURRENT_PHASE == 23 then
+        -- reset everything
+        resolvePrevTurn()
+        resetActions()
+        STATUS_PANEL.call("resetPlayersStatus")
+        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
+
+        -- TODO
+        broadcastToAll("Resolving military conflict")
+
+        CURRENT_PHASE = CURRENT_PHASE + 1
+        return
+    end
+
+    -- ! END OF THE match
+    -- TODO calculate points
 end
 
 -- pass all cards in each players' hand to its left neighbor
@@ -544,60 +717,68 @@ end
 
 -- TODO COMMENT
 function resolvePrevTurn()
+    local new_players = Global.getTable("PLAYERS")
+
     for _, color in pairs(getSeatedPlayers()) do
         local player_color = string.lower(color)
 
-        -- init of the player zone and the card placed inside of it
-        local zone_data = Global.getTable("PLAYERS")[player_color]["card_zone"]
-        -- local zone_obj = getObjectFromGUID(zone_data)
+        -- for each player we'll get his zone data and card he just placed
+        local zone_data = new_players[player_color]["card_zone"]
         local card_to_play = getObjectFromGUID(zone_data["guid"]).getObjects()[1]
 
-        print(card_to_play.getName())
-
-        -- swtich case like
-        if zone_data["action"] == "play" then playCardSwitchCase(card_to_play, player_color) end
-
-        -- TODO if zone_data["action"] == "wonder" then end
-
+        -- using the zone data we'll get the action chosen byt that player
+        -- and call the function bases on that action
+        if zone_data["action"] == "play" then playCardSwitchCase(new_players, card_to_play, player_color) end
+        -- TODO wonder 
         if zone_data["action"] == "sell" then sellCard(card_to_play) end
     end
+
+    Global.setTable("PLAYERS", new_players)
 end
 
 -- this function only serves as a "switch-like" the the real function under it
-function playCardSwitchCase(card, color)
-    if card.hasTag("NB Resource") then playCard(color, card, "nb_resource") return end -- todo add to game
-    if card.hasTag("Brown") then playCard(color, card, "brown") return end
-    if card.hasTag("Grey") then playCard(color, card, "grey") return end
-    if card.hasTag("Commerce") then playCard(color, card, "commerce") return end
-    if card.hasTag("Blue") then playCard(color, card, "blue") return end
-    if card.hasTag("Military") then playCard(color, card, "military") return end
-    if card.hasTag("Naval") then playCard(color, card, "naval") return end -- todo add to game
-    if card.hasTag("Compass") then playCard(color, card, "compass") return end
-    if card.hasTag("Tablet") then playCard(color, card, "tablet") return end
-    if card.hasTag("Gear") then playCard(color, card, "gear") return end
-    if card.hasTag("Green Island") then playCard(color, card, "green_island") return end -- todo add to game
-    if card.hasTag("Purple") then playCard(color, card, "purple") return end -- todo add to game
-    if card.hasTag("Black") then playCard(color, card, "black") return end -- todo add to game
+function playCardSwitchCase(players_table, card, color)
+    if card.hasTag("NB Resource") then playCard(players_table, color, card, "nb_resource") return end -- todo add to game
+    if card.hasTag("Brown") then playCard(players_table, color, card, "brown") return end
+    if card.hasTag("Grey") then playCard(players_table, color, card, "grey") return end
+    if card.hasTag("Commerce") then playCard(players_table, color, card, "commerce") return end
+    if card.hasTag("Blue") then playCard(players_table, color, card, "blue") return end
+    if card.hasTag("Military") then playCard(players_table, color, card, "military") return end
+    if card.hasTag("Naval") then playCard(players_table, color, card, "naval") return end -- todo add to game
+    if card.hasTag("Compass") then playCard(players_table, color, card, "compass") return end
+    if card.hasTag("Tablet") then playCard(players_table, color, card, "tablet") return end
+    if card.hasTag("Gear") then playCard(players_table, color, card, "gear") return end
+    if card.hasTag("Green Island") then playCard(players_table, color, card, "green_island") return end -- todo add to game
+    if card.hasTag("Purple") then playCard(players_table, color, card, "purple") return end -- todo add to game
+    if card.hasTag("Black") then playCard(players_table, color, card, "black") return end -- todo add to game
 end
 
 -- place a card in that player[color] area with a given prefix
-function playCard(color, card, stack_prefix)
-    local new_players = Global.getTable("PLAYERS")
+function playCard(players_table, color, card, stack_prefix)
+    local player_hand = Player[color].getHandTransform(1)
+    local stack_name = stack_prefix .. "_stack"
+    local cards = players_table[color]["stacks"][stack_name]["cards"]
 
     -- if you look at the PLAYERS table inside Global 
     -- you'll see that every player has a ["stack"] table 
     -- every element in that table is also a table named like ["something_stack"]
     -- so to access that stack origin position we first need to buil the stack name
     -- we do that using that stack_prefix passed as paramater
-    local stack_name = stack_prefix .. "_stack"
-    local card_pos = new_players[string.lower(color)]["stacks"][stack_name]["origin"]
+    -- example: 
+    --      stack_prefix = "brown"
+    --      stack_name = "brown" .. "_stack" -> "brownn_stack"
+
+    -- thanks to the stack name we can now access to that stack origin
+    local card_pos = Vector(players_table[color]["stacks"][stack_name]["origin"])
+    card_pos[1] = card_pos[1] + player_hand.forward[1] * #cards * -1
+    card_pos[3] = card_pos[3] + player_hand.forward[3] * #cards * -1
 
     -- even tho the player has already positioned his card according to his rotation
-    -- we still set the card rotation, for best practice
+    -- we still set the card rotation using his rotation, for best practice
     local card_rot = Vector(0, 0, 0)
-    card_rot[1] = Player[color].getHandTransform(1).rotation[1]
-    card_rot[2] = Player[color].getHandTransform(1).rotation[2] + 180
-    card_rot[3] = Player[color].getHandTransform(1).rotation[3]
+    card_rot[1] = player_hand.rotation[1]
+    card_rot[2] = player_hand.rotation[2] + 180
+    card_rot[3] = player_hand.rotation[3]
 
     -- the lua coroutine for the card placing
     function coinside()
@@ -610,8 +791,11 @@ function playCard(color, card, stack_prefix)
     end
 
     startLuaCoroutine(self, "coinside")
-    -- todo find a way to better lock the card?
 
+    -- after placing the card we'll update the table of cads in that stack for that player
+    -- this will come in handy for many features in the mod but most importantly
+    -- it will help us placing the other card in the same column
+    cards[#cards + 1] = card
 end
 
 -- TODO COMMENT
@@ -677,6 +861,16 @@ function testCards()
     end
 end
 
+function testShowPlayersTable()
+    local players = Global.getTable("PLAYERS")["purple"]
+
+    print("Purple")
+    print("chosen action " .. tostring(players["card_zone"]["action"]))
+    print("wonder " .. players["objects"]["wonder"]["guid"])
+    print("origin for brown stack " .. tostring(players["stacks"]["brown_stack"]["origin"]))
+    print()
+end
+
 function wait(time)
     function coinside()
         local start = os.time()
@@ -705,7 +899,21 @@ function onChat(msg)
         playCardSwitchCase(card_test, "White")
     end
 
-    if msg == "card test" then
-        testCards()
+    if msg == "card stack list" then
+        for _, color in pairs(getSeatedPlayers()) do
+            local player_color = string.lower(color)
+            local new_players = Global.getTable("PLAYERS")
+
+            print(player_color)
+            for stack_name, _ in pairs(new_players[player_color]["stacks"]) do
+                if stack_name ~= "purple_stack" or stack_name ~= "black_stack" then
+                    print(stack_name .. " " .. tostring(#new_players[player_color]["stacks"][stack_name]["cards"]))
+                end
+            end
+        end
+    end
+
+    if msg == "show players table" then
+        testShowPlayersTable()
     end
 end
