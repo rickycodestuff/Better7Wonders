@@ -238,9 +238,9 @@ function switchStatus(player, value, id)
     local zone_guid = Global.getTable("PLAYERS")[color]["card_zone"]["guid"]
     local zone_obj = getObjectFromGUID(zone_guid)
 
-    -- if #zone_obj.getObjects() > 1 then
-    --     return broadcastToColor("You must play only one card inside your zone", player.color)
-    -- end
+    if #zone_obj.getObjects() > 1 then
+        return broadcastToColor("You must play only one card inside your zone", player.color)
+    end
 
     -- TODO player has not X card in his hand
     -- TODO player dropped a leader card outside the leader recruitment phase

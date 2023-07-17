@@ -38,6 +38,7 @@ MENUS_OFFEST = {
 }
 
 function onLoad()
+    self.interactable = false
     STATUS_PANEL = Global.getVar("STATUS_PANEL")
 end
 

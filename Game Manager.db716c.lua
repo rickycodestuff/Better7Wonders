@@ -120,7 +120,8 @@ GAME_PHASES = {
     }
 }
 
-CURRENT_PHASE = 0
+CURRENT_AGE = 0
+CURRENT_TURN = 0
 
 function onLoad(save_state)
     -- this is just the init of the other scripts
@@ -155,8 +156,8 @@ function startGame()
     playerBoardSetup()
 
     -- ! CHOOSING THE WONDER SIDE
-    STATUS_PANEL.call('setStatusPanelTitle', "CHOOSE WONDER'S SIDE")
-    STATUS_PANEL.setVar('GLOBAL_STATUS', true)
+    STATUS_PANEL.call("setStatusPanelTitle", "CHOOSE WONDER'S SIDE")
+    STATUS_PANEL.setVar("GLOBAL_STATUS", true)
     broadcastToAll("Chose your wonder's side")
 
     -- ! after this part the rest of the game is managed by
@@ -353,6 +354,138 @@ end
 -- │                                                   FUNCTIONS                                                      │
 -- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
+-- since tabletop doesn't have threads
+-- this is our best way to emulate a thread system
+-- this function is called after every player has set their status to ready
+-- it wil go into the next game phase and resolve the previous one
+function nextGamePhase()
+    -- dynamic variables
+    local cards_to_deal = 7
+    local max_turns = 6
+
+    -- the function is frst called when all the players have to choose their wonder side
+    -- so basically when the turn is stil 0
+    if CURRENT_TURN == 0 then
+        -- storing inside the PLAYERS table the wonder data
+        saveWonderSide()
+
+        -- reset the player status to make them all not ready
+        STATUS_PANEL.call("resetPlayersStatus")
+
+        -- generate a menu actions for each player
+        PLAYERS_MENU.call("generateMenus")
+
+        -- now we are ready to begin the first turn
+        CURRENT_AGE = CURRENT_AGE + 1
+        CURRENT_TURN = CURRENT_TURN + 1
+        nextGamePhase()
+        return
+    end
+
+    -- ! first turn
+    if CURRENT_TURN == 1 then
+        -- updating the status panel title for age and turn
+        local title = "AGE " .. tostring(CURRENT_AGE) .. " - FIRST TURN"
+        STATUS_PANEL.call("setStatusPanelTitle", title)
+
+        -- warning players
+        broadcastToAll("Starting Age " .. tostring(CURRENT_AGE), "Red")
+
+        -- dealing cards based on the current age
+        if CURRENT_AGE == 1 then deck_age1.deal(cards_to_deal) end
+        if CURRENT_AGE == 2 then deck_age2.deal(cards_to_deal) end
+        if CURRENT_AGE == 3 then deck_age3.deal(cards_to_deal) end
+
+        -- makes so players can now set their status 
+        -- since its the beginning of a turn
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- updating the turn so next time the function is called
+        -- it will already be on the correct turn
+        CURRENT_TURN = CURRENT_TURN + 1
+        return
+    end
+
+    -- ! from second to second last turn
+    -- all of the turns between the second and the second last
+    --  follow the same schema, so we'll use only one if statement
+    if CURRENT_TURN >= 2 and CURRENT_TURN < max_turns then
+        -- first we resolve and reset everything on the previous turn
+        resolvePrevTurn()
+
+        -- now that the previous turn is done we can start the new one
+        -- updating the status panel title
+        local title = "AGE " .. tostring(CURRENT_AGE) .. " - TURN " .. tostring(CURRENT_TURN)
+        STATUS_PANEL.call("setStatusPanelTitle", title)
+
+        -- passing the cards depending on the current age
+        -- by rules cards will be passed to the left, except for the second age 
+        if CURRENT_AGE == 2 then passRight() else passLeft() end
+
+        -- then we'll make so players can now set their status again
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- updating the turn same as before
+        CURRENT_TURN = CURRENT_TURN + 1
+        return
+    end
+
+    -- ! last turn
+    if CURRENT_TURN == max_turns then
+        -- same initial schema as the other turns
+        resolvePrevTurn()
+
+        -- now that the previous turn is done we can start the new one
+        -- updating the status panel title
+        local title = "AGE " .. tostring(CURRENT_AGE) .. " - LAST TURN "
+        STATUS_PANEL.call("setStatusPanelTitle", title)
+
+        -- warning players
+        broadcastToAll("Ending of Age " .. tostring(CURRENT_AGE), "Red")
+
+        -- players can now set their status again
+        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
+        -- since this is the last turn of the current age we'll now update
+        -- the current turn again but not for the normal next turn
+        -- the "next turn" will actually be the resolution of the military and naval conflict
+        CURRENT_TURN = CURRENT_TURN + 1
+        return
+    end
+
+    -- ! resolution of military conflict
+    if CURRENT_TURN > max_turns then
+        -- since its the last turn players have to choose only card to play
+        -- the other one will be moved to the discard pile without bonus
+        sellLastCard()
+
+        -- now we can proceed with the resolution
+        resolvePrevTurn()
+
+        -- after the last turn is resolved we can go ahead and start
+        -- the resolution of military conflict
+        local title = "AGE " .. tostring(CURRENT_AGE) .. " - RESOLVING CONFLICT"
+        STATUS_PANEL.call("setStatusPanelTitle", title)
+
+        -- TODO MILITARY CONFLICT
+        -- TODO NAVAL CONFLICT
+
+        -- now that the age is done we'll update both the current age
+        -- and reset the current turn
+        CURRENT_AGE = CURRENT_AGE + 1
+        CURRENT_TURN = 1
+        return
+    end
+
+    if CURRENT_AGE == 4 then
+        -- TODO END OF THE MATCH
+        -- calculate final scores
+
+        broadcastToAll("End of the match!")
+        return
+    end
+end
+
 -- this function is called right after all players have chosen their wonder side 
 -- and since i like having a steady position for my wonder 
 -- it doesn't matter if they move it around it will reset to its default position
@@ -386,253 +519,6 @@ function saveWonderSide()
     end
 
     Global.setTable("PLAYERS", new_players)
-end
-
--- since tabletop doesn't have threads
--- this is our best way to emulate a thread system
--- this function is called after every player has set their status to ready
--- it wil go into the next game phase
-function nextGamePhase()
-
-    -- the function is called first when all the pòayers have to
-    -- choose their wonder side, so when they all chose we'll enter this if
-    if CURRENT_PHASE == 0 then
-
-        -- save the side chosen by the players
-        saveWonderSide()
-
-        -- reset the player status to make them all not ready
-        STATUS_PANEL.call("resetPlayersStatus")
-
-        -- generate a menu actions of each player
-        PLAYERS_MENU.call("generateMenus")
-
-        -- skips to the next game phase
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        nextGamePhase()
-
-        return
-    end
-
-    -- ! AGE I TURN 1
-    if CURRENT_PHASE == 1 then
-
-        broadcastToAll("Starting First Age", "Brown")
-
-        -- makes so players can now set their status 
-        -- since its the beginning of a turn
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- dealing cards
-        -- todo change n of cards to be dynamic
-        deck_age1.deal(7)
-
-        -- update game phase so next time nextGamePhase() is called it will
-        -- go into the next game phase
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE I TURN 2-3-4-5
-    -- all the turns after the first one (after the last one) are the same
-    if CURRENT_PHASE > 1 and CURRENT_PHASE < 6 then
-
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passLeft()
-
-        print("Turn : " .. CURRENT_PHASE)
-
-        -- update game phase so next time nextGamePhase() is called it will
-        -- go into the next game phase
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE I LAST TURN
-    if CURRENT_PHASE == 6 then
-
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passLeft()
-
-        broadcastToAll("Last turn of the First Age", "Brown")
-
-        -- TODO SELL LAST CARD
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! END OF AGE I
-    -- ! RESOLVE MILITARY CONFLICT
-    if CURRENT_PHASE == 7 then
-
-        -- reset everything
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
-
-        -- TODO
-        broadcastToAll("Resolving military conflict")
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE II TURN 1
-    if CURRENT_PHASE == 8 then
-
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        broadcastToAll("Starting Second Age", "Grey")
-
-        -- dealing the cards
-        deck_age2.deal(7)
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE II TURN 2-3-4-5
-    if CURRENT_PHASE > 8 and CURRENT_PHASE < 14 then
-
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passRight()
-
-        print("Turn : " .. CURRENT_PHASE)
-
-        -- update game phase so next time nextGamePhase() is called it will
-        -- go into the next game phase
-        CURRENT_PHASE = CURRENT_PHASE + 1
-    end
-
-    -- ! AGE II LAST TURN
-    if CURRENT_PHASE == 14 then
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passRight()
-
-        broadcastToAll("Last turn of the Second Age", "Grey")
-
-        -- TODO SELL LAST CARD
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-    end
-
-    -- ! END OF AGE II
-    -- ! RESOLVE MILITARY CONFLICT
-    if CURRENT_PHASE == 15 then
-        -- reset everything
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
-
-        -- TODO
-        broadcastToAll("Resolving military conflict")
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE III TURN 1
-    if CURRENT_PHASE == 16 then
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        broadcastToAll("Starting Third Age", "Yellow")
-
-        -- dealing the cards
-        deck_age3.deal(7)
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! AGE III TURN 2-3-4-5
-    if CURRENT_PHASE > 16 and CURRENT_PHASE < 22 then
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passLeft()
-
-        print("Turn : " .. CURRENT_PHASE)
-
-        -- update game phase so next time nextGamePhase() is called it will
-        -- go into the next game phase
-        CURRENT_PHASE = CURRENT_PHASE + 1
-    end
-
-    -- ! AGE III LAST TURN
-    if CURRENT_PHASE == 22 then
-        -- reset everything and makes so players can now set their status
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", true)
-
-        -- passing the cards
-        passLeft()
-
-        broadcastToAll("Last turn of the Second Age", "Yellow")
-
-        -- TODO SELL LAST CARD
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-    end
-
-    -- ! END OF AGE III
-    -- ! RESOLVE MILITARY CONFLICT
-    if CURRENT_PHASE == 23 then
-        -- reset everything
-        resolvePrevTurn()
-        resetActions()
-        STATUS_PANEL.call("resetPlayersStatus")
-        STATUS_PANEL.setVar("GLOBAL_STATUS", false)
-
-        -- TODO
-        broadcastToAll("Resolving military conflict")
-
-        CURRENT_PHASE = CURRENT_PHASE + 1
-        return
-    end
-
-    -- ! END OF THE match
-    -- TODO calculate points
 end
 
 -- pass all cards in each players' hand to its left neighbor
@@ -705,18 +591,13 @@ end
 -- │                                                   ACTION FUNCTIONS                                               │
 -- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-function resetActions()
-    local new_players = Global.getTable("PLAYERS")
-
-    for _, color in pairs(getSeatedPlayers()) do
-        new_players[string.lower(color)]["card_zone"]["action"] = nil
-    end
-
-    Global.setTable("PLAYERS", new_players)
-end
-
 -- TODO COMMENT
 function resolvePrevTurn()
+    -- while the script resolve every action we make sure no players
+    -- can set their status, we won't have any problems like this
+    -- todo maybe move camera to show cards played
+    STATUS_PANEL.setVar("GLOBAL_STATUS", true)
+
     local new_players = Global.getTable("PLAYERS")
 
     for _, color in pairs(getSeatedPlayers()) do
@@ -731,9 +612,16 @@ function resolvePrevTurn()
         if zone_data["action"] == "play" then playCardSwitchCase(new_players, card_to_play, player_color) end
         -- TODO wonder 
         if zone_data["action"] == "sell" then sellCard(card_to_play) end
+
+        -- once we've resolved the chosen actions we can go ahead and reset them
+        -- so the player will be ready to chose his next action on the next turn
+        zone_data["action"] = nil
     end
 
     Global.setTable("PLAYERS", new_players)
+
+    -- lastly since we are going into a new turn we reset the status as well
+    STATUS_PANEL.call("resetPlayersStatus")
 end
 
 -- this function only serves as a "switch-like" the the real function under it
@@ -798,14 +686,14 @@ function playCard(players_table, color, card, stack_prefix)
     cards[#cards + 1] = card
 end
 
--- TODO COMMENT
+-- move the chosen card in the discard pile
 function sellCard(card)
     function coinside()
         coroutine.yield(0)
 
         -- place card flipped in the discard pile
         card.setRotation({0, 180, 180})
-        card.setPositionSmooth({0, 2, 0})
+        card.setPosition({0, 2, 0})
 
         -- TODO give 3 coins
 
@@ -813,6 +701,16 @@ function sellCard(card)
     end
 
     startLuaCoroutine(self, "coinside")
+end
+
+-- called at last turn of each age
+-- move the last card in the player's hand in the discard pile
+function sellLastCard()
+    for _, color in pairs(getSeatedPlayers()) do
+        local player_hand = Player[color].getHandObjects()
+
+        sellCard(player_hand[1])
+    end
 end
 
 -- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -915,5 +813,9 @@ function onChat(msg)
 
     if msg == "show players table" then
         testShowPlayersTable()
+    end
+
+    if msg == "card in hand" then
+        sellLastCard()
     end
 end
