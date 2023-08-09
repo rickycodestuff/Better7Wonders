@@ -793,8 +793,6 @@ function calulcateOrigins()
 
     end
 
-    -- print(new_stack["white"]["stacks"]["brown_stack"]["origin"])
-
     -- lastly we commit the changes to the original table
     Global.setTable("PLAYERS", new_stack)
 end
@@ -867,7 +865,7 @@ function populateWonderMenuUI()
         -- and getting the steps for that wonder side
         for guid, global_wonder_data in pairs(wonders_table) do
             if guid == player_wonder_data["guid"] then
-                steps = global_wonder_data[player_wonder_side]["steps"]
+                steps = #global_wonder_data[player_wonder_side]["steps"]
             end
         end
 
@@ -986,24 +984,6 @@ function onChat(msg)
 
         for _, objects in pairs(zone.getObjects()) do
             print(objects)
-        end
-    end
-
-    if msg == "test string" then
-        local test_tag = "Commerce"
-        local separator = "[^%s]+"
-        local splitted_string = {}
-
-        -- for str in string.gmatch(test_tag, separator) do
-        --     table.insert(splitted_string, str)
-        -- end
-
-        local card_guid = "643267"
-        local card_obj = getObjectFromGUID(card_guid)
-
-        for i, tag in pairs(card_obj.getTags()) do
-            print(i)
-            print(tag)
         end
     end
 end

@@ -13,83 +13,186 @@ BASE_DECK_GUID = {
 GUILD_DECK_GUID = 'a99d89'
 
 WONDERS = {
-    -- alexandria
     ["65a7e6"] = {
+        ["name"] = "Alexandria",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "glass",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 3
+            ["resource"] = "glass",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         }
     },
 
-    -- gizah
     ["066a81"] = {
+        ["name"] = "Gizah",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "stone",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 4
+            ["resource"] = "stone",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {},
+                [4] = {}
+            }
         }
     },
 
-    -- olympia
     ["79aad5"] = {
+        ["name"] = "Olympia",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "clay",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 3
+            ["resource"] = "clay",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         }
     },
 
-    -- ephesos
     ["e12dcb"] = {
+        ["name"] = "Éphesos",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "papyrus",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 3
+            ["resource"] = "papyrus",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         }
     },
 
-    -- halikarnas
     ["e8fab1"] = {
+        ["name"] = "Halikarnassos",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "loom",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 3
+            ["resource"] = "loom",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         }
     },
 
-    -- rodhos
     ["455750"] = {
+        ["name"] = "Rhodes",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "ore",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 2
+            ["resource"] = "ore",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+            }
         }
     },
 
-    -- babylon
     ["1b7653"] = {
+        ["name"] = "Babylon",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "wood",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 2
+            ["resource"] = "wood",
+            ["steps"] = {
+                [1] = {},
+                [2] = {},
+            }
         }
     },
 
-    -- carthagine
     ["d401ea"] = {
+        ["name"] = "Carthagine",
+
         ["day"] = {
-            ["steps"] = 3
+            ["resource"] = "ore",
+            ["steps"] = {
+                [1] = {},
+                [2] = {
+                    [1] = {},
+                    [2] = {}
+                },
+                [3] = {}
+            }
         },
+
         ["night"] = {
-            ["steps"] = 2
+            ["resource"] = "ore",
+            ["steps"] = {
+                [1] = {
+                    [1] = {},
+                    [2] = {}
+                },
+                [2] = {
+                    [1] = {},
+                    [2] = {}
+                },
+            }
         }
     },
 }

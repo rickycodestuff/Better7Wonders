@@ -68,7 +68,7 @@ function generateMenus()
         -- and getting the steps for that wonder side 
         for guid, global_wonder_data in pairs(wonders_table) do
             if guid == player_wonder_data["guid"] then
-                steps = global_wonder_data[player_wonder_side]["steps"]
+                steps = #global_wonder_data[player_wonder_side]["steps"]
             end
         end
 
@@ -126,7 +126,11 @@ function generateMenus()
 
             local button_step = {
                 tag = "Button",
-                attributes = {},
+                attributes = {
+                    id = string.lower(color) .. "WonderStep" .. i,
+                    class = "buttonChooseAction",
+                    onClick = "onClickBuildWonderStep"
+                },
                 children = {text_button_step}
             }
 
@@ -427,6 +431,25 @@ function onClickSwitchToBaseMenu(player, value, id)
     startLuaCoroutine(self, "coinside")
 end
 
+-- TODO COMMENT
+function onClickBuildWonderStep(player, value, id)
+    local color = string.lower(player.color)
+    local new_players = Global.getTable("PLAYERS")
+
+    if self.UI.getAttribute(id, "color") == "white" then
+        new_players[color]["card_zone"]["action"] = "wonder"
+        Global.setTable("PLAYERS", new_players)
+
+        buttonOn(id, color)
+
+    elseif self.UI.getAttribute(id, "color") == "green" then
+        new_players[color]["card_zone"]["action"] = nil
+        Global.setTable("PLAYERS", new_players)
+
+        buttonOff(id, color)
+    end
+end
+
 -- called whenever a player clicks on the Sell button
 function onClickActionSell(player, value, id)
     local color = string.lower(player.color)
@@ -466,8 +489,33 @@ function buttonOn(button_id, player_color)
         self.UI.setAttribute(player_color .. "ButtonWonder", "color", "white")
         self.UI.setAttribute(player_color .. "ButtonSell", "color", "white")
 
+        -- to turn off all the wonder steps button we'll have to work harder
+        local wonders_table = Global.getVar("GAME_MANAGER").getTable("WONDERS")
+        local player_wonder_data = Global.getTable("PLAYERS")[player_color]["objects"]["wonder"]
+        local player_wonder_side = player_wonder_data["side"]
+        local steps= nil
+
+        -- we first need to get the steps for that player's wonder
+        for guid, global_wonder_data in pairs(wonders_table) do
+            if guid == player_wonder_data["guid"] then
+                steps = #global_wonder_data[player_wonder_side]["steps"]
+            end
+        end
+
+        -- and then turn off every WonderStep-i button
+        for i = 1, steps do
+            local button_step = player_color .. "WonderStep" .. i
+            self.UI.setAttribute(button_step, "color", "white")
+        end
+
         -- finally turn on only the button passed by onClick function
         self.UI.setAttribute(button_id, "color", "green")
+
+        -- and if the button passed by args is a wonderStep button we also want
+        -- to turn on the Wonder button, to do so we'll have to do some string manipulation
+        if button_id:sub(1, #button_id - 1) == player_color .. "WonderStep" then
+            self.UI.setAttribute(player_color .. "ButtonWonder", "color", "green")
+        end
 
         return 1
     end
@@ -486,8 +534,29 @@ function buttonOff(button_id, player_color)
         STATUS_PANEL.setTable("PLAYERS_STATUS", new_status)
         STATUS_PANEL.call("updateButtonReadyUI", player_color)
 
-        -- then turn off only the button passed by onClick function
-        self.UI.setAttribute(button_id, "color", "white")
+        -- then turn off only all the buttons, even the one passed by args
+        self.UI.setAttribute(player_color .. "ButtonPlay", "color", "white")
+        self.UI.setAttribute(player_color .. "ButtonWonder", "color", "white")
+        self.UI.setAttribute(player_color .. "ButtonSell", "color", "white")
+
+        -- to turn off all the wonder steps button we'll have to work harder
+        local wonders_table = Global.getVar("GAME_MANAGER").getTable("WONDERS")
+        local player_wonder_data = Global.getTable("PLAYERS")[player_color]["objects"]["wonder"]
+        local player_wonder_side = player_wonder_data["side"]
+        local steps= nil
+
+        -- we first need to get the steps for that player's wonder
+        for guid, global_wonder_data in pairs(wonders_table) do
+            if guid == player_wonder_data["guid"] then
+                steps = #global_wonder_data[player_wonder_side]["steps"]
+            end
+        end
+
+        -- and then turn off every WonderStep-i button
+        for i = 1, steps do
+            local button_step = player_color .. "WonderStep" .. i
+            self.UI.setAttribute(button_step, "color", "white")
+        end
 
         return 1
     end
@@ -536,5 +605,14 @@ function onChat(message, player)
         end
     
         startLuaCoroutine(self, "coinside")
+    end
+
+    if message == "xml test" then
+        local test_table = self.UI.getXmlTable()
+
+        for i, v in pairs(test_table[2].children[1]) do
+            print(i)
+            print(v["id"])
+        end
     end
 end
