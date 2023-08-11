@@ -19,18 +19,40 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "glass",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "glass",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         }
     },
@@ -41,19 +63,44 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "stone",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "stone",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {},
-                [4] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [4] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         }
     },
@@ -64,18 +111,40 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "clay",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "clay",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         }
     },
@@ -86,18 +155,40 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "papyrus",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "papyrus",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         }
     },
@@ -108,18 +199,40 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "loom",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "loom",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         }
     },
@@ -130,17 +243,36 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "ore",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "ore",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
             }
         }
     },
@@ -151,17 +283,36 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "wood",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
-                [3] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
+                [3] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                }
             }
         },
 
         ["night"] = {
             ["resource"] = "wood",
             ["steps"] = {
-                [1] = {},
-                [2] = {},
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                [2] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                },
             }
         }
     },
@@ -172,12 +323,26 @@ WONDERS = {
         ["day"] = {
             ["resource"] = "ore",
             ["steps"] = {
-                [1] = {},
-                [2] = {
-                    [1] = {},
-                    [2] = {}
+                [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
                 },
-                [3] = {}
+                [2] = {
+                    [1] = {
+                        ["cost"] = {},
+                        ["effect"] = {},
+                    },
+                    [2] = {
+                        ["cost"] = {},
+                        ["effect"] = {},
+                    }
+                },
+                [3] = {
+                    ["cost"] = {},
+                        ["effect"] = {},
+                }
             }
         },
 
@@ -185,12 +350,28 @@ WONDERS = {
             ["resource"] = "ore",
             ["steps"] = {
                 [1] = {
-                    [1] = {},
-                    [2] = {}
+                    [1] = {
+                    ["cost"] = {},
+                    ["effect"] = {},
+                    ["offset_x"] = 11.95,
+                    ["offset_z"] = -3.35
+                },
+                    [2] = {
+                        ["cost"] = {},
+                        ["effect"] = {},
+                        ["offset_x"] = 0,
+                        ["offset_z"] = 0
+                    }
                 },
                 [2] = {
-                    [1] = {},
-                    [2] = {}
+                    [1] = {
+                        ["cost"] = {},
+                        ["effect"] = {},
+                    },
+                    [2] = {
+                        ["cost"] = {},
+                        ["effect"] = {},
+                    }
                 },
             }
         }
@@ -713,7 +894,7 @@ function resolvePrevTurn()
         -- using the zone data we'll get the action chosen byt that player
         -- and call the function bases on that action
         if zone_data["action"] == "play" then playCardSwitchCase(new_players, card_to_play, player_color) end
-        -- TODO wonder 
+        if zone_data["action"] == "wonder" then buildWonderStep(player_color, card_to_play) end
         if zone_data["action"] == "sell" then sellCard(card_to_play) end
 
         -- once we've resolved the chosen actions we can go ahead and reset them
@@ -787,6 +968,40 @@ function playCard(players_table, color, card, stack_prefix)
     -- this will come in handy for many features in the mod but most importantly
     -- it will help us placing the other card in the same column
     cards[#cards + 1] = card
+end
+
+function buildWonderStep(color, card)
+    print("yay im inside u")
+    -- init of the wonders data
+    local wonders_table = self.getTable("WONDERS")
+    local player_wonder = Global.getTable("PLAYERS")[color]["objects"]["wonder"]
+    local chosen_side = player_wonder["side"]
+
+    -- init of the variables for the positioning of the card
+    local origin = Player[color].getHandTransform(1)
+    local offset_x = nil
+    local offset_z = nil
+    local card_pos = {}
+
+    -- calculating the position for the chosen step
+    for guid, global_wonder in pairs(wonders_table) do
+        if guid == player_wonder["guid"] then
+            offset_x = global_wonder[chosen_side]["steps"][1]["offset_x"]
+            offset_z = global_wonder[chosen_side]["steps"][1]["offset_z"]
+
+            print(offset_x)
+            print(offset_z)
+
+            card_pos[1] = origin.position[1] + (origin.forward[1] * offset_x) + (origin.right[1] * offset_z)
+            card_pos[2] = 1.38
+            card_pos[3] = origin.position[3] + (origin.forward[3] * offset_x) + (origin.right[3] * offset_z)
+
+            print(card_pos[1])
+            print(card_pos[3])
+        end
+    end
+
+    card.setPositionSmooth(Vector(card_pos))
 end
 
 -- move the chosen card in the discard pile
@@ -920,5 +1135,38 @@ function onChat(msg)
 
     if msg == "card in hand" then
         sellLastCard()
+    end
+
+    if msg == "wonder card placement test" then
+        local card_to_place1 = getObjectFromGUID("643267")
+        local card_to_place2 = getObjectFromGUID("7e3e3b")
+        local card_to_place3 = getObjectFromGUID("82dd3f")
+        local origin = Player["Purple"].getHandTransform(1)
+
+        -- first wonder card offset
+        local card_pos = {}
+        card_pos[1] = origin.position[1] + (origin.forward[1] * 11.95) + (origin.right[1] * -3.35)
+        card_pos[2] = 1.61
+        card_pos[3] = origin.position[3] + (origin.forward[3] * 11.95) + (origin.right[3] * -3.35)
+        card_to_place1.setPosition(Vector(card_pos))
+
+        print(card_pos[1])
+        print(card_pos[3])
+
+        card_pos[1] = card_pos[1] + origin.right[1] * 3.35
+        card_pos[2] = 1.61
+        card_pos[3] = card_pos[3] + origin.right[3] * 3.35
+        card_to_place2.setPosition(Vector(card_pos))
+
+        print(card_pos[1])
+        print(card_pos[3])
+
+        card_pos[1] = card_pos[1] + origin.right[1] * 3.35
+        card_pos[2] = 1.61
+        card_pos[3] = card_pos[3] + origin.right[3] * 3.35
+        card_to_place3.setPosition(Vector(card_pos))
+
+        print(card_pos[1])
+        print(card_pos[3])
     end
 end

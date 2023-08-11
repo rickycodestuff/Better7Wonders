@@ -227,7 +227,7 @@ function switchStatus(player, value, id)
     end
 
     -- player hasn't chosen an action yet
-    local current_phase = GAME_MANAGER.getVar("CURRENT_PHASE")
+    local current_phase = GAME_MANAGER.getVar("CURRENT_TURN")
     local player_action = Global.getTable("PLAYERS")[color]["card_zone"]["action"]
 
     if current_phase > 0 and player_action == nil then
