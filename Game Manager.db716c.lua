@@ -896,6 +896,7 @@ function resolvePrevTurn()
         if zone_data["action"] == "play" then playCardSwitchCase(new_players, card_to_play, player_color) end
         if zone_data["action"] == "wonder" then buildWonderStep(player_color, card_to_play) end
         if zone_data["action"] == "sell" then sellCard(card_to_play) end
+        if zone_data["action"] == "debug" then sellRandomCard(color) end
 
         -- once we've resolved the chosen actions we can go ahead and reset them
         -- so the player will be ready to chose his next action on the next turn
@@ -971,37 +972,33 @@ function playCard(players_table, color, card, stack_prefix)
 end
 
 function buildWonderStep(color, card)
-    print("yay im inside u")
-    -- init of the wonders data
+    -- variables for the wonders data
     local wonders_table = self.getTable("WONDERS")
     local player_wonder = Global.getTable("PLAYERS")[color]["objects"]["wonder"]
     local chosen_side = player_wonder["side"]
 
-    -- init of the variables for the positioning of the card
+    -- variables for the positioning of the card
     local origin = Player[color].getHandTransform(1)
     local offset_x = nil
     local offset_z = nil
-    local card_pos = {}
+    local card_pos = Vector(0, 0, 0)
 
-    -- calculating the position for the chosen step
+    -- iterate through each wonders in the game to find the one hold by the player
     for guid, global_wonder in pairs(wonders_table) do
         if guid == player_wonder["guid"] then
+            -- getting the offsets for that wonder
             offset_x = global_wonder[chosen_side]["steps"][1]["offset_x"]
             offset_z = global_wonder[chosen_side]["steps"][1]["offset_z"]
 
-            print(offset_x)
-            print(offset_z)
-
+            -- calculating the position for the card
             card_pos[1] = origin.position[1] + (origin.forward[1] * offset_x) + (origin.right[1] * offset_z)
             card_pos[2] = 1.38
             card_pos[3] = origin.position[3] + (origin.forward[3] * offset_x) + (origin.right[3] * offset_z)
-
-            print(card_pos[1])
-            print(card_pos[3])
         end
     end
 
-    card.setPositionSmooth(Vector(card_pos))
+    -- placing the card
+    card.setPositionSmooth(card_pos)
 end
 
 -- move the chosen card in the discard pile
@@ -1031,9 +1028,56 @@ function sellLastCard()
     end
 end
 
+-- this is a function made only for debugging
+-- it will be called whenever i "force" a new turn and it will automatically
+-- sell a card in the others players hand, making things more easier for me
+function sellRandomCard(color)
+    local player_hand = Player[color].getHandObjects()
+
+    sellCard(player_hand[1])
+end
+
 -- ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 -- │                                                    TESTING & DEBUG                                               │
 -- └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+function forceTurn(main_player)
+    local new_players = Global.getTable("PLAYERS")
+
+    if CURRENT_TURN > 1 then
+        for _, color in pairs(getSeatedPlayers()) do
+            if main_player.color ~= color then
+                new_players[string.lower(color)]["card_zone"]["action"] = "debug"
+            end
+        end
+
+        Global.setTable("PLAYERS", new_players)
+    end
+
+    nextGamePhase()
+end
+
+function goToTurn(new_turn)
+    if new_turn <= CURRENT_TURN then return end
+
+    print(CURRENT_TURN)
+    print(new_turn)
+
+    for i = CURRENT_TURN, new_turn - CURRENT_TURN do
+        print(i)
+
+        local new_players = Global.getTable("PLAYERS")
+
+        for _, color in pairs(getSeatedPlayers()) do
+            local player_color = string.lower(color)
+            new_players[player_color]["card_zone"]["action"] = "debug"
+        end
+
+        Global.setTable("PLAYERS", new_players)
+
+        nextGamePhase()
+    end
+end
 
 function testCards()
 
@@ -1100,19 +1144,15 @@ function wait(time)
     startLuaCoroutine(self, "coinside")
 end
 
-function onChat(msg)
+function onChat(msg, sender)
     if msg == 'force turn' then
-        nextGamePhase()
+        forceTurn(sender)
     end
 
-    if msg == "selling test" then
-        local card_test = getObjectFromGUID("b27993")
-        sellCard(card_test)
-    end
+    if msg:sub(1, 5) == "go to" then
+        local new_turn = tonumber(msg:sub(7))
 
-    if msg == "playing test" then
-        local card_test = getObjectFromGUID("ce45ae")
-        playCardSwitchCase(card_test, "White")
+        goToTurn(new_turn)
     end
 
     if msg == "card stack list" then
@@ -1131,10 +1171,6 @@ function onChat(msg)
 
     if msg == "show players table" then
         testShowPlayersTable()
-    end
-
-    if msg == "card in hand" then
-        sellLastCard()
     end
 
     if msg == "wonder card placement test" then
